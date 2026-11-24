@@ -94,4 +94,612 @@
 
     .kbd-box {
       position: relative; display: inline-grid; grid-template-columns: repeat(5, 1fr);
-      gap: 5px; background: #e2e8f0; padding: 7px;
+      gap: 5px; background: #e2e8f0; padding: 7px; border-radius: 10px; margin-top: 5px;
+    }
+    .kbd-box span { width: 16px; height: 10px; background: #ffffff; border-radius: 3px; }
+    .kbd-box::after {
+      content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 3px;
+      background: #f59e0b; transform: rotate(-14deg);
+    }
+
+    .chat-box {
+      width: 100%; background: #ffffff; border-radius: 22px; padding: 12px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0;
+      display: flex; flex-direction: column; gap: 8px; height: 270px; justify-content: space-between; margin: 2px 0;
+    }
+    .bubble-pasted {
+      align-self: flex-end; background: #2563eb; color: #ffffff;
+      padding: 8px 12px; border-radius: 14px 14px 4px 14px; font-size: 13px; font-weight: 600; text-align: left; width: 78%;
+    }
+    .bubble-prompt {
+      align-self: flex-end; background: #eff6ff; border: 1px solid #bfdbfe; color: #0f172a;
+      padding: 8px 12px; border-radius: 14px 14px 4px 14px; font-size: 13px; font-weight: 600; text-align: left; max-width: 88%;
+    }
+    .input-bar {
+      background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 99px;
+      padding: 6px 11px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #0f172a; min-height: 36px;
+    }
+    .send-icon {
+      width: 24px; height: 24px; border-radius: 50%; background: #2563eb; color: #ffffff;
+      display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;
+    }
+    .time-chip { background: #fef08a; color: #854d0e; font-weight: 700; font-size: 14px; padding: 5px 15px; border-radius: 99px; }
+
+    .gamma-box {
+      width: 94%; background: #ffffff; border-radius: 22px; padding: 14px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0; margin: 2px 0;
+    }
+    .dashed-area { border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 14px; padding: 11px; margin-bottom: 10px; text-align: left; }
+    .slides-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+    .card-blue { background: #2563eb; border-radius: 12px; padding: 10px; height: 88px; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-light { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 88px; }
+
+    .teacher-box {
+      background: #ffffff; border-radius: 22px; padding: 24px 20px;
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.12); border: 1px solid #e2e8f0; width: 92%;
+    }
+    .hl-yellow { background: linear-gradient(transparent 55%, #fde68a 55%); padding: 0 5px; }
+
+    .comment-bar {
+      width: 95%; background: #ffffff; border-radius: 99px; padding: 9px 13px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09); border: 1px solid #e2e8f0;
+    }
+    .tools-col { display: flex; flex-direction: column; gap: 8px; width: 92%; margin: 2px 0; }
+    .tool-row {
+      background: #ffffff; border-radius: 16px; padding: 10px 15px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); border: 1px solid #e2e8f0; text-align: left;
+    }
+
+    /* Bottom Caption Bar 1 inch (~96px) upward inside 9:16 Frame */
+    #bottom-caption {
+      position: absolute; bottom: 118px; left: 16px; right: 16px; z-index: 6;
+      background: rgba(255, 255, 255, 0.96); color: #0f172a;
+      font-size: 17px; font-weight: 700; line-height: 1.5; padding: 10px 14px;
+      border-radius: 16px; text-align: center;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14); border: 1.5px solid #e2e8f0;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
+    }
+    .cap-word {
+      display: inline-block; padding: 1px 6px; border-radius: 7px;
+      color: #0f172a; background: transparent; opacity: 0.35;
+    }
+    .cap-word.shown { opacity: 1; }
+    .cap-word.active-word {
+      background: #facc15; color: #0f172a; opacity: 1;
+      box-shadow: 0 3px 10px rgba(250, 204, 21, 0.45);
+    }
+
+    .prog-track { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(15, 23, 42, 0.08); z-index: 10; }
+    .prog-fill { height: 100%; width: 0%; background: #2563eb; }
+  </style>
+</head>
+<body onclick="enableSound()">
+
+  <div id="reelCanvas">
+    <!-- Wavy Stroke Transition Overlay -->
+    <svg id="strokeTransition" viewBox="0 0 405 720" preserveAspectRatio="none">
+      <path
+        id="strokePath"
+        d="M -40 540 C 70 540, 115 390, 205 390 C 295 390, 325 220, 445 220"
+        fill="none" stroke="#0f172a" stroke-width="34" stroke-linecap="round"
+      />
+    </svg>
+
+    <!-- Scene 1 -->
+    <section class="scene active" id="sc1">
+      <div class="header-row">
+        <span class="svg-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </span>
+        <h1 class="h1-main">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
+      </div>
+      <div class="cards-flow">
+        <div class="white-card">
+          <div style="font-weight:700;color:#2563eb;margin-bottom:6px;">? প্রশ্ন</div>
+          <div class="skel" style="width:90%"></div>
+          <div class="skel" style="width:76%"></div>
+          <div class="skel" style="width:84%"></div>
+          <div class="ring-pulse" id="sc1Ring"></div>
+        </div>
+        <div id="sc1Arrow" style="font-size:22px;color:#2563eb;font-weight:800;">↓</div>
+        <div class="white-card" id="sc1NCard" style="border-color:#bfdbfe;">
+          <span class="yellow-tag">✓ নোট</span>
+          <div class="skel" style="width:88%;background:#cbd5e1;"></div>
+          <div class="skel" style="width:70%;background:#cbd5e1;"></div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:#64748b;font-weight:600;">স্মার্ট স্টাডি হ্যাক</div>
+    </section>
+
+    <!-- Scene 2 -->
+    <section class="scene" id="sc2">
+      <div class="pencil-anim" id="sc2Pencil">✏️</div>
+      <div class="header-row">
+        <span class="svg-badge amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+        </span>
+        <h1 class="h1-main" style="font-size:34px;">লেখালেখির<br><span class="muted">দিন শেষ।</span></h1>
+      </div>
+    </section>
+
+    <!-- Scene 3 -->
+    <section class="scene" id="sc3">
+      <div>
+        <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
+        <div class="header-row" style="margin-top:6px;">
+          <span class="svg-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <h2 class="h2-sub">ছবি তুলে <span class="blue">স্ক্যান</span><br><span id="sc3Sub" style="opacity:0;">এক ক্লিকে <span class="blue">কপি</span></span></h2>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="phone-display">
+          <div class="scan-box">
+            <div style="font-size:12px;font-weight:700;color:#2563eb;text-align:left;margin-bottom:6px;">?</div>
+            <div class="skel sc3-line" style="width:92%"></div>
+            <div class="skel sc3-line" style="width:80%"></div>
+            <div class="skel sc3-line" style="width:88%"></div>
+            <div class="skel sc3-line" style="width:72%"></div>
+            <div class="skel sc3-line" style="width:84%"></div>
+            <div class="laser-line" id="sc3Beam"></div>
+          </div>
+          <div class="copy-action" id="sc3CopyBtn">Copy text</div>
+        </div>
+      </div>
+      <div id="sc3NoType" style="opacity:0;">
+        <div class="header-row">
+          <span class="svg-badge amber" style="width:36px;height:36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px;">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"></path>
+            </svg>
+          </span>
+          <div class="h2-sub" style="font-size:18px;">আর <span class="blue">টাইপ</span> করতে হবে না</div>
+        </div>
+        <div class="kbd-box"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+    </section>
+
+    <!-- Scene 4 -->
+    <section class="scene" id="sc4">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+        <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
+        <div class="header-row">
+          <span class="svg-badge" style="width:36px;height:36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8" y1="13" x2="16" y2="13"></line>
+              <line x1="8" y1="17" x2="13" y2="17"></line>
+            </svg>
+          </span>
+          <span id="sc4Tag" style="opacity:0;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
+        </div>
+      </div>
+      <div class="chat-box">
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div class="bubble-pasted">📋 পেস্ট করা লেখা<div style="height:4px;width:80%;background:rgba(255,255,255,0.45);border-radius:99px;margin-top:4px;"></div></div>
+          <div class="bubble-prompt" id="sc4SentBubble" style="display:none;">এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।</div>
+          <div class="white-card" id="sc4NoteCard" style="display:none;padding:9px;background:#f8fafc;">
+            <span class="yellow-tag">✓ নোট</span>
+            <div class="skel" style="width:92%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:82%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:86%;background:#cbd5e1;"></div>
+          </div>
+        </div>
+        <div class="input-bar">
+          <span id="sc4Typed" style="text-align:left;"></span>
+          <span class="send-icon">↑</span>
+        </div>
+      </div>
+      <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড</div>
+    </section>
+
+    <!-- Scene 5 -->
+    <section class="scene" id="sc5">
+      <div class="brand-pill"><span class="brand-logo">G</span> Gamma AI</div>
+      <div class="gamma-box" id="sc5Before">
+        <div class="dashed-area">
+          <span class="yellow-tag">নোট</span>
+          <div class="skel" style="width:90%;background:#cbd5e1;"></div>
+          <div class="skel" style="width:76%;background:#cbd5e1;"></div>
+        </div>
+        <div id="sc5GenBtn" style="background:#2563eb;color:#ffffff;font-weight:700;padding:9px 22px;border-radius:12px;display:inline-block;">Generate</div>
+      </div>
+      <div class="gamma-box" id="sc5After" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-weight:700;font-size:13px;">Slide Presentation</span>
+          <span style="background:#facc15;color:#0f172a;font-weight:800;font-size:11px;padding:3px 9px;border-radius:8px;">📄 PDF</span>
+        </div>
+        <div class="slides-row">
+          <div class="card-blue">
+            <div style="width:22px;height:22px;border-radius:50%;background:#facc15;"></div>
+            <div style="height:6px;width:80%;background:rgba(255,255,255,0.6);border-radius:99px;"></div>
+          </div>
+          <div class="card-light">
+            <div class="skel" style="width:75%;background:#94a3b8;"></div>
+            <div class="skel" style="width:90%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:65%;background:#cbd5e1;"></div>
+          </div>
+        </div>
+      </div>
+      <div id="sc5Caption" style="opacity:0;" class="header-row">
+        <span class="svg-badge amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </span>
+        <h2 class="h2-sub">ডিজাইনসহ <span class="blue">পিডিএফ</span> প্রেজেন্টেশন</h2>
+      </div>
+    </section>
+
+    <!-- Scene 6 -->
+    <section class="scene" id="sc6">
+      <div class="teacher-box" id="sc6Card">
+        <div class="header-row" style="margin-bottom:8px;">
+          <span class="svg-badge amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </span>
+          <h1 class="h1-main">শিক্ষকও<br><span class="blue hl-yellow">চমকে যাবে।</span></h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 7 -->
+    <section class="scene" id="sc7" style="gap:16px;">
+      <div class="header-row">
+        <span class="svg-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </span>
+        <h2 class="h2-sub">কাজে লাগলে <span class="blue">কমেন্টে</span> লিখো</h2>
+      </div>
+      <div class="comment-bar">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <span style="width:28px;height:28px;border-radius:50%;background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:700;">👤</span>
+          <span id="sc7Comment" style="font-weight:700;font-size:17px;color:#0f172a;"></span>
+        </div>
+        <span style="background:#2563eb;color:#ffffff;padding:5px 15px;border-radius:99px;font-size:13px;font-weight:700;">পোস্ট</span>
+      </div>
+    </section>
+
+    <!-- Scene 8 -->
+    <section class="scene" id="sc8">
+      <div class="header-row">
+        <span class="svg-badge amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </span>
+        <h2 class="h2-sub">তিনটা টুলের <span class="blue">ডাইরেক্ট লিংক</span></h2>
+      </div>
+      <div class="tools-col">
+        <div class="tool-row" id="sc8T1">
+          <div><div style="font-weight:800;font-size:16px;">Google Lens</div><div style="color:#2563eb;font-weight:700;font-size:13px;">স্ক্যান</div></div>
+          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">01</span>
+        </div>
+        <div class="tool-row" id="sc8T2">
+          <div><div style="font-weight:800;font-size:16px;">ChatGPT</div><div style="color:#2563eb;font-weight:700;font-size:13px;">নোট</div></div>
+          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">02</span>
+        </div>
+        <div class="tool-row" id="sc8T3">
+          <div><div style="font-weight:800;font-size:16px;">Gamma AI</div><div style="color:#2563eb;font-weight:700;font-size:13px;">প্রেজেন্টেশন</div></div>
+          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">03</span>
+        </div>
+      </div>
+      <div id="sc8Inbox" style="background:#facc15;color:#0f172a;font-weight:700;padding:6px 16px;border-radius:99px;font-size:14px;">📩 ইনবক্সে ডাইরেক্ট লিংক</div>
+    </section>
+
+    <div id="bottom-caption"></div>
+  </div>
+
+  <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+
+  <script>
+    var DURATION_MS = 36566;
+    var TRANSITION_WINDOW = 440;
+    var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
+    var scenes = [
+      { id: "sc1", start: 0, end: 2000, words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
+      { id: "sc2", start: 2000, end: 3800, words: ["হাতে", "লিখে", "সময়", "নষ্টের", "দিন", "শেষ!"] },
+      { id: "sc3", start: 3800, end: 13500, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
+      { id: "sc4", start: 13500, end: 23500, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
+      { id: "sc5", start: 23500, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
+      { id: "sc6", start: 29500, end: 31500, words: ["এমন", "নোট", "দেখে", "শিক্ষকও", "চমকে", "যাবে!"] },
+      { id: "sc7", start: 31500, end: 33800, words: ["কাজে", "লাগলে", "কমেন্টে", "লিখুন", '"নোট"'] },
+      { id: "sc8", start: 33800, end: 36566, words: ["কমেন্ট", "করলেই", "ইনবক্সে", "৩টি", "টুলের", "লিংক", "যাবে!"] }
+    ];
+
+    var startTime = new Date().getTime();
+    var audioCtx = null;
+    var audioOn = false;
+    var activeScene = "";
+    var lastScanStep = -1;
+    var lastCharIdx = -1;
+    var lastWordIdx = -1;
+    var lastTransitionPhase = "";
+    var copySoundPlayed = false;
+    var noteSoundPlayed = false;
+    var gammaSoundPlayed = false;
+
+    function scaleReelFrame() {
+      var box = document.getElementById("reelCanvas");
+      if (!box) return;
+      var scale = Math.min((window.innerWidth * 0.94) / 405, (window.innerHeight * 0.94) / 720, 1.25);
+      box.style.transform = "scale(" + scale.toFixed(4) + ")";
+    }
+    scaleReelFrame();
+    window.addEventListener("resize", scaleReelFrame);
+
+    function playTone(freq, dur, type, vol, endFreq) {
+      if (!audioOn || !audioCtx) return;
+      try {
+        var t = audioCtx.currentTime;
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = type || "sine";
+        osc.frequency.setValueAtTime(freq || 640, t);
+        if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(50, endFreq), t + (dur || 0.08));
+        gain.gain.setValueAtTime(Math.min(0.12, vol || 0.05), t);
+        gain.gain.exponentialRampToValueAtTime(0.0008, t + (dur || 0.08));
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + (dur || 0.08) + 0.01);
+      } catch (e) {}
+    }
+
+    function playTransitionMoveSound(phaseKey, progress) {
+      if (lastTransitionPhase === phaseKey) return;
+      lastTransitionPhase = phaseKey;
+      if (progress < 0.35) playTone(220, 0.1, "sawtooth", 0.045, 520);
+      else if (progress < 0.75) playTone(520, 0.11, "triangle", 0.055, 860);
+      else playTone(860, 0.08, "sine", 0.05, 440);
+    }
+
+    function enableSound() {
+      try {
+        if (!audioCtx) {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+        audioOn = true;
+        playTone(740, 0.08, "triangle", 0.07);
+      } catch (e) {}
+    }
+
+    function renderCaptionWords(words) {
+      var capBox = document.getElementById("bottom-caption");
+      if (!capBox) return;
+      var html = "";
+      for (var i = 0; i < words.length; i++) {
+        html += '<span class="cap-word" id="cw-' + i + '">' + words[i] + "</span>";
+      }
+      capBox.innerHTML = html;
+    }
+
+    function syncWordsByTime(sceneObj, sceneElapsed) {
+      var words = sceneObj.words || [];
+      if (!words.length) return;
+      var sceneDur = Math.max(400, sceneObj.end - sceneObj.start);
+      var stepDur = (sceneDur * 0.85) / words.length;
+      var currentIdx = Math.min(words.length - 1, Math.max(0, Math.floor(sceneElapsed / stepDur)));
+      if (currentIdx !== lastWordIdx) {
+        lastWordIdx = currentIdx;
+        for (var i = 0; i < words.length; i++) {
+          var sp = document.getElementById("cw-" + i);
+          if (!sp) continue;
+          sp.className = "cap-word" + (i <= currentIdx ? " shown" : "") + (i === currentIdx ? " active-word" : "");
+        }
+        playTone(680 + (currentIdx % 4) * 45, 0.045, "sine", 0.03);
+      }
+    }
+
+    function updateStrokeTransition(cur, elapsed) {
+      var svgEl = document.getElementById("strokeTransition");
+      var pathEl = document.getElementById("strokePath");
+      if (!svgEl || !pathEl) return;
+
+      var timeToEnd = cur.end - elapsed;
+      var timeFromStart = elapsed - cur.start;
+      var progress = -1;
+      var phaseTag = "";
+
+      if (timeToEnd >= 0 && timeToEnd <= TRANSITION_WINDOW / 2) {
+        progress = (1 - timeToEnd / (TRANSITION_WINDOW / 2)) * 0.55;
+        phaseTag = cur.id + "-out";
+      } else if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= TRANSITION_WINDOW / 2) {
+        progress = 0.55 + (timeFromStart / (TRANSITION_WINDOW / 2)) * 0.45;
+        phaseTag = cur.id + "-in";
+      }
+
+      if (progress >= 0 && progress <= 1) {
+        var eased = 1 - Math.pow(1 - progress, 3);
+        svgEl.style.opacity = "1";
+        pathEl.style.strokeDashoffset = (700 * (1 - eased)).toFixed(1);
+        var lift = Math.sin(eased * Math.PI) * 14;
+        pathEl.style.transform = "translateY(" + (-lift).toFixed(1) + "px)";
+        var moveBucket = progress < 0.35 ? "start" : (progress < 0.75 ? "mid" : "end");
+        playTransitionMoveSound(phaseTag + "-" + moveBucket, progress);
+      } else {
+        svgEl.style.opacity = "0";
+        pathEl.style.strokeDashoffset = "700";
+        pathEl.style.transform = "translateY(0px)";
+      }
+    }
+
+    function tick() {
+      var nowMs = new Date().getTime();
+      var elapsed = (nowMs - startTime) % DURATION_MS;
+
+      var progFill = document.getElementById("progFill");
+      if (progFill) progFill.style.width = ((elapsed / DURATION_MS) * 100) + "%";
+
+      var cur = scenes[0];
+      for (var i = 0; i < scenes.length; i++) {
+        if (elapsed >= scenes[i].start && elapsed < scenes[i].end) {
+          cur = scenes[i];
+          break;
+        }
+      }
+
+      if (activeScene !== cur.id) {
+        activeScene = cur.id;
+        lastWordIdx = -1;
+        for (var s = 0; s < scenes.length; s++) {
+          var sec = document.getElementById(scenes[s].id);
+          if (sec) sec.className = "scene" + (scenes[s].id === cur.id ? " active" : "");
+        }
+        renderCaptionWords(cur.words);
+        playTone(520, 0.06, "sine", 0.045);
+      }
+
+      updateStrokeTransition(cur, elapsed);
+      syncWordsByTime(cur, elapsed - cur.start);
+
+      if (cur.id === "sc1") {
+        var pulse = 0.92 + Math.sin(nowMs * 0.008) * 0.1;
+        var r1 = document.getElementById("sc1Ring");
+        if (r1) r1.style.transform = "scale(" + pulse.toFixed(3) + ")";
+        var arrowY = Math.sin(nowMs * 0.007) * 5;
+        var ar = document.getElementById("sc1Arrow");
+        if (ar) ar.style.transform = "translateY(" + arrowY.toFixed(1) + "px)";
+        var nCard = document.getElementById("sc1NCard");
+        if (nCard) {
+          nCard.style.transform = "scale(" + (elapsed > 650 ? 1 : 0.94) + ")";
+          nCard.style.opacity = elapsed > 650 ? "1" : "0.65";
+        }
+      } else if (cur.id === "sc2") {
+        var bobY = Math.sin(nowMs * 0.008) * 9;
+        var rotDeg = Math.sin(nowMs * 0.008) * 10;
+        var pen = document.getElementById("sc2Pencil");
+        if (pen) pen.style.transform = "translateY(" + bobY.toFixed(1) + "px) rotate(" + rotDeg.toFixed(1) + "deg)";
+      } else if (cur.id === "sc3") {
+        var t3 = elapsed - 3800;
+        var pct = Math.min(86, 10 + (t3 / 3500) * 76);
+        var beam = document.getElementById("sc3Beam");
+        if (beam) {
+          beam.style.top = pct + "%";
+          beam.style.display = t3 > 4200 ? "none" : "block";
+        }
+        var step = Math.floor(t3 / 550);
+        if (t3 < 4200 && step !== lastScanStep) {
+          lastScanStep = step;
+          playTone(880 + step * 45, 0.045, "sine", 0.04);
+        }
+        var lines = document.querySelectorAll(".sc3-line");
+        for (var l = 0; l < lines.length; l++) {
+          lines[l].style.background = t3 > 850 + l * 550 ? "#2563eb" : "#e2e8f0";
+        }
+        var sub3 = document.getElementById("sc3Sub");
+        if (sub3) sub3.style.opacity = t3 > 3800 ? "1" : "0";
+        var copyBtn = document.getElementById("sc3CopyBtn");
+        if (copyBtn) {
+          if (t3 > 5200) {
+            copyBtn.textContent = "✓ Copied";
+            copyBtn.className = "copy-action copied";
+            if (!copySoundPlayed) { copySoundPlayed = true; playTone(1046, 0.12, "triangle", 0.07); }
+          } else {
+            copyBtn.textContent = "Copy text";
+            copyBtn.className = "copy-action";
+          }
+        }
+        var noType = document.getElementById("sc3NoType");
+        if (noType) noType.style.opacity = t3 > 7000 ? "1" : "0";
+      } else if (cur.id === "sc4") {
+        var t4 = elapsed - 13500;
+        var tag4 = document.getElementById("sc4Tag");
+        if (tag4) tag4.style.opacity = t4 > 1400 ? "1" : "0";
+        var typedEl = document.getElementById("sc4Typed");
+        var sentBubble = document.getElementById("sc4SentBubble");
+        var noteCard = document.getElementById("sc4NoteCard");
+        var timerEl = document.getElementById("sc4Timer");
+        if (t4 < 5200) {
+          var len = Math.min(gptPrompt.length, Math.floor(Math.max(0, t4 - 1600) / 68));
+          if (typedEl) typedEl.textContent = gptPrompt.slice(0, len);
+          if (sentBubble) sentBubble.style.display = "none";
+          if (noteCard) noteCard.style.display = "none";
+          if (timerEl) timerEl.style.opacity = "0";
+          if (len > 0 && len !== lastCharIdx) {
+            lastCharIdx = len;
+            playTone(620 + (len % 5) * 35, 0.03, "square", 0.02);
+          }
+        } else {
+          if (typedEl) typedEl.textContent = "";
+          if (sentBubble) sentBubble.style.display = "block";
+          if (t4 > 6200) {
+            if (noteCard) noteCard.style.display = "block";
+            if (!noteSoundPlayed) { noteSoundPlayed = true; playTone(784, 0.11, "triangle", 0.07); }
+          }
+          if (timerEl) {
+            timerEl.style.opacity = t4 > 6500 ? "1" : "0";
+            timerEl.style.transform = t4 > 6500 ? "scale(1)" : "scale(0.9)";
+          }
+        }
+      } else if (cur.id === "sc5") {
+        var t5 = elapsed - 23500;
+        var done = t5 > 2000;
+        var genBtn = document.getElementById("sc5GenBtn");
+        if (!done && genBtn) {
+          var btnScale = 1 + Math.sin(nowMs * 0.01) * 0.04;
+          genBtn.style.transform = "scale(" + btnScale.toFixed(3) + ")";
+        }
+        var b5 = document.getElementById("sc5Before");
+        var a5 = document.getElementById("sc5After");
+        var c5 = document.getElementById("sc5Caption");
+        if (b5) b5.style.display = done ? "none" : "block";
+        if (a5) a5.style.display = done ? "block" : "none";
+        if (c5) c5.style.opacity = done ? "1" : "0";
+        if (done && !gammaSoundPlayed) { gammaSoundPlayed = true; playTone(659, 0.1, "triangle", 0.07); }
+      } else if (cur.id === "sc6") {
+        var pop = 0.96 + Math.sin(nowMs * 0.008) * 0.04;
+        var card6 = document.getElementById("sc6Card");
+        if (card6) card6.style.transform = "scale(" + pop.toFixed(3) + ")";
+      } else if (cur.id === "sc7") {
+        var t7 = elapsed - 31500;
+        var word = "নোট";
+        var count = Math.min(word.length, Math.max(0, Math.floor(t7 / 400)));
+        var cursor = Math.floor(nowMs / 400) % 2 === 0 ? "|" : "";
+        var c7 = document.getElementById("sc7Comment");
+        if (c7) c7.textContent = word.slice(0, count) + cursor;
+      } else if (cur.id === "sc8") {
+        var t8 = elapsed - 33800;
+        var t1 = document.getElementById("sc8T1");
+        var t2 = document.getElementById("sc8T2");
+        var t3 = document.getElementById("sc8T3");
+        var inbox = document.getElementById("sc8Inbox");
+        if (t1) { t1.style.opacity = t8 > 150 ? "1" : "0.35"; t1.style.transform = t8 > 150 ? "translateY(0)" : "translateY(8px)"; }
+        if (t2) { t2.style.opacity = t8 > 450 ? "1" : "0.35"; t2.style.transform = t8 > 450 ? "translateY(0)" : "translateY(8px)"; }
+        if (t3) { t3.style.opacity = t8 > 750 ? "1" : "0.35"; t3.style.transform = t8 > 750 ? "translateY(0)" : "translateY(8px)"; }
+        if (inbox) {
+          var bScale = t8 > 1100 ? (1 + Math.sin(nowMs * 0.01) * 0.04).toFixed(3) : "0.95";
+          inbox.style.transform = "scale(" + bScale + ")";
+        }
+      }
+    }
+
+    setInterval(tick, 30);
+    tick();
+  </script>
+</body>
+</html>
