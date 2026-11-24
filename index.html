@@ -30,12 +30,21 @@
     }
     .scene.active { display: flex; }
 
-    /* Wavy Stroke Transition Layer */
-    #strokeTransition {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      z-index: 8; pointer-events: none; opacity: 0;
+    /* Color Lighting Flashing Transition Layer */
+    #colorFlashTransition {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 8;
+      pointer-events: none;
+      opacity: 0;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(circle at 22% 95%, rgba(255, 87, 34, 0.92) 0%, rgba(255, 145, 0, 0.58) 38%, transparent 72%),
+        radial-gradient(circle at 75% 85%, rgba(255, 193, 7, 0.72) 0%, rgba(239, 68, 68, 0.42) 45%, transparent 75%),
+        linear-gradient(to top, rgba(220, 38, 38, 0.65), rgba(245, 158, 11, 0.25) 55%, transparent 100%);
     }
-    #strokePath { stroke-dasharray: 700; stroke-dashoffset: 700; }
 
     .blue { color: #2563eb; }
     .muted { color: #94a3b8; }
@@ -178,14 +187,8 @@
 <body onclick="enableSound()">
 
   <div id="reelCanvas">
-    <!-- Wavy Stroke Transition Overlay -->
-    <svg id="strokeTransition" viewBox="0 0 405 720" preserveAspectRatio="none">
-      <path
-        id="strokePath"
-        d="M -40 540 C 70 540, 115 390, 205 390 C 295 390, 325 220, 445 220"
-        fill="none" stroke="#0f172a" stroke-width="34" stroke-linecap="round"
-      />
-    </svg>
+    <!-- Color Lighting Flashing Transition Overlay -->
+    <div id="colorFlashTransition"></div>
 
     <!-- Scene 1 -->
     <section class="scene active" id="sc1">
@@ -416,7 +419,7 @@
 
   <script>
     var DURATION_MS = 36566;
-    var TRANSITION_WINDOW = 440;
+    var TRANSITION_WINDOW = 520;
     var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
     var scenes = [
       { id: "sc1", start: 0, end: 2000, words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
@@ -436,7 +439,7 @@
     var lastScanStep = -1;
     var lastCharIdx = -1;
     var lastWordIdx = -1;
-    var lastTransitionPhase = "";
+    var lastFlashPhase = "";
     var copySoundPlayed = false;
     var noteSoundPlayed = false;
     var gammaSoundPlayed = false;
@@ -468,12 +471,12 @@
       } catch (e) {}
     }
 
-    function playTransitionMoveSound(phaseKey, progress) {
-      if (lastTransitionPhase === phaseKey) return;
-      lastTransitionPhase = phaseKey;
-      if (progress < 0.35) playTone(220, 0.1, "sawtooth", 0.045, 520);
-      else if (progress < 0.75) playTone(520, 0.11, "triangle", 0.055, 860);
-      else playTone(860, 0.08, "sine", 0.05, 440);
+    function playColorFlashSound(phaseKey, intensity) {
+      if (lastFlashPhase === phaseKey) return;
+      lastFlashPhase = phaseKey;
+      if (intensity < 0.5) playTone(260, 0.14, "sine", 0.045, 480);
+      else if (intensity < 0.85) playTone(480, 0.16, "triangle", 0.06, 720);
+      else playTone(720, 0.12, "sine", 0.045, 360);
     }
 
     function enableSound() {
@@ -515,36 +518,34 @@
       }
     }
 
-    function updateStrokeTransition(cur, elapsed) {
-      var svgEl = document.getElementById("strokeTransition");
-      var pathEl = document.getElementById("strokePath");
-      if (!svgEl || !pathEl) return;
+    function updateColorFlashTransition(cur, elapsed) {
+      var flashEl = document.getElementById("colorFlashTransition");
+      if (!flashEl) return;
 
+      var halfWin = TRANSITION_WINDOW / 2;
       var timeToEnd = cur.end - elapsed;
       var timeFromStart = elapsed - cur.start;
-      var progress = -1;
+      var flashLevel = 0;
       var phaseTag = "";
 
-      if (timeToEnd >= 0 && timeToEnd <= TRANSITION_WINDOW / 2) {
-        progress = (1 - timeToEnd / (TRANSITION_WINDOW / 2)) * 0.55;
+      if (timeToEnd >= 0 && timeToEnd <= halfWin) {
+        flashLevel = 1 - timeToEnd / halfWin;
         phaseTag = cur.id + "-out";
-      } else if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= TRANSITION_WINDOW / 2) {
-        progress = 0.55 + (timeFromStart / (TRANSITION_WINDOW / 2)) * 0.45;
+      } else if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= halfWin) {
+        flashLevel = 1 - timeFromStart / halfWin;
         phaseTag = cur.id + "-in";
       }
 
-      if (progress >= 0 && progress <= 1) {
-        var eased = 1 - Math.pow(1 - progress, 3);
-        svgEl.style.opacity = "1";
-        pathEl.style.strokeDashoffset = (700 * (1 - eased)).toFixed(1);
-        var lift = Math.sin(eased * Math.PI) * 14;
-        pathEl.style.transform = "translateY(" + (-lift).toFixed(1) + "px)";
-        var moveBucket = progress < 0.35 ? "start" : (progress < 0.75 ? "mid" : "end");
-        playTransitionMoveSound(phaseTag + "-" + moveBucket, progress);
+      if (flashLevel > 0) {
+        var curved = Math.sin(flashLevel * Math.PI * 0.5);
+        flashEl.style.opacity = (curved * 0.92).toFixed(3);
+        var yShift = ((1 - curved) * 26).toFixed(1);
+        flashEl.style.transform = "translateY(" + yShift + "px) scale(" + (1 + curved * 0.06).toFixed(3) + ")";
+        var bucket = curved < 0.45 ? "rise" : (curved < 0.82 ? "peak" : "fade");
+        playColorFlashSound(phaseTag + "-" + bucket, curved);
       } else {
-        svgEl.style.opacity = "0";
-        pathEl.style.strokeDashoffset = "700";
-        pathEl.style.transform = "translateY(0px)";
+        flashEl.style.opacity = "0";
+        flashEl.style.transform = "translateY(0px) scale(1)";
       }
     }
 
@@ -574,7 +575,7 @@
         playTone(520, 0.06, "sine", 0.045);
       }
 
-      updateStrokeTransition(cur, elapsed);
+      updateColorFlashTransition(cur, elapsed);
       syncWordsByTime(cur, elapsed - cur.start);
 
       if (cur.id === "sc1") {
