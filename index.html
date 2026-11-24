@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Study Hack - 9:16 Reels</title>
+  <title>Smart Study Hack - Video Style Reels (9:16)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&family=Inter:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -16,6 +16,7 @@
 
     /* Full Screen Background */
     body {
+      position: relative;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
@@ -24,113 +25,249 @@
       justify-content: center;
       font-family: 'Hind Siliguri', 'Inter', sans-serif;
       background:
-        radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.22), transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.16), transparent 45%),
+        radial-gradient(circle at 18% 22%, rgba(37, 99, 235, 0.24), transparent 44%),
+        radial-gradient(circle at 82% 78%, rgba(245, 158, 11, 0.18), transparent 46%),
         #090d16;
     }
 
-    /* 9:16 Reels Canvas Only */
-    .reel-canvas {
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 9:16 Reels Animation Frame */
+    .reel-frame {
       position: relative;
+      z-index: 1;
       height: 94vh;
       max-height: 960px;
       aspect-ratio: 9 / 16;
       background: #f6f8fc;
-      border-radius: 30px;
+      border-radius: 32px;
       overflow: hidden;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.14),
+        0 32px 95px rgba(0, 0, 0, 0.78);
       cursor: pointer;
     }
 
-    .blob-blue {
+    .ambient-a {
       position: absolute;
       top: -12%;
       left: -16%;
-      width: 66%;
+      width: 68%;
       aspect-ratio: 1;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, transparent 70%);
       pointer-events: none;
+      z-index: 0;
     }
 
-    .blob-amber {
+    .ambient-b {
       position: absolute;
       bottom: -12%;
       right: -16%;
-      width: 66%;
+      width: 68%;
       aspect-ratio: 1;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(245, 158, 11, 0.16) 0%, transparent 70%);
       pointer-events: none;
+      z-index: 0;
     }
 
     .scene {
       position: absolute;
       inset: 0;
-      padding: 11% 7%;
+      padding: 10% 7%;
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       text-align: center;
       z-index: 2;
-      animation: sceneIn 0.35s ease;
+      animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .scene.active {
       display: flex;
     }
 
-    @keyframes sceneIn {
-      from { opacity: 0; transform: translateY(14px) scale(0.985); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px) scale(0.985); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .blue { color: #2563eb; }
     .muted { color: #94a3b8; }
 
-    .hero-title {
-      font-size: clamp(26px, 4.4vh, 45px);
+    .title-xl {
+      font-size: clamp(26px, 4.5vh, 46px);
       font-weight: 700;
       color: #0f172a;
       line-height: 1.24;
     }
 
-    .sub-title {
-      font-size: clamp(21px, 3.6vh, 37px);
+    .title-lg {
+      font-size: clamp(21px, 3.6vh, 36px);
       font-weight: 700;
       color: #0f172a;
       line-height: 1.28;
     }
 
-    .brand-row {
+    .brand-bar {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       font-family: 'Inter', sans-serif;
-      font-size: clamp(18px, 2.8vh, 28px);
+      font-size: clamp(17px, 2.7vh, 27px);
       font-weight: 800;
       color: #0f172a;
     }
 
-    .brand-badge {
+    .brand-mark {
       width: 30px;
       height: 30px;
       border-radius: 9px;
       background: #2563eb;
-      color: #fff;
+      color: #ffffff;
       display: grid;
       place-items: center;
       font-size: 14px;
     }
 
     /* Scene 1 */
-    .flow-col {
+    .flow-vertical {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
-      width: 86%;
+      gap: 12px;
+      width: 88%;
     }
 
-    .card {
+    .paper-card {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 15px 16px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+      border: 1.5px solid #e2e8f0;
+      position: relative;
+      text-align: left;
+    }
+
+    .bar-line {
+      height: 10px;
+      border-radius: 99px;
+      background: #e2e8f0;
+      margin-bottom: 9px;
+      transition: background 0.2s ease;
+    }
+
+    .lens-ring {
+      position: absolute;
+      right: 14px;
+      bottom: 10px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 3px solid #2563eb;
+      background: rgba(37, 99, 235, 0.08);
+      animation: ringPulse 1.3s infinite ease-in-out;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(0.92); }
+      50% { transform: scale(1.08); }
+    }
+
+    .note-chip {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 3px 12px;
+      border-radius: 8px;
+      margin-bottom: 9px;
+    }
+
+    /* Scene 2 */
+    .pencil-float {
+      font-size: 46px;
+      margin-bottom: 10px;
+      animation: pencilSwing 1s infinite alternate ease-in-out;
+    }
+
+    @keyframes pencilSwing {
+      from { transform: translateY(0) rotate(-8deg); }
+      to { transform: translateY(-10px) rotate(6deg); }
+    }
+
+    /* Scene 3 */
+    .device-shell {
+      width: 74%;
+      background: #0f172a;
+      border-radius: 34px;
+      padding: 12px;
+      box-shadow: 0 24px 50px rgba(15, 23, 42, 0.22);
+    }
+
+    .device-screen {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 15px 13px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scan-frame {
+      border: 2px solid #93c5fd;
+      border-radius: 16px;
+      padding: 14px 12px;
+      position: relative;
+      margin-bottom: 13px;
+    }
+
+    .scan-beam {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: 10%;
+      height: 3px;
+      background: #2563eb;
+      box-shadow: 0 0 12px #2563eb;
+    }
+
+    .action-copy {
+      width: 100%;
+      padding: 11px;
+      border-radius: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      background: #2563eb;
+      color: #ffffff;
+      transition: all 0.25s ease;
+    }
+
+    .action-copy.done {
+      background: #facc15;
+      color: #0f172a;
+      transform: scale(1.03);
+    }
+
+    .keys-crossed {
+      position: relative;
+      display: inline-grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      background: #e2e8f0;
+      padding: 9px;
+      border-
