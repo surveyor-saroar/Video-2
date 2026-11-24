@@ -145,34 +145,23 @@
     .shock-sign svg { width: 30px; height: 30px; display: block; }
     .hl-yellow { background: linear-gradient(transparent 55%, #fde68a 55%); padding: 0 5px; }
 
-    .comment-bar {
-      width: 95%; background: #ffffff; border-radius: 99px; padding: 9px 13px;
-      display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09); border: 1px solid #e2e8f0;
-    }
-    .tools-col { display: flex; flex-direction: column; gap: 8px; width: 92%; margin: 2px 0; }
-    .tool-row {
-      background: #ffffff; border-radius: 16px; padding: 10px 15px;
-      display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); border: 1px solid #e2e8f0; text-align: left;
-    }
-
-    /* Scene 9: Last Scene from Provided Code */
+    /* Last Scene (sc7): Larger saroar01 photo card & badge */
     .outro-title {
       font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1.32;
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     }
     .outro-card {
-      width: 92%; background: #ffffff; border-radius: 18px; padding: 12px 14px;
-      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08); border: 1.5px solid #e2e8f0;
-      display: flex; align-items: center; gap: 12px; text-align: left;
+      width: 96%; background: #ffffff; border-radius: 22px; padding: 16px 16px;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.11); border: 2px solid #bfdbfe;
+      display: flex; align-items: center; gap: 14px; text-align: left;
     }
     .outro-avatar {
-      width: 48px; height: 48px; border-radius: 50%;
-      border: 2.5px solid #f59e0b; background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff; font-weight: 800; font-size: 16px;
+      width: 78px; height: 78px; border-radius: 20px;
+      border: 3px solid #f59e0b; background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff; font-weight: 800; font-size: 20px;
       display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
       overflow: hidden; position: relative;
+      box-shadow: 0 10px 22px rgba(245, 158, 11, 0.24);
     }
     .outro-avatar img {
       width: 100%; height: 100%; object-fit: cover; object-position: top center;
@@ -180,8 +169,8 @@
     .outro-avatar .avatar-fallback { display: none; }
     .outro-avatar.broken .avatar-fallback { display: inline-flex; }
     .outro-follow-btn {
-      padding: 9px 22px; border-radius: 999px;
-      background: #2563eb; color: #ffffff; font-weight: 700; font-size: 14px;
+      padding: 10px 24px; border-radius: 999px;
+      background: #2563eb; color: #ffffff; font-weight: 700; font-size: 15px;
       display: inline-flex; align-items: center; gap: 7px;
       box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
     }
@@ -190,9 +179,9 @@
       box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
     }
     .outro-ask {
-      font-size: 19px; font-weight: 800; color: #0f172a; line-height: 1.35;
+      font-size: 18px; font-weight: 800; line-height: 1.35;
       background: #fef9c3; border: 1.5px solid #fde047; color: #854d0e;
-      padding: 8px 14px; border-radius: 14px; width: 92%;
+      padding: 9px 14px; border-radius: 14px; width: 96%;
     }
 
     /* Bottom Caption Bar 1 inch (~96px) upward inside 9:16 Frame */
@@ -402,76 +391,29 @@
       </div>
     </section>
 
-    <!-- Scene 7 -->
-    <section class="scene" id="sc7" style="gap:16px;">
-      <div class="header-row">
-        <span class="svg-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-        </span>
-        <h2 class="h2-sub">কাজে লাগলে <span class="blue">কমেন্টে</span> লিখো</h2>
-      </div>
-      <div class="comment-bar">
-        <div style="display:flex;align-items:center;gap:9px;">
-          <span style="width:28px;height:28px;border-radius:50%;background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:700;">👤</span>
-          <span id="sc7Comment" style="font-weight:700;font-size:17px;color:#0f172a;"></span>
-        </div>
-        <span style="background:#2563eb;color:#ffffff;padding:5px 15px;border-radius:99px;font-size:13px;font-weight:700;">পোস্ট</span>
-      </div>
-    </section>
-
-    <!-- Scene 8 -->
-    <section class="scene" id="sc8">
-      <div class="header-row">
-        <span class="svg-badge amber">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-          </svg>
-        </span>
-        <h2 class="h2-sub">তিনটা টুলের <span class="blue">ডাইরেক্ট লিংক</span></h2>
-      </div>
-      <div class="tools-col">
-        <div class="tool-row" id="sc8T1">
-          <div><div style="font-weight:800;font-size:16px;">Google Lens</div><div style="color:#2563eb;font-weight:700;font-size:13px;">স্ক্যান</div></div>
-          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">01</span>
-        </div>
-        <div class="tool-row" id="sc8T2">
-          <div><div style="font-weight:800;font-size:16px;">ChatGPT</div><div style="color:#2563eb;font-weight:700;font-size:13px;">নোট</div></div>
-          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">02</span>
-        </div>
-        <div class="tool-row" id="sc8T3">
-          <div><div style="font-weight:800;font-size:16px;">Gamma AI</div><div style="color:#2563eb;font-weight:700;font-size:13px;">প্রেজেন্টেশন</div></div>
-          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">03</span>
-        </div>
-      </div>
-      <div id="sc8Inbox" style="background:#facc15;color:#0f172a;font-weight:700;padding:6px 16px;border-radius:99px;font-size:14px;">📩 ইনবক্সে ডাইরেক্ট লিংক</div>
-    </section>
-
-    <!-- Scene 9 (Last Scene from Provided Code) -->
-    <section class="scene" id="sc9" style="gap:12px;">
+    <!-- Scene 7 (Last Scene with saroar01.png) -->
+    <section class="scene" id="sc7" style="gap:13px;">
       <div class="outro-title">
-        <span class="svg-badge amber" style="width:36px;height:36px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px;">
+        <span class="svg-badge amber" style="width:38px;height:38px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
           </svg>
         </span>
         <span>সব আপডেট পেতে <span class="blue">পেজটি ফলো করুন</span></span>
       </div>
-      <div class="outro-card" id="sc9Card">
-        <div class="outro-avatar" id="sc9Avatar">
-          <img src="saroar01.png" alt="সবুজ" onerror="this.style.display='none';this.parentNode.classList.add('broken');" />
+      <div class="outro-card" id="sc7Card">
+        <div class="outro-avatar" id="sc7Avatar">
+          <img src="saroar01.png" alt="মোঃ সরওয়ার আলম সবুজ" onerror="this.style.display='none';this.parentNode.classList.add('broken');" />
           <span class="avatar-fallback">SA</span>
         </div>
         <div>
-          <div style="font-weight:800;font-size:16px;color:#0f172a;">মোঃ সরওয়ার আলম সবুজ</div>
-          <div style="font-size:13px;color:#64748b;font-weight:600;">Facebook পেজ</div>
+          <div style="font-weight:800;font-size:17px;color:#0f172a;line-height:1.25;">মোঃ সরওয়ার আলম সবুজ</div>
+          <div style="font-size:13px;color:#2563eb;font-weight:700;margin-top:3px;">Facebook পেজ</div>
         </div>
       </div>
-      <div class="outro-follow-btn" id="sc9FollowBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:17px;height:17px;">
+      <div class="outro-follow-btn" id="sc7FollowBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;">
           <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
           <circle cx="8.5" cy="7" r="4"></circle>
           <line x1="20" y1="8" x2="20" y2="14"></line>
@@ -479,7 +421,7 @@
         </svg>
         <span>Follow</span>
       </div>
-      <div class="outro-ask" id="sc9Ask">আর কী জানতে চান, কমেন্টে জানান?</div>
+      <div class="outro-ask" id="sc7Ask">আর কী জানতে চান, কমেন্টে জানান?</div>
     </section>
 
     <div id="bottom-caption"></div>
@@ -488,7 +430,7 @@
   <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
 
   <script>
-    var DURATION_MS = 42566;
+    var DURATION_MS = 37566;
     var BOUNCE_WINDOW = 440;
     var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
     var scenes = [
@@ -497,10 +439,8 @@
       { id: "sc3", start: 3800, end: 13500, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
       { id: "sc4", start: 13500, end: 23500, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
       { id: "sc5", start: 23500, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
-      { id: "sc6", start: 29500, end: 31500, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
-      { id: "sc7", start: 31500, end: 33800, words: ["কাজে", "লাগলে", "কমেন্টে", "লিখুন", '"নোট"'] },
-      { id: "sc8", start: 33800, end: 36566, words: ["কমেন্ট", "করলেই", "ইনবক্সে", "৩টি", "টুলের", "লিংক", "যাবে!"] },
-      { id: "sc9", start: 36566, end: 42566, words: ["সব", "আপডেট", "পেতে", "পেজটি", "ফলো", "করুন", "ও", "কমেন্টে", "জানান!"] }
+      { id: "sc6", start: 29500, end: 31566, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
+      { id: "sc7", start: 31566, end: 37566, words: ["সব", "আপডেট", "পেতে", "পেজটি", "ফলো", "করুন", "ও", "কমেন্টে", "জানান!"] }
     ];
 
     var startTime = new Date().getTime();
@@ -644,7 +584,7 @@
         }
         activeScene = cur.id;
         lastWordIdx = -1;
-        if (cur.id === "sc9") followSoundPlayed = false;
+        if (cur.id === "sc7") followSoundPlayed = false;
         for (var s = 0; s < scenes.length; s++) {
           var sec = document.getElementById(scenes[s].id);
           if (sec) sec.className = "scene" + (scenes[s].id === cur.id ? " active" : "");
@@ -761,49 +701,29 @@
           shockEl.style.transform = "scale(" + sScale.toFixed(3) + ") rotate(" + sRot.toFixed(1) + "deg)";
         }
       } else if (cur.id === "sc7") {
-        var t7 = elapsed - 31500;
-        var word = "নোট";
-        var count = Math.min(word.length, Math.max(0, Math.floor(t7 / 400)));
-        var cursor = Math.floor(nowMs / 400) % 2 === 0 ? "|" : "";
-        var c7 = document.getElementById("sc7Comment");
-        if (c7) c7.textContent = word.slice(0, count) + cursor;
-      } else if (cur.id === "sc8") {
-        var t8 = elapsed - 33800;
-        var t1 = document.getElementById("sc8T1");
-        var t2 = document.getElementById("sc8T2");
-        var t3 = document.getElementById("sc8T3");
-        var inbox = document.getElementById("sc8Inbox");
-        if (t1) { t1.style.opacity = t8 > 150 ? "1" : "0.35"; t1.style.transform = t8 > 150 ? "translateY(0)" : "translateY(8px)"; }
-        if (t2) { t2.style.opacity = t8 > 450 ? "1" : "0.35"; t2.style.transform = t8 > 450 ? "translateY(0)" : "translateY(8px)"; }
-        if (t3) { t3.style.opacity = t8 > 750 ? "1" : "0.35"; t3.style.transform = t8 > 750 ? "translateY(0)" : "translateY(8px)"; }
-        if (inbox) {
-          var bScale = t8 > 1100 ? (1 + Math.sin(nowMs * 0.01) * 0.04).toFixed(3) : "0.95";
-          inbox.style.transform = "scale(" + bScale + ")";
+        var t7 = elapsed - 31566;
+        var card7 = document.getElementById("sc7Card");
+        var btn7 = document.getElementById("sc7FollowBtn");
+        var ask7 = document.getElementById("sc7Ask");
+        if (card7) {
+          card7.style.opacity = t7 > 250 ? "1" : "0.4";
+          card7.style.transform = t7 > 250 ? "translateY(0)" : "translateY(10px)";
         }
-      } else if (cur.id === "sc9") {
-        var t9 = elapsed - 36566;
-        var card9 = document.getElementById("sc9Card");
-        var btn9 = document.getElementById("sc9FollowBtn");
-        var ask9 = document.getElementById("sc9Ask");
-        if (card9) {
-          card9.style.opacity = t9 > 300 ? "1" : "0.4";
-          card9.style.transform = t9 > 300 ? "translateY(0)" : "translateY(10px)";
-        }
-        if (btn9) {
-          if (t9 > 1800) {
-            btn9.className = "outro-follow-btn done";
-            btn9.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" style="width:17px;height:17px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Following</span>';
+        if (btn7) {
+          if (t7 > 1800) {
+            btn7.className = "outro-follow-btn done";
+            btn7.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" style="width:18px;height:18px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Following</span>';
             if (!followSoundPlayed) { followSoundPlayed = true; playTone(880, 0.12, "triangle", 0.07); }
           } else {
-            btn9.className = "outro-follow-btn";
-            btn9.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:17px;height:17px;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg><span>Follow</span>';
+            btn7.className = "outro-follow-btn";
+            btn7.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg><span>Follow</span>';
           }
           var fScale = 1 + Math.sin(nowMs * 0.01) * 0.03;
-          btn9.style.transform = "scale(" + fScale.toFixed(3) + ")";
+          btn7.style.transform = "scale(" + fScale.toFixed(3) + ")";
         }
-        if (ask9) {
-          ask9.style.opacity = t9 > 2600 ? "1" : "0.35";
-          ask9.style.transform = t9 > 2600 ? "scale(1)" : "scale(0.95)";
+        if (ask7) {
+          ask7.style.opacity = t7 > 2600 ? "1" : "0.35";
+          ask7.style.transform = t7 > 2600 ? "scale(1)" : "scale(0.95)";
         }
       }
     }
