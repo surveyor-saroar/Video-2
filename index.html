@@ -27,32 +27,10 @@
       padding: 24px 24px 185px; gap: 9px;
       display: none; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; z-index: 2;
+      transform-origin: center center;
+      will-change: transform, opacity;
     }
     .scene.active { display: flex; }
-
-    /* Light Breeze Color Sweep Transition (Passes Across Top/Frame on Scene Change) */
-    #colorFlashTransition {
-      position: absolute;
-      top: -15%;
-      left: 0;
-      width: 240px;
-      height: 130%;
-      z-index: 8;
-      pointer-events: none;
-      opacity: 0;
-      mix-blend-mode: screen;
-      filter: blur(18px);
-      transform: translateX(-280px) skewX(-22deg);
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 87, 34, 0.25) 22%,
-        rgba(255, 152, 0, 0.85) 50%,
-        rgba(255, 213, 79, 0.92) 68%,
-        rgba(239, 68, 68, 0.35) 86%,
-        transparent 100%
-      );
-    }
 
     .blue { color: #2563eb; }
     .muted { color: #94a3b8; }
@@ -195,9 +173,6 @@
 <body onclick="enableSound()">
 
   <div id="reelCanvas">
-    <!-- Light Breeze Color Sweep Transition Overlay -->
-    <div id="colorFlashTransition"></div>
-
     <!-- Scene 1 -->
     <section class="scene active" id="sc1">
       <div class="header-row">
@@ -427,7 +402,7 @@
 
   <script>
     var DURATION_MS = 36566;
-    var TRANSITION_WINDOW = 420;
+    var BOUNCE_WINDOW = 440;
     var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
     var scenes = [
       { id: "sc1", start: 0, end: 2000, words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
@@ -447,7 +422,7 @@
     var lastScanStep = -1;
     var lastCharIdx = -1;
     var lastWordIdx = -1;
-    var lastFlashPhase = "";
+    var lastBouncePhase = "";
     var copySoundPlayed = false;
     var noteSoundPlayed = false;
     var gammaSoundPlayed = false;
@@ -479,12 +454,11 @@
       } catch (e) {}
     }
 
-    function playBreezeSweepSound(phaseKey, sweepPos) {
-      if (lastFlashPhase === phaseKey) return;
-      lastFlashPhase = phaseKey;
-      if (sweepPos < 0.4) playTone(320, 0.08, "sine", 0.04, 620);
-      else if (sweepPos < 0.78) playTone(620, 0.09, "triangle", 0.055, 920);
-      else playTone(920, 0.07, "sine", 0.04, 460);
+    function playBounceSound(phaseKey, stage) {
+      if (lastBouncePhase === phaseKey) return;
+      lastBouncePhase = phaseKey;
+      if (stage === "hop") playTone(380, 0.08, "sine", 0.05, 620);
+      else if (stage === "land") playTone(620, 0.07, "triangle", 0.055, 310);
     }
 
     function enableSound() {
@@ -526,35 +500,33 @@
       }
     }
 
-    function updateColorFlashTransition(cur, elapsed) {
-      var flashEl = document.getElementById("colorFlashTransition");
-      if (!flashEl) return;
+    function updateBounceTransition(cur, elapsed) {
+      var secEl = document.getElementById(cur.id);
+      if (!secEl) return;
 
-      var halfWin = TRANSITION_WINDOW / 2;
+      var halfWin = BOUNCE_WINDOW / 2;
       var timeToEnd = cur.end - elapsed;
       var timeFromStart = elapsed - cur.start;
-      var sweepProgress = -1;
-      var phaseTag = "";
 
-      if (timeToEnd >= 0 && timeToEnd <= halfWin) {
-        sweepProgress = (1 - timeToEnd / halfWin) * 0.5;
-        phaseTag = cur.id + "-out";
-      } else if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= halfWin) {
-        sweepProgress = 0.5 + (timeFromStart / halfWin) * 0.5;
-        phaseTag = cur.id + "-in";
-      }
-
-      if (sweepProgress >= 0 && sweepProgress <= 1) {
-        var xPos = -260 + sweepProgress * 720;
-        var flutterY = Math.sin(sweepProgress * Math.PI) * -18;
-        var visOpacity = Math.sin(sweepProgress * Math.PI) * 0.9;
-        flashEl.style.opacity = visOpacity.toFixed(3);
-        flashEl.style.transform = "translateX(" + xPos.toFixed(1) + "px) translateY(" + flutterY.toFixed(1) + "px) skewX(-22deg)";
-        var bucket = sweepProgress < 0.4 ? "gust-in" : (sweepProgress < 0.78 ? "gust-mid" : "gust-out");
-        playBreezeSweepSound(phaseTag + "-" + bucket, sweepProgress);
+      if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= halfWin) {
+        var pIn = timeFromStart / halfWin;
+        var bounceIn = Math.abs(Math.sin(pIn * Math.PI * 1.5)) * (1 - pIn);
+        var yIn = -bounceIn * 28;
+        var scaleIn = 0.94 + pIn * 0.06 + bounceIn * 0.04;
+        secEl.style.transform = "translateY(" + yIn.toFixed(1) + "px) scale(" + scaleIn.toFixed(3) + ")";
+        secEl.style.opacity = Math.min(1, 0.35 + pIn * 0.65).toFixed(2);
+        playBounceSound(cur.id + "-in-" + (pIn < 0.5 ? "1" : "2"), pIn < 0.5 ? "hop" : "land");
+      } else if (timeToEnd >= 0 && timeToEnd <= halfWin) {
+        var pOut = 1 - timeToEnd / halfWin;
+        var bounceOut = Math.sin(pOut * Math.PI) * 16;
+        var yOut = pOut * 24 - bounceOut;
+        var scaleOut = 1 - pOut * 0.06;
+        secEl.style.transform = "translateY(" + yOut.toFixed(1) + "px) scale(" + scaleOut.toFixed(3) + ")";
+        secEl.style.opacity = Math.max(0.25, 1 - pOut * 0.7).toFixed(2);
+        playBounceSound(cur.id + "-out-" + (pOut < 0.5 ? "1" : "2"), pOut < 0.5 ? "hop" : "land");
       } else {
-        flashEl.style.opacity = "0";
-        flashEl.style.transform = "translateX(-280px) translateY(0px) skewX(-22deg)";
+        secEl.style.transform = "translateY(0px) scale(1)";
+        secEl.style.opacity = "1";
       }
     }
 
@@ -574,6 +546,13 @@
       }
 
       if (activeScene !== cur.id) {
+        if (activeScene) {
+          var prevEl = document.getElementById(activeScene);
+          if (prevEl) {
+            prevEl.style.transform = "translateY(0px) scale(1)";
+            prevEl.style.opacity = "1";
+          }
+        }
         activeScene = cur.id;
         lastWordIdx = -1;
         for (var s = 0; s < scenes.length; s++) {
@@ -584,7 +563,7 @@
         playTone(520, 0.06, "sine", 0.045);
       }
 
-      updateColorFlashTransition(cur, elapsed);
+      updateBounceTransition(cur, elapsed);
       syncWordsByTime(cur, elapsed - cur.start);
 
       if (cur.id === "sc1") {
