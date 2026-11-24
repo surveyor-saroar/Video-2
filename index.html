@@ -14,7 +14,6 @@
       padding: 0;
     }
 
-    /* Full Screen White + Soft Blue/Amber Background matching the Reels theme */
     html, body {
       width: 100%;
       height: 100%;
@@ -29,7 +28,6 @@
         radial-gradient(circle at 78% 82%, rgba(245, 158, 11, 0.14), transparent 48%);
     }
 
-    /* Center 9:16 Reels Animation Area (Seamless on the white full-screen background) */
     #reelCanvas {
       position: relative;
       z-index: 1;
@@ -53,16 +51,10 @@
       justify-content: space-between;
       text-align: center;
       z-index: 2;
-      animation: popIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .scene.active {
       display: flex;
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(16px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .blue { color: #2563eb; }
@@ -73,6 +65,7 @@
       font-weight: 700;
       color: #0f172a;
       line-height: 1.25;
+      transition: transform 0.35s ease, opacity 0.35s ease;
     }
 
     .h2-sub {
@@ -80,6 +73,7 @@
       font-weight: 700;
       color: #0f172a;
       line-height: 1.28;
+      transition: transform 0.35s ease, opacity 0.35s ease;
     }
 
     .brand-pill {
@@ -104,7 +98,6 @@
       font-size: 14px;
     }
 
-    /* Scene 1 */
     .cards-flow {
       display: flex;
       flex-direction: column;
@@ -122,6 +115,7 @@
       border: 1.5px solid #e2e8f0;
       position: relative;
       text-align: left;
+      transition: transform 0.35s ease, opacity 0.35s ease;
     }
 
     .skel {
@@ -129,7 +123,7 @@
       border-radius: 99px;
       background: #e2e8f0;
       margin-bottom: 8px;
-      transition: background 0.2s ease;
+      transition: background 0.18s ease;
     }
 
     .ring-pulse {
@@ -141,12 +135,6 @@
       border-radius: 50%;
       border: 3px solid #2563eb;
       background: rgba(37, 99, 235, 0.08);
-      animation: pulseAnim 1.2s infinite ease-in-out;
-    }
-
-    @keyframes pulseAnim {
-      0%, 100% { transform: scale(0.9); }
-      50% { transform: scale(1.1); }
     }
 
     .yellow-tag {
@@ -160,19 +148,11 @@
       margin-bottom: 8px;
     }
 
-    /* Scene 2 */
     .pencil-anim {
       font-size: 46px;
       margin-bottom: 12px;
-      animation: swing 0.9s infinite alternate ease-in-out;
     }
 
-    @keyframes swing {
-      from { transform: translateY(0) rotate(-10deg); }
-      to { transform: translateY(-10px) rotate(8deg); }
-    }
-
-    /* Scene 3 */
     .phone-body {
       width: 78%;
       background: #0f172a;
@@ -216,7 +196,7 @@
       font-size: 14px;
       background: #2563eb;
       color: #ffffff;
-      transition: all 0.25s ease;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .copy-action.copied {
@@ -254,7 +234,6 @@
       transform: rotate(-14deg);
     }
 
-    /* Scene 4 */
     .chat-box {
       width: 100%;
       background: #ffffff;
@@ -327,10 +306,9 @@
       font-size: 14px;
       padding: 6px 16px;
       border-radius: 99px;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
-    /* Scene 5 */
     .gamma-box {
       width: 94%;
       background: #ffffff;
@@ -374,7 +352,6 @@
       height: 104px;
     }
 
-    /* Scene 6 */
     .teacher-box {
       background: #ffffff;
       border-radius: 22px;
@@ -389,7 +366,6 @@
       padding: 0 5px;
     }
 
-    /* Scene 7 & 8 */
     .comment-bar {
       width: 95%;
       background: #ffffff;
@@ -419,6 +395,7 @@
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
       border: 1px solid #e2e8f0;
       text-align: left;
+      transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
     .prog-track {
@@ -440,21 +417,20 @@
 </head>
 <body onclick="enableSound()">
 
-  <!-- Center 9:16 Reels Animation Frame -->
   <div id="reelCanvas">
     <!-- Scene 1 (0.0s - 2.0s) -->
     <section class="scene active" id="sc1">
-      <h1 class="h1-main">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
+      <h1 class="h1-main" id="sc1Title">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
       <div class="cards-flow">
-        <div class="white-card">
+        <div class="white-card" id="sc1QCard">
           <div style="font-weight:700;color:#2563eb;margin-bottom:7px;">? প্রশ্ন</div>
           <div class="skel" style="width:90%"></div>
           <div class="skel" style="width:76%"></div>
           <div class="skel" style="width:84%"></div>
-          <div class="ring-pulse"></div>
+          <div class="ring-pulse" id="sc1Ring"></div>
         </div>
-        <div style="font-size:24px;color:#2563eb;font-weight:800;">↓</div>
-        <div class="white-card" style="border-color:#bfdbfe;">
+        <div id="sc1Arrow" style="font-size:24px;color:#2563eb;font-weight:800;">↓</div>
+        <div class="white-card" id="sc1NCard" style="border-color:#bfdbfe;">
           <span class="yellow-tag">✓ নোট</span>
           <div class="skel" style="width:88%;background:#cbd5e1;"></div>
           <div class="skel" style="width:70%;background:#cbd5e1;"></div>
@@ -465,7 +441,7 @@
 
     <!-- Scene 2 (2.0s - 3.8s) -->
     <section class="scene" id="sc2" style="justify-content:center;">
-      <div class="pencil-anim">✏️</div>
+      <div class="pencil-anim" id="sc2Pencil">✏️</div>
       <h1 class="h1-main" style="font-size:38px;">
         লেখালেখির<br><span class="muted">দিন শেষ।</span>
       </h1>
@@ -477,7 +453,7 @@
         <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
         <h2 class="h2-sub" style="margin-top:8px;">
           ছবি তুলে <span class="blue">স্ক্যান</span><br>
-          <span id="sc3Sub" style="opacity:0;transition:opacity 0.25s;">এক ক্লিকে <span class="blue">কপি</span></span>
+          <span id="sc3Sub" style="opacity:0;">এক ক্লিকে <span class="blue">কপি</span></span>
         </h2>
       </div>
 
@@ -496,7 +472,7 @@
         </div>
       </div>
 
-      <div id="sc3NoType" style="opacity:0;transition:opacity 0.25s;">
+      <div id="sc3NoType" style="opacity:0;">
         <div class="h2-sub" style="font-size:19px;">আর <span class="blue">টাইপ</span> করতে হবে না</div>
         <div class="kbd-box">
           <span></span><span></span><span></span><span></span><span></span>
@@ -508,7 +484,7 @@
     <section class="scene" id="sc4">
       <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
         <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
-        <span id="sc4Tag" style="opacity:0;transition:opacity 0.25s;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
+        <span id="sc4Tag" style="opacity:0;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
       </div>
 
       <div class="chat-box">
@@ -547,7 +523,7 @@
           <div class="skel" style="width:90%;background:#cbd5e1;"></div>
           <div class="skel" style="width:76%;background:#cbd5e1;"></div>
         </div>
-        <div style="background:#2563eb;color:#ffffff;font-family:'Inter',sans-serif;font-weight:700;padding:10px 24px;border-radius:12px;display:inline-block;">
+        <div id="sc5GenBtn" style="background:#2563eb;color:#ffffff;font-family:'Inter',sans-serif;font-weight:700;padding:10px 24px;border-radius:12px;display:inline-block;">
           Generate
         </div>
       </div>
@@ -570,14 +546,14 @@
         </div>
       </div>
 
-      <h2 class="h2-sub" id="sc5Caption" style="opacity:0;transition:opacity 0.25s;">
+      <h2 class="h2-sub" id="sc5Caption" style="opacity:0;">
         ডিজাইনসহ <span class="blue">পিডিএফ</span> প্রেজেন্টেশন
       </h2>
     </section>
 
     <!-- Scene 6 (29.5s - 31.5s) -->
     <section class="scene" id="sc6" style="justify-content:center;">
-      <div class="teacher-box">
+      <div class="teacher-box" id="sc6Card">
         <div style="font-size:20px;margin-bottom:8px;">✨ ✦ ✨</div>
         <h1 class="h1-main">
           শিক্ষকও<br><span class="blue hl-yellow">চমকে যাবে।</span>
@@ -601,21 +577,21 @@
     <section class="scene" id="sc8">
       <h2 class="h2-sub">তিনটা টুলের <span class="blue">ডাইরেক্ট লিংক</span></h2>
       <div class="tools-col">
-        <div class="tool-row">
+        <div class="tool-row" id="sc8T1">
           <div>
             <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">Google Lens</div>
             <div style="color:#2563eb;font-weight:700;font-size:13px;">স্ক্যান</div>
           </div>
           <span style="font-size:20px;font-weight:800;color:#cbd5e1;">01</span>
         </div>
-        <div class="tool-row">
+        <div class="tool-row" id="sc8T2">
           <div>
             <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">ChatGPT</div>
             <div style="color:#2563eb;font-weight:700;font-size:13px;">নোট</div>
           </div>
           <span style="font-size:20px;font-weight:800;color:#cbd5e1;">02</span>
         </div>
-        <div class="tool-row">
+        <div class="tool-row" id="sc8T3">
           <div>
             <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">Gamma AI</div>
             <div style="color:#2563eb;font-weight:700;font-size:13px;">প্রেজেন্টেশন</div>
@@ -623,7 +599,7 @@
           <span style="font-size:20px;font-weight:800;color:#cbd5e1;">03</span>
         </div>
       </div>
-      <div style="background:#facc15;color:#0f172a;font-weight:700;padding:7px 18px;border-radius:99px;font-size:14px;">
+      <div id="sc8Inbox" style="background:#facc15;color:#0f172a;font-weight:700;padding:7px 18px;border-radius:99px;font-size:14px;">
         📩 ইনবক্সে ডাইরেক্ট লিংক
       </div>
     </section>
@@ -722,10 +698,11 @@
     }
 
     function updateFrame() {
-      const elapsed = Date.now() - startTime;
+      const now = Date.now();
+      const elapsed = now - startTime;
       if (elapsed >= DURATION_MS) {
         resetAll();
-        startTime = Date.now();
+        startTime = now;
         return;
       }
 
@@ -740,6 +717,26 @@
         playTone(520, 0.07, "sine", 0.06);
       }
 
+      // Scene 1 live motion
+      if (cur.id === "sc1") {
+        const pulse = 0.92 + Math.sin(now * 0.008) * 0.1;
+        document.getElementById("sc1Ring").style.transform = `scale(${pulse.toFixed(3)})`;
+        const arrowY = Math.sin(now * 0.007) * 5;
+        document.getElementById("sc1Arrow").style.transform = `translateY(${arrowY.toFixed(1)}px)`;
+        const noteScale = elapsed > 650 ? 1 : 0.94;
+        const noteOp = elapsed > 650 ? 1 : 0.65;
+        document.getElementById("sc1NCard").style.transform = `scale(${noteScale})`;
+        document.getElementById("sc1NCard").style.opacity = noteOp;
+      }
+
+      // Scene 2 live motion
+      if (cur.id === "sc2") {
+        const bobY = Math.sin(now * 0.008) * 9;
+        const rotDeg = Math.sin(now * 0.008) * 10;
+        document.getElementById("sc2Pencil").style.transform = `translateY(${bobY.toFixed(1)}px) rotate(${rotDeg.toFixed(1)}deg)`;
+      }
+
+      // Scene 3 live motion
       if (cur.id === "sc3") {
         const t = elapsed - 3800;
         const pct = Math.min(86, 10 + (t / 3500) * 76);
@@ -773,6 +770,7 @@
         document.getElementById("sc3NoType").style.opacity = t > 7000 ? "1" : "0";
       }
 
+      // Scene 4 live motion
       if (cur.id === "sc4") {
         const t = elapsed - 13500;
         document.getElementById("sc4Tag").style.opacity = t > 1400 ? "1" : "0";
@@ -795,13 +793,21 @@
               setTimeout(() => playTone(987, 0.14, "triangle", 0.09), 110);
             }
           }
-          document.getElementById("sc4Timer").style.opacity = t > 6500 ? "1" : "0";
+          const timerEl = document.getElementById("sc4Timer");
+          timerEl.style.opacity = t > 6500 ? "1" : "0";
+          timerEl.style.transform = t > 6500 ? "scale(1)" : "scale(0.9)";
         }
       }
 
+      // Scene 5 live motion
       if (cur.id === "sc5") {
         const t = elapsed - 23500;
         const done = t > 2000;
+        const genBtn = document.getElementById("sc5GenBtn");
+        if (!done) {
+          const btnScale = 1 + Math.sin(now * 0.01) * 0.04;
+          genBtn.style.transform = `scale(${btnScale.toFixed(3)})`;
+        }
         document.getElementById("sc5Before").style.display = done ? "none" : "block";
         document.getElementById("sc5After").style.display = done ? "block" : "none";
         document.getElementById("sc5Caption").style.opacity = done ? "1" : "0";
@@ -812,4 +818,45 @@
         }
       }
 
-      if (
+      // Scene 6 live motion
+      if (cur.id === "sc6") {
+        const pop = 0.96 + Math.sin(now * 0.008) * 0.04;
+        document.getElementById("sc6Card").style.transform = `scale(${pop.toFixed(3)})`;
+      }
+
+      // Scene 7 live motion
+      if (cur.id === "sc7") {
+        const t = elapsed - 31500;
+        const word = "নোট";
+        const count = Math.min(word.length, Math.floor(t / 400));
+        const cursor = Math.floor(now / 400) % 2 === 0 ? "|" : "";
+        document.getElementById("sc7Comment").textContent = word.slice(0, count) + cursor;
+      }
+
+      // Scene 8 live motion
+      if (cur.id === "sc8") {
+        const t = elapsed - 33800;
+        const t1 = document.getElementById("sc8T1");
+        const t2 = document.getElementById("sc8T2");
+        const t3 = document.getElementById("sc8T3");
+        const inbox = document.getElementById("sc8Inbox");
+
+        t1.style.opacity = t > 150 ? "1" : "0.35";
+        t1.style.transform = t > 150 ? "translateY(0)" : "translateY(8px)";
+
+        t2.style.opacity = t > 450 ? "1" : "0.35";
+        t2.style.transform = t > 450 ? "translateY(0)" : "translateY(8px)";
+
+        t3.style.opacity = t > 750 ? "1" : "0.35";
+        t3.style.transform = t > 750 ? "translateY(0)" : "translateY(8px)";
+
+        const bScale = t > 1100 ? (1 + Math.sin(now * 0.01) * 0.04).toFixed(3) : "0.95";
+        inbox.style.transform = `scale(${bScale})`;
+      }
+    }
+
+    setInterval(updateFrame, 33);
+    updateFrame();
+  </script>
+</body>
+</html>
