@@ -10,10 +10,11 @@
       width: 100%; height: 100%; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
       font-family: "Hind Siliguri", "Nirmala UI", Arial, sans-serif;
-      background-color: #f6f8fc;
+      background-color: #eef3fb;
       background-image:
-        radial-gradient(circle at 22% 18%, rgba(37, 99, 235, 0.14), transparent 46%),
-        radial-gradient(circle at 78% 82%, rgba(245, 158, 11, 0.14), transparent 48%);
+        radial-gradient(circle at 18% 20%, rgba(37, 99, 235, 0.22), transparent 52%),
+        radial-gradient(circle at 82% 78%, rgba(245, 158, 11, 0.22), transparent 54%),
+        linear-gradient(160deg, rgba(219, 234, 254, 0.55) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(254, 243, 199, 0.45) 100%);
     }
 
     #reelCanvas {
@@ -145,23 +146,23 @@
     .shock-sign svg { width: 30px; height: 30px; display: block; }
     .hl-yellow { background: linear-gradient(transparent 55%, #fde68a 55%); padding: 0 5px; }
 
-    /* Last Scene (sc7): Larger saroar01 photo card & badge */
+    /* Last Scene (sc7): Soft light-grey border & larger saroar01 photo card */
     .outro-title {
       font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1.32;
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     }
     .outro-card {
       width: 96%; background: #ffffff; border-radius: 22px; padding: 16px 16px;
-      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.11); border: 2px solid #bfdbfe;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.09); border: 1.5px solid #cbd5e1;
       display: flex; align-items: center; gap: 14px; text-align: left;
     }
     .outro-avatar {
-      width: 78px; height: 78px; border-radius: 20px;
-      border: 3px solid #f59e0b; background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #ffffff; font-weight: 800; font-size: 20px;
+      width: 82px; height: 82px; border-radius: 20px;
+      border: 2px solid #cbd5e1; background: #f1f5f9;
+      color: #334155; font-weight: 800; font-size: 20px;
       display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
       overflow: hidden; position: relative;
-      box-shadow: 0 10px 22px rgba(245, 158, 11, 0.24);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
     }
     .outro-avatar img {
       width: 100%; height: 100%; object-fit: cover; object-position: top center;
@@ -430,17 +431,17 @@
   <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
 
   <script>
-    var DURATION_MS = 37566;
+    var DURATION_MS = 40000;
     var BOUNCE_WINDOW = 440;
     var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
     var scenes = [
-      { id: "sc1", start: 0, end: 2000, words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
-      { id: "sc2", start: 2000, end: 3800, words: ["হাতে", "লিখে", "সময়", "নষ্টের", "দিন", "শেষ!"] },
-      { id: "sc3", start: 3800, end: 13500, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
-      { id: "sc4", start: 13500, end: 23500, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
-      { id: "sc5", start: 23500, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
-      { id: "sc6", start: 29500, end: 31566, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
-      { id: "sc7", start: 31566, end: 37566, words: ["সব", "আপডেট", "পেতে", "পেজটি", "ফলো", "করুন", "ও", "কমেন্টে", "জানান!"] }
+      { id: "sc1", start: 0,     end: 3600,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
+      { id: "sc2", start: 3600,  end: 7200,  words: ["হাতে", "লিখে", "সময়", "নষ্টের", "দিন", "শেষ!"] },
+      { id: "sc3", start: 7200,  end: 14800, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
+      { id: "sc4", start: 14800, end: 23000, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
+      { id: "sc5", start: 23000, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
+      { id: "sc6", start: 29500, end: 33400, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
+      { id: "sc7", start: 33400, end: 40000, words: ["সব", "আপডেট", "পেতে", "পেজটি", "ফলো", "করুন", "ও", "কমেন্টে", "জানান!"] }
     ];
 
     var startTime = new Date().getTime();
@@ -516,7 +517,7 @@
       var words = sceneObj.words || [];
       if (!words.length) return;
       var sceneDur = Math.max(400, sceneObj.end - sceneObj.start);
-      var stepDur = (sceneDur * 0.85) / words.length;
+      var stepDur = (sceneDur * 0.88) / words.length;
       var currentIdx = Math.min(words.length - 1, Math.max(0, Math.floor(sceneElapsed / stepDur)));
       if (currentIdx !== lastWordIdx) {
         lastWordIdx = currentIdx;
@@ -597,6 +598,7 @@
       syncWordsByTime(cur, elapsed - cur.start);
 
       if (cur.id === "sc1") {
+        var t1 = elapsed - 0;
         var pulse = 0.92 + Math.sin(nowMs * 0.008) * 0.1;
         var r1 = document.getElementById("sc1Ring");
         if (r1) r1.style.transform = "scale(" + pulse.toFixed(3) + ")";
@@ -605,8 +607,8 @@
         if (ar) ar.style.transform = "translateY(" + arrowY.toFixed(1) + "px)";
         var nCard = document.getElementById("sc1NCard");
         if (nCard) {
-          nCard.style.transform = "scale(" + (elapsed > 650 ? 1 : 0.94) + ")";
-          nCard.style.opacity = elapsed > 650 ? "1" : "0.65";
+          nCard.style.transform = "scale(" + (t1 > 1100 ? 1 : 0.94) + ")";
+          nCard.style.opacity = t1 > 1100 ? "1" : "0.65";
         }
       } else if (cur.id === "sc2") {
         var bobY = Math.sin(nowMs * 0.008) * 9;
@@ -614,27 +616,27 @@
         var pen = document.getElementById("sc2Pencil");
         if (pen) pen.style.transform = "translateY(" + bobY.toFixed(1) + "px) rotate(" + rotDeg.toFixed(1) + "deg)";
       } else if (cur.id === "sc3") {
-        var t3 = elapsed - 3800;
-        var pct = Math.min(86, 10 + (t3 / 3500) * 76);
+        var t3 = elapsed - 7200;
+        var pct = Math.min(86, 10 + (t3 / 3600) * 76);
         var beam = document.getElementById("sc3Beam");
         if (beam) {
           beam.style.top = pct + "%";
-          beam.style.display = t3 > 4200 ? "none" : "block";
+          beam.style.display = t3 > 4300 ? "none" : "block";
         }
-        var step = Math.floor(t3 / 550);
-        if (t3 < 4200 && step !== lastScanStep) {
+        var step = Math.floor(t3 / 600);
+        if (t3 < 4300 && step !== lastScanStep) {
           lastScanStep = step;
           playTone(880 + step * 45, 0.045, "sine", 0.04);
         }
         var lines = document.querySelectorAll(".sc3-line");
         for (var l = 0; l < lines.length; l++) {
-          lines[l].style.background = t3 > 850 + l * 550 ? "#2563eb" : "#e2e8f0";
+          lines[l].style.background = t3 > 900 + l * 580 ? "#2563eb" : "#e2e8f0";
         }
         var sub3 = document.getElementById("sc3Sub");
-        if (sub3) sub3.style.opacity = t3 > 3800 ? "1" : "0";
+        if (sub3) sub3.style.opacity = t3 > 3600 ? "1" : "0";
         var copyBtn = document.getElementById("sc3CopyBtn");
         if (copyBtn) {
-          if (t3 > 5200) {
+          if (t3 > 4600) {
             copyBtn.textContent = "✓ Copied";
             copyBtn.className = "copy-action copied";
             if (!copySoundPlayed) { copySoundPlayed = true; playTone(1046, 0.12, "triangle", 0.07); }
@@ -644,17 +646,17 @@
           }
         }
         var noType = document.getElementById("sc3NoType");
-        if (noType) noType.style.opacity = t3 > 7000 ? "1" : "0";
+        if (noType) noType.style.opacity = t3 > 5600 ? "1" : "0";
       } else if (cur.id === "sc4") {
-        var t4 = elapsed - 13500;
+        var t4 = elapsed - 14800;
         var tag4 = document.getElementById("sc4Tag");
-        if (tag4) tag4.style.opacity = t4 > 1400 ? "1" : "0";
+        if (tag4) tag4.style.opacity = t4 > 1200 ? "1" : "0";
         var typedEl = document.getElementById("sc4Typed");
         var sentBubble = document.getElementById("sc4SentBubble");
         var noteCard = document.getElementById("sc4NoteCard");
         var timerEl = document.getElementById("sc4Timer");
-        if (t4 < 5200) {
-          var len = Math.min(gptPrompt.length, Math.floor(Math.max(0, t4 - 1600) / 68));
+        if (t4 < 4600) {
+          var len = Math.min(gptPrompt.length, Math.floor(Math.max(0, t4 - 1300) / 72));
           if (typedEl) typedEl.textContent = gptPrompt.slice(0, len);
           if (sentBubble) sentBubble.style.display = "none";
           if (noteCard) noteCard.style.display = "none";
@@ -666,18 +668,18 @@
         } else {
           if (typedEl) typedEl.textContent = "";
           if (sentBubble) sentBubble.style.display = "block";
-          if (t4 > 6200) {
+          if (t4 > 5400) {
             if (noteCard) noteCard.style.display = "block";
             if (!noteSoundPlayed) { noteSoundPlayed = true; playTone(784, 0.11, "triangle", 0.07); }
           }
           if (timerEl) {
-            timerEl.style.opacity = t4 > 6500 ? "1" : "0";
-            timerEl.style.transform = t4 > 6500 ? "scale(1)" : "scale(0.9)";
+            timerEl.style.opacity = t4 > 5800 ? "1" : "0";
+            timerEl.style.transform = t4 > 5800 ? "scale(1)" : "scale(0.9)";
           }
         }
       } else if (cur.id === "sc5") {
-        var t5 = elapsed - 23500;
-        var done = t5 > 2000;
+        var t5 = elapsed - 23000;
+        var done = t5 > 2400;
         var genBtn = document.getElementById("sc5GenBtn");
         if (!done && genBtn) {
           var btnScale = 1 + Math.sin(nowMs * 0.01) * 0.04;
@@ -701,16 +703,16 @@
           shockEl.style.transform = "scale(" + sScale.toFixed(3) + ") rotate(" + sRot.toFixed(1) + "deg)";
         }
       } else if (cur.id === "sc7") {
-        var t7 = elapsed - 31566;
+        var t7 = elapsed - 33400;
         var card7 = document.getElementById("sc7Card");
         var btn7 = document.getElementById("sc7FollowBtn");
         var ask7 = document.getElementById("sc7Ask");
         if (card7) {
-          card7.style.opacity = t7 > 250 ? "1" : "0.4";
-          card7.style.transform = t7 > 250 ? "translateY(0)" : "translateY(10px)";
+          card7.style.opacity = t7 > 350 ? "1" : "0.4";
+          card7.style.transform = t7 > 350 ? "translateY(0)" : "translateY(10px)";
         }
         if (btn7) {
-          if (t7 > 1800) {
+          if (t7 > 2200) {
             btn7.className = "outro-follow-btn done";
             btn7.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" style="width:18px;height:18px;"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Following</span>';
             if (!followSoundPlayed) { followSoundPlayed = true; playTone(880, 0.12, "triangle", 0.07); }
@@ -722,8 +724,8 @@
           btn7.style.transform = "scale(" + fScale.toFixed(3) + ")";
         }
         if (ask7) {
-          ask7.style.opacity = t7 > 2600 ? "1" : "0.35";
-          ask7.style.transform = t7 > 2600 ? "scale(1)" : "scale(0.95)";
+          ask7.style.opacity = t7 > 3200 ? "1" : "0.35";
+          ask7.style.transform = t7 > 3200 ? "scale(1)" : "scale(0.95)";
         }
       }
     }
