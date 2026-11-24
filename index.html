@@ -131,8 +131,18 @@
 
     .teacher-box {
       background: #ffffff; border-radius: 22px; padding: 24px 20px;
-      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.12); border: 1px solid #e2e8f0; width: 92%;
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.12); border: 1px solid #e2e8f0; width: 94%;
     }
+    .shock-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .shock-sign {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: #fef08a; border: 2px solid #f59e0b; color: #b45309;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
+    }
+    .shock-sign svg { width: 30px; height: 30px; display: block; }
     .hl-yellow { background: linear-gradient(transparent 55%, #fde68a 55%); padding: 0 5px; }
 
     .comment-bar {
@@ -336,14 +346,20 @@
     <!-- Scene 6 -->
     <section class="scene" id="sc6">
       <div class="teacher-box" id="sc6Card">
-        <div class="header-row" style="margin-bottom:8px;">
-          <span class="svg-badge amber">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+        <div class="shock-row">
+          <h1 class="h1-main">আপনি নিজে<br><span class="blue hl-yellow">চমকে যাবেন।</span></h1>
+          <span class="shock-sign" id="sc6ShockSign" title="চমকে যাওয়ার সাইন">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="14"></line>
+              <circle cx="12" cy="18.5" r="1.4" fill="currentColor"></circle>
+              <path d="M5 6L3 4"></path>
+              <path d="M19 6l2-2"></path>
+              <path d="M4 12H1.5"></path>
+              <path d="M22.5 12H20"></path>
+              <path d="M6 18l-2.5 2"></path>
+              <path d="M18 18l2.5 2"></path>
             </svg>
           </span>
-          <h1 class="h1-main">শিক্ষকও<br><span class="blue hl-yellow">চমকে যাবে।</span></h1>
         </div>
       </div>
     </section>
@@ -410,7 +426,7 @@
       { id: "sc3", start: 3800, end: 13500, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
       { id: "sc4", start: 13500, end: 23500, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
       { id: "sc5", start: 23500, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
-      { id: "sc6", start: 29500, end: 31500, words: ["এমন", "নোট", "দেখে", "শিক্ষকও", "চমকে", "যাবে!"] },
+      { id: "sc6", start: 29500, end: 31500, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
       { id: "sc7", start: 31500, end: 33800, words: ["কাজে", "লাগলে", "কমেন্টে", "লিখুন", '"নোট"'] },
       { id: "sc8", start: 33800, end: 36566, words: ["কমেন্ট", "করলেই", "ইনবক্সে", "৩টি", "টুলের", "লিংক", "যাবে!"] }
     ];
@@ -664,6 +680,12 @@
         var pop = 0.96 + Math.sin(nowMs * 0.008) * 0.04;
         var card6 = document.getElementById("sc6Card");
         if (card6) card6.style.transform = "scale(" + pop.toFixed(3) + ")";
+        var shockEl = document.getElementById("sc6ShockSign");
+        if (shockEl) {
+          var sScale = 1 + Math.sin(nowMs * 0.012) * 0.11;
+          var sRot = Math.sin(nowMs * 0.014) * 9;
+          shockEl.style.transform = "scale(" + sScale.toFixed(3) + ") rotate(" + sRot.toFixed(1) + "deg)";
+        }
       } else if (cur.id === "sc7") {
         var t7 = elapsed - 31500;
         var word = "নোট";
