@@ -30,20 +30,28 @@
     }
     .scene.active { display: flex; }
 
-    /* Color Lighting Flashing Transition Layer */
+    /* Light Breeze Color Sweep Transition (Passes Across Top/Frame on Scene Change) */
     #colorFlashTransition {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      top: -15%;
+      left: 0;
+      width: 240px;
+      height: 130%;
       z-index: 8;
       pointer-events: none;
       opacity: 0;
       mix-blend-mode: screen;
-      background:
-        radial-gradient(circle at 22% 95%, rgba(255, 87, 34, 0.92) 0%, rgba(255, 145, 0, 0.58) 38%, transparent 72%),
-        radial-gradient(circle at 75% 85%, rgba(255, 193, 7, 0.72) 0%, rgba(239, 68, 68, 0.42) 45%, transparent 75%),
-        linear-gradient(to top, rgba(220, 38, 38, 0.65), rgba(245, 158, 11, 0.25) 55%, transparent 100%);
+      filter: blur(18px);
+      transform: translateX(-280px) skewX(-22deg);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 87, 34, 0.25) 22%,
+        rgba(255, 152, 0, 0.85) 50%,
+        rgba(255, 213, 79, 0.92) 68%,
+        rgba(239, 68, 68, 0.35) 86%,
+        transparent 100%
+      );
     }
 
     .blue { color: #2563eb; }
@@ -187,7 +195,7 @@
 <body onclick="enableSound()">
 
   <div id="reelCanvas">
-    <!-- Color Lighting Flashing Transition Overlay -->
+    <!-- Light Breeze Color Sweep Transition Overlay -->
     <div id="colorFlashTransition"></div>
 
     <!-- Scene 1 -->
@@ -419,7 +427,7 @@
 
   <script>
     var DURATION_MS = 36566;
-    var TRANSITION_WINDOW = 520;
+    var TRANSITION_WINDOW = 420;
     var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
     var scenes = [
       { id: "sc1", start: 0, end: 2000, words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
@@ -471,12 +479,12 @@
       } catch (e) {}
     }
 
-    function playColorFlashSound(phaseKey, intensity) {
+    function playBreezeSweepSound(phaseKey, sweepPos) {
       if (lastFlashPhase === phaseKey) return;
       lastFlashPhase = phaseKey;
-      if (intensity < 0.5) playTone(260, 0.14, "sine", 0.045, 480);
-      else if (intensity < 0.85) playTone(480, 0.16, "triangle", 0.06, 720);
-      else playTone(720, 0.12, "sine", 0.045, 360);
+      if (sweepPos < 0.4) playTone(320, 0.08, "sine", 0.04, 620);
+      else if (sweepPos < 0.78) playTone(620, 0.09, "triangle", 0.055, 920);
+      else playTone(920, 0.07, "sine", 0.04, 460);
     }
 
     function enableSound() {
@@ -525,27 +533,28 @@
       var halfWin = TRANSITION_WINDOW / 2;
       var timeToEnd = cur.end - elapsed;
       var timeFromStart = elapsed - cur.start;
-      var flashLevel = 0;
+      var sweepProgress = -1;
       var phaseTag = "";
 
       if (timeToEnd >= 0 && timeToEnd <= halfWin) {
-        flashLevel = 1 - timeToEnd / halfWin;
+        sweepProgress = (1 - timeToEnd / halfWin) * 0.5;
         phaseTag = cur.id + "-out";
       } else if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= halfWin) {
-        flashLevel = 1 - timeFromStart / halfWin;
+        sweepProgress = 0.5 + (timeFromStart / halfWin) * 0.5;
         phaseTag = cur.id + "-in";
       }
 
-      if (flashLevel > 0) {
-        var curved = Math.sin(flashLevel * Math.PI * 0.5);
-        flashEl.style.opacity = (curved * 0.92).toFixed(3);
-        var yShift = ((1 - curved) * 26).toFixed(1);
-        flashEl.style.transform = "translateY(" + yShift + "px) scale(" + (1 + curved * 0.06).toFixed(3) + ")";
-        var bucket = curved < 0.45 ? "rise" : (curved < 0.82 ? "peak" : "fade");
-        playColorFlashSound(phaseTag + "-" + bucket, curved);
+      if (sweepProgress >= 0 && sweepProgress <= 1) {
+        var xPos = -260 + sweepProgress * 720;
+        var flutterY = Math.sin(sweepProgress * Math.PI) * -18;
+        var visOpacity = Math.sin(sweepProgress * Math.PI) * 0.9;
+        flashEl.style.opacity = visOpacity.toFixed(3);
+        flashEl.style.transform = "translateX(" + xPos.toFixed(1) + "px) translateY(" + flutterY.toFixed(1) + "px) skewX(-22deg)";
+        var bucket = sweepProgress < 0.4 ? "gust-in" : (sweepProgress < 0.78 ? "gust-mid" : "gust-out");
+        playBreezeSweepSound(phaseTag + "-" + bucket, sweepProgress);
       } else {
         flashEl.style.opacity = "0";
-        flashEl.style.transform = "translateY(0px) scale(1)";
+        flashEl.style.transform = "translateX(-280px) translateY(0px) skewX(-22deg)";
       }
     }
 
