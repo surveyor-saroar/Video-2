@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Study Hack - Video Style Reels (9:16)</title>
+  <title>Smart Study Hack - Reels Animation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&family=Inter:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -15,10 +15,9 @@
     }
 
     /* Full Screen Background */
-    body {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
+    html, body {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -42,232 +41,667 @@
       z-index: 0;
     }
 
-    /* 9:16 Reels Animation Frame */
-    .reel-frame {
+    /* Fixed Explicit Pixel Dimensions (9:16 Reels) set via JS */
+    #reelCanvas {
       position: relative;
       z-index: 1;
-      height: 94vh;
-      max-height: 960px;
-      aspect-ratio: 9 / 16;
+      width: 405px;
+      height: 720px;
       background: #f6f8fc;
-      border-radius: 32px;
+      border-radius: 30px;
       overflow: hidden;
       box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.14),
-        0 32px 95px rgba(0, 0, 0, 0.78);
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 30px 90px rgba(0, 0, 0, 0.8);
       cursor: pointer;
     }
 
-    .ambient-a {
+    .blob-blue {
       position: absolute;
-      top: -12%;
-      left: -16%;
-      width: 68%;
-      aspect-ratio: 1;
+      top: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
 
-    .ambient-b {
+    .blob-amber {
       position: absolute;
-      bottom: -12%;
-      right: -16%;
-      width: 68%;
-      aspect-ratio: 1;
+      bottom: -80px;
+      right: -80px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.16) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
 
     .scene {
       position: absolute;
-      inset: 0;
-      padding: 10% 7%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 46px 26px;
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       text-align: center;
       z-index: 2;
-      animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: popIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .scene.active {
       display: flex;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px) scale(0.985); }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .blue { color: #2563eb; }
     .muted { color: #94a3b8; }
 
-    .title-xl {
-      font-size: clamp(26px, 4.5vh, 46px);
+    .h1-main {
+      font-size: 32px;
       font-weight: 700;
       color: #0f172a;
-      line-height: 1.24;
+      line-height: 1.25;
     }
 
-    .title-lg {
-      font-size: clamp(21px, 3.6vh, 36px);
+    .h2-sub {
+      font-size: 26px;
       font-weight: 700;
       color: #0f172a;
       line-height: 1.28;
     }
 
-    .brand-bar {
+    .brand-pill {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       font-family: 'Inter', sans-serif;
-      font-size: clamp(17px, 2.7vh, 27px);
+      font-size: 20px;
       font-weight: 800;
       color: #0f172a;
     }
 
-    .brand-mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 9px;
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       background: #2563eb;
       color: #ffffff;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 14px;
     }
 
     /* Scene 1 */
-    .flow-vertical {
+    .cards-flow {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      width: 88%;
+      width: 90%;
     }
 
-    .paper-card {
+    .white-card {
       width: 100%;
       background: #ffffff;
-      border-radius: 20px;
+      border-radius: 18px;
       padding: 15px 16px;
-      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
       border: 1.5px solid #e2e8f0;
       position: relative;
       text-align: left;
     }
 
-    .bar-line {
+    .skel {
       height: 10px;
       border-radius: 99px;
       background: #e2e8f0;
-      margin-bottom: 9px;
+      margin-bottom: 8px;
       transition: background 0.2s ease;
     }
 
-    .lens-ring {
+    .ring-pulse {
       position: absolute;
       right: 14px;
       bottom: 10px;
-      width: 54px;
-      height: 54px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 3px solid #2563eb;
       background: rgba(37, 99, 235, 0.08);
-      animation: ringPulse 1.3s infinite ease-in-out;
+      animation: pulseAnim 1.2s infinite ease-in-out;
     }
 
-    @keyframes ringPulse {
-      0%, 100% { transform: scale(0.92); }
-      50% { transform: scale(1.08); }
+    @keyframes pulseAnim {
+      0%, 100% { transform: scale(0.9); }
+      50% { transform: scale(1.1); }
     }
 
-    .note-chip {
+    .yellow-tag {
       display: inline-block;
       background: #fef3c7;
       color: #92400e;
       font-weight: 700;
-      font-size: 14px;
-      padding: 3px 12px;
+      font-size: 13px;
+      padding: 3px 11px;
       border-radius: 8px;
-      margin-bottom: 9px;
+      margin-bottom: 8px;
     }
 
     /* Scene 2 */
-    .pencil-float {
+    .pencil-anim {
       font-size: 46px;
-      margin-bottom: 10px;
-      animation: pencilSwing 1s infinite alternate ease-in-out;
+      margin-bottom: 12px;
+      animation: swing 0.9s infinite alternate ease-in-out;
     }
 
-    @keyframes pencilSwing {
-      from { transform: translateY(0) rotate(-8deg); }
-      to { transform: translateY(-10px) rotate(6deg); }
+    @keyframes swing {
+      from { transform: translateY(0) rotate(-10deg); }
+      to { transform: translateY(-10px) rotate(8deg); }
     }
 
     /* Scene 3 */
-    .device-shell {
-      width: 74%;
+    .phone-body {
+      width: 78%;
       background: #0f172a;
-      border-radius: 34px;
-      padding: 12px;
-      box-shadow: 0 24px 50px rgba(15, 23, 42, 0.22);
+      border-radius: 32px;
+      padding: 11px;
+      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.22);
     }
 
-    .device-screen {
+    .phone-display {
       background: #ffffff;
-      border-radius: 24px;
-      padding: 15px 13px;
+      border-radius: 22px;
+      padding: 14px 12px;
       position: relative;
       overflow: hidden;
     }
 
-    .scan-frame {
+    .scan-box {
       border: 2px solid #93c5fd;
-      border-radius: 16px;
-      padding: 14px 12px;
+      border-radius: 14px;
+      padding: 13px 11px;
       position: relative;
-      margin-bottom: 13px;
+      margin-bottom: 12px;
     }
 
-    .scan-beam {
+    .laser-line {
       position: absolute;
-      left: 8px;
-      right: 8px;
+      left: 6px;
+      right: 6px;
       top: 10%;
       height: 3px;
       background: #2563eb;
       box-shadow: 0 0 12px #2563eb;
     }
 
-    .action-copy {
+    .copy-action {
       width: 100%;
-      padding: 11px;
-      border-radius: 14px;
+      padding: 10px;
+      border-radius: 12px;
       font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       background: #2563eb;
       color: #ffffff;
       transition: all 0.25s ease;
     }
 
-    .action-copy.done {
+    .copy-action.copied {
       background: #facc15;
       color: #0f172a;
       transform: scale(1.03);
     }
 
-    .keys-crossed {
+    .kbd-box {
       position: relative;
       display: inline-grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 5px;
       background: #e2e8f0;
-      padding: 9px;
-      border-
+      padding: 8px;
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+
+    .kbd-box span {
+      width: 16px;
+      height: 10px;
+      background: #ffffff;
+      border-radius: 3px;
+    }
+
+    .kbd-box::after {
+      content: "";
+      position: absolute;
+      left: -6px;
+      right: -6px;
+      top: 50%;
+      height: 3px;
+      background: #f59e0b;
+      transform: rotate(-14deg);
+    }
+
+    /* Scene 4 */
+    .chat-box {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 14px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.09);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 370px;
+      justify-content: space-between;
+    }
+
+    .bubble-pasted {
+      align-self: flex-end;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 9px 13px;
+      border-radius: 14px 14px 4px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      width: 78%;
+    }
+
+    .bubble-prompt {
+      align-self: flex-end;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #0f172a;
+      padding: 9px 13px;
+      border-radius: 14px 14px 4px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      max-width: 88%;
+    }
+
+    .input-bar {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 99px;
+      padding: 7px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #0f172a;
+      min-height: 38px;
+    }
+
+    .send-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .time-chip {
+      background: #fef08a;
+      color: #854d0e;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 16px;
+      border-radius: 99px;
+      transition: opacity 0.25s ease;
+    }
+
+    /* Scene 5 */
+    .gamma-box {
+      width: 94%;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 18px 14px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.09);
+    }
+
+    .dashed-area {
+      border: 2px dashed #93c5fd;
+      background: #eff6ff;
+      border-radius: 14px;
+      padding: 13px;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .slides-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .card-blue {
+      background: #2563eb;
+      border-radius: 12px;
+      padding: 12px;
+      height: 104px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-light {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      height: 104px;
+    }
+
+    /* Scene 6 */
+    .teacher-box {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 26px 20px;
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.14);
+      width: 92%;
+    }
+
+    .hl-yellow {
+      background: linear-gradient(transparent 55%, #fde68a 55%);
+      padding: 0 5px;
+    }
+
+    /* Scene 7 & 8 */
+    .comment-bar {
+      width: 95%;
+      background: #ffffff;
+      border-radius: 99px;
+      padding: 9px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+    }
+
+    .tools-col {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      width: 92%;
+    }
+
+    .tool-row {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07);
+      text-align: left;
+    }
+
+    .prog-track {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(15, 23, 42, 0.1);
+      z-index: 10;
+    }
+
+    .prog-fill {
+      height: 100%;
+      width: 0%;
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="reelCanvas" onclick="enableSound()">
+    <div class="blob-blue"></div>
+    <div class="blob-amber"></div>
+
+    <!-- Scene 1 (0.0s - 2.0s) -->
+    <section class="scene active" id="sc1">
+      <h1 class="h1-main">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
+      <div class="cards-flow">
+        <div class="white-card">
+          <div style="font-weight:700;color:#2563eb;margin-bottom:7px;">? প্রশ্ন</div>
+          <div class="skel" style="width:90%"></div>
+          <div class="skel" style="width:76%"></div>
+          <div class="skel" style="width:84%"></div>
+          <div class="ring-pulse"></div>
+        </div>
+        <div style="font-size:24px;color:#2563eb;font-weight:800;">↓</div>
+        <div class="white-card" style="border-color:#bfdbfe;">
+          <span class="yellow-tag">✓ নোট</span>
+          <div class="skel" style="width:88%;background:#cbd5e1;"></div>
+          <div class="skel" style="width:70%;background:#cbd5e1;"></div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:#64748b;font-weight:600;">স্মার্ট স্টাডি হ্যাক</div>
+    </section>
+
+    <!-- Scene 2 (2.0s - 3.8s) -->
+    <section class="scene" id="sc2" style="justify-content:center;">
+      <div class="pencil-anim">✏️</div>
+      <h1 class="h1-main" style="font-size:38px;">
+        লেখালেখির<br><span class="muted">দিন শেষ।</span>
+      </h1>
+    </section>
+
+    <!-- Scene 3 (3.8s - 13.5s) -->
+    <section class="scene" id="sc3">
+      <div>
+        <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
+        <h2 class="h2-sub" style="margin-top:8px;">
+          ছবি তুলে <span class="blue">স্ক্যান</span><br>
+          <span id="sc3Sub" style="opacity:0;transition:opacity 0.25s;">এক ক্লিকে <span class="blue">কপি</span></span>
+        </h2>
+      </div>
+
+      <div class="phone-body">
+        <div class="phone-display">
+          <div class="scan-box">
+            <div style="font-size:12px;font-weight:700;color:#2563eb;text-align:left;margin-bottom:7px;">?</div>
+            <div class="skel sc3-line" style="width:92%"></div>
+            <div class="skel sc3-line" style="width:80%"></div>
+            <div class="skel sc3-line" style="width:88%"></div>
+            <div class="skel sc3-line" style="width:72%"></div>
+            <div class="skel sc3-line" style="width:84%"></div>
+            <div class="laser-line" id="sc3Beam"></div>
+          </div>
+          <div class="copy-action" id="sc3CopyBtn">Copy text</div>
+        </div>
+      </div>
+
+      <div id="sc3NoType" style="opacity:0;transition:opacity 0.25s;">
+        <div class="h2-sub" style="font-size:19px;">আর <span class="blue">টাইপ</span> করতে হবে না</div>
+        <div class="kbd-box">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 4 (13.5s - 23.5s) -->
+    <section class="scene" id="sc4">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
+        <span id="sc4Tag" style="opacity:0;transition:opacity 0.25s;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
+      </div>
+
+      <div class="chat-box">
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div class="bubble-pasted">
+            📋 পেস্ট করা লেখা
+            <div style="height:5px;width:80%;background:rgba(255,255,255,0.45);border-radius:99px;margin-top:5px;"></div>
+          </div>
+          <div class="bubble-prompt" id="sc4SentBubble" style="display:none;">
+            এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।
+          </div>
+          <div class="white-card" id="sc4NoteCard" style="display:none;padding:11px;background:#f8fafc;">
+            <span class="yellow-tag">✓ নোট</span>
+            <div class="skel" style="width:92%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:82%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:86%;background:#cbd5e1;"></div>
+          </div>
+        </div>
+
+        <div class="input-bar">
+          <span id="sc4Typed" style="text-align:left;"></span>
+          <span class="send-icon">↑</span>
+        </div>
+      </div>
+
+      <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড</div>
+    </section>
+
+    <!-- Scene 5 (23.5s - 29.5s) -->
+    <section class="scene" id="sc5">
+      <div class="brand-pill"><span class="brand-logo">G</span> Gamma AI</div>
+
+      <div class="gamma-box" id="sc5Before">
+        <div class="dashed-area">
+          <span class="yellow-tag">নোট</span>
+          <div class="skel" style="width:90%;background:#cbd5e1;"></div>
+          <div class="skel" style="width:76%;background:#cbd5e1;"></div>
+        </div>
+        <div style="background:#2563eb;color:#ffffff;font-family:'Inter',sans-serif;font-weight:700;padding:10px 24px;border-radius:12px;display:inline-block;">
+          Generate
+        </div>
+      </div>
+
+      <div class="gamma-box" id="sc5After" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-weight:700;font-size:13px;">Slide Presentation</span>
+          <span style="background:#facc15;color:#0f172a;font-weight:800;font-size:11px;padding:3px 9px;border-radius:8px;">📄 PDF</span>
+        </div>
+        <div class="slides-row">
+          <div class="card-blue">
+            <div style="width:24px;height:24px;border-radius:50%;background:#facc15;"></div>
+            <div style="height:7px;width:80%;background:rgba(255,255,255,0.6);border-radius:99px;"></div>
+          </div>
+          <div class="card-light">
+            <div class="skel" style="width:75%;background:#94a3b8;"></div>
+            <div class="skel" style="width:90%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:65%;background:#cbd5e1;"></div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="h2-sub" id="sc5Caption" style="opacity:0;transition:opacity 0.25s;">
+        ডিজাইনসহ <span class="blue">পিডিএফ</span> প্রেজেন্টেশন
+      </h2>
+    </section>
+
+    <!-- Scene 6 (29.5s - 31.5s) -->
+    <section class="scene" id="sc6" style="justify-content:center;">
+      <div class="teacher-box">
+        <div style="font-size:20px;margin-bottom:8px;">✨ ✦ ✨</div>
+        <h1 class="h1-main">
+          শিক্ষকও<br><span class="blue hl-yellow">চমকে যাবে।</span>
+        </h1>
+      </div>
+    </section>
+
+    <!-- Scene 7 (31.5s - 33.8s) -->
+    <section class="scene" id="sc7" style="justify-content:center;gap:22px;">
+      <h2 class="h2-sub">কাজে লাগলে <span class="blue">কমেন্টে</span> লিখো</h2>
+      <div class="comment-bar">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <span style="width:28px;height:28px;border-radius:50%;background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:700;">👤</span>
+          <span id="sc7Comment" style="font-weight:700;font-size:17px;color:#0f172a;"></span>
+        </div>
+        <span style="background:#2563eb;color:#ffffff;padding:5px 15px;border-radius:99px;font-size:13px;font-weight:700;">পোস্ট</span>
+      </div>
+    </section>
+
+    <!-- Scene 8 (33.8s - 36.566s) -->
+    <section class="scene" id="sc8">
+      <h2 class="h2-sub">তিনটা টুলের <span class="blue">ডাইরেক্ট লিংক</span></h2>
+      <div class="tools-col">
+        <div class="tool-row">
+          <div>
+            <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">Google Lens</div>
+            <div style="color:#2563eb;font-weight:700;font-size:13px;">স্ক্যান</div>
+          </div>
+          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">01</span>
+        </div>
+        <div class="tool-row">
+          <div>
+            <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">ChatGPT</div>
+            <div style="color:#2563eb;font-weight:700;font-size:13px;">নোট</div>
+          </div>
+          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">02</span>
+        </div>
+        <div class="tool-row">
+          <div>
+            <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">Gamma AI</div>
+            <div style="color:#2563eb;font-weight:700;font-size:13px;">প্রেজেন্টেশন</div>
+          </div>
+          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">03</span>
+        </div>
+      </div>
+      <div style="background:#facc15;color:#0f172a;font-weight:700;padding:7px 18px;border-radius:99px;font-size:14px;">
+        📩 ইনবক্সে ডাইরেক্ট লিংক
+      </div>
+    </section>
+
+    <div class="prog-track">
+      <div class="prog-fill" id="progFill"></div>
+    </div>
+  </div>
+
+  <script>
+    // Dynamically fit 9:16 Reels Frame cleanly into any viewport
+    function fitReelFrame() {
+      const box = document.getElementById("reelCanvas");
+      const maxH = Math.min(window.innerHeight * 0.94, 920);
+      const maxW = window.innerWidth * 0.94;
+      let h = maxH;
+      let w = h * (9 / 16);
+      if (w > maxW) {
+        w = maxW;
+        h = w * (16 / 9);
+      }
+      box.style.width = Math.round(w) + "px";
+      box.style.height = Math.round(h) + "px";
+    }
+    fitReelFrame();
+    window.addEventListener("resize", fitReelFrame);
+
+    const DURATION_MS = 36566;
+    let startTime = Date.now();
+    let audioCtx = null;
+    let audioOn = false;
+    let activeScene = "";
+    let lastScanStep = -1;
+    let lastCharIdx = -1;
+    let copySoundPlayed = false;
+    let noteSoundPlayed = false;
+    let gammaSoundPlayed = false;
+
+    const scenes = [
+      { id: "sc1", start: 0, end: 2000 },
+      { id: "sc2", start: 2000, end: 3800 },
+      { id: "sc3", start: 3800, end: 13500 },
+      { id: "sc4", start: 1
