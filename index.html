@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Study Hack - Full Reels Animation & Sound</title>
+  <title>Smart Study Hack - Reels Animation (9:16)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&family=Inter:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -14,7 +14,6 @@
       padding: 0;
     }
 
-    /* Full Screen Background matching Reels light theme */
     html, body {
       width: 100%;
       height: 100%;
@@ -29,15 +28,17 @@
         radial-gradient(circle at 80% 82%, rgba(245, 158, 11, 0.14), transparent 48%);
     }
 
-    /* Center 9:16 Reels Frame */
+    /* Fixed 405x720 base canvas auto-scaled cleanly to fit any screen */
     #reelCanvas {
       position: relative;
       z-index: 1;
       width: 405px;
       height: 720px;
+      flex-shrink: 0;
       background: transparent;
       overflow: hidden;
       cursor: pointer;
+      transform-origin: center center;
     }
 
     .scene {
@@ -46,8 +47,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      padding: 58px 28px;
-      gap: 28px;
+      padding: 46px 26px;
       display: none;
       flex-direction: column;
       align-items: center;
@@ -64,19 +64,17 @@
     .muted { color: #94a3b8; }
 
     .h1-main {
-      font-size: 32px;
+      font-size: 31px;
       font-weight: 700;
       color: #0f172a;
       line-height: 1.25;
-      transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
     .h2-sub {
-      font-size: 26px;
+      font-size: 25px;
       font-weight: 700;
       color: #0f172a;
       line-height: 1.28;
-      transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
     .brand-pill {
@@ -106,9 +104,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       width: 90%;
-      margin: 6px 0;
+      margin: 10px 0;
     }
 
     .white-card {
@@ -161,18 +159,18 @@
 
     /* Scene 3 */
     .phone-body {
-      width: 76%;
+      width: 74%;
       background: #0f172a;
-      border-radius: 32px;
-      padding: 11px;
+      border-radius: 30px;
+      padding: 10px;
       box-shadow: 0 22px 45px rgba(15, 23, 42, 0.2);
-      margin: 6px 0;
+      margin: 12px 0;
     }
 
     .phone-display {
       background: #ffffff;
-      border-radius: 22px;
-      padding: 14px 12px;
+      border-radius: 20px;
+      padding: 13px 12px;
       position: relative;
       overflow: hidden;
     }
@@ -180,9 +178,9 @@
     .scan-box {
       border: 2px solid #93c5fd;
       border-radius: 14px;
-      padding: 13px 11px;
+      padding: 12px 10px;
       position: relative;
-      margin-bottom: 12px;
+      margin-bottom: 11px;
     }
 
     .laser-line {
@@ -253,9 +251,9 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      height: 340px;
+      height: 330px;
       justify-content: space-between;
-      margin: 6px 0;
+      margin: 12px 0;
     }
 
     .bubble-pasted {
@@ -327,7 +325,7 @@
       padding: 18px 14px;
       box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
       border: 1px solid #e2e8f0;
-      margin: 6px 0;
+      margin: 12px 0;
     }
 
     .dashed-area {
@@ -397,7 +395,7 @@
       flex-direction: column;
       gap: 12px;
       width: 92%;
-      margin: 6px 0;
+      margin: 12px 0;
     }
 
     .tool-row {
@@ -466,7 +464,7 @@
     <section class="scene" id="sc3">
       <div>
         <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
-        <h2 class="h2-sub" style="margin-top:10px;">
+        <h2 class="h2-sub" style="margin-top:8px;">
           ছবি তুলে <span class="blue">স্ক্যান</span><br>
           <span id="sc3Sub" style="opacity:0;">এক ক্লিকে <span class="blue">কপি</span></span>
         </h2>
@@ -497,7 +495,7 @@
 
     <!-- Scene 4 (13.5s - 23.5s) -->
     <section class="scene" id="sc4">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
         <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
         <span id="sc4Tag" style="opacity:0;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
       </div>
@@ -525,328 +523,4 @@
         </div>
       </div>
 
-      <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড</div>
-    </section>
-
-    <!-- Scene 5 (23.5s - 29.5s) -->
-    <section class="scene" id="sc5">
-      <div class="brand-pill"><span class="brand-logo">G</span> Gamma AI</div>
-
-      <div class="gamma-box" id="sc5Before">
-        <div class="dashed-area">
-          <span class="yellow-tag">নোট</span>
-          <div class="skel" style="width:90%;background:#cbd5e1;"></div>
-          <div class="skel" style="width:76%;background:#cbd5e1;"></div>
-        </div>
-        <div id="sc5GenBtn" style="background:#2563eb;color:#ffffff;font-family:'Inter',sans-serif;font-weight:700;padding:10px 24px;border-radius:12px;display:inline-block;">
-          Generate
-        </div>
-      </div>
-
-      <div class="gamma-box" id="sc5After" style="display:none;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-weight:700;font-size:13px;">Slide Presentation</span>
-          <span style="background:#facc15;color:#0f172a;font-weight:800;font-size:11px;padding:3px 9px;border-radius:8px;">📄 PDF</span>
-        </div>
-        <div class="slides-row">
-          <div class="card-blue">
-            <div style="width:24px;height:24px;border-radius:50%;background:#facc15;"></div>
-            <div style="height:7px;width:80%;background:rgba(255,255,255,0.6);border-radius:99px;"></div>
-          </div>
-          <div class="card-light">
-            <div class="skel" style="width:75%;background:#94a3b8;"></div>
-            <div class="skel" style="width:90%;background:#cbd5e1;"></div>
-            <div class="skel" style="width:65%;background:#cbd5e1;"></div>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="h2-sub" id="sc5Caption" style="opacity:0;">
-        ডিজাইনসহ <span class="blue">পিডিএফ</span> প্রেজেন্টেশন
-      </h2>
-    </section>
-
-    <!-- Scene 6 (29.5s - 31.5s) -->
-    <section class="scene" id="sc6" style="justify-content:center;">
-      <div class="teacher-box" id="sc6Card">
-        <div style="font-size:20px;margin-bottom:10px;">✨ ✦ ✨</div>
-        <h1 class="h1-main">
-          শিক্ষকও<br><span class="blue hl-yellow">চমকে যাবে।</span>
-        </h1>
-      </div>
-    </section>
-
-    <!-- Scene 7 (31.5s - 33.8s) -->
-    <section class="scene" id="sc7" style="justify-content:center;gap:28px;">
-      <h2 class="h2-sub">কাজে লাগলে <span class="blue">কমেন্টে</span> লিখো</h2>
-      <div class="comment-bar">
-        <div style="display:flex;align-items:center;gap:9px;">
-          <span style="width:28px;height:28px;border-radius:50%;background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:700;">👤</span>
-          <span id="sc7Comment" style="font-weight:700;font-size:17px;color:#0f172a;"></span>
-        </div>
-        <span style="background:#2563eb;color:#ffffff;padding:5px 15px;border-radius:99px;font-size:13px;font-weight:700;">পোস্ট</span>
-      </div>
-    </section>
-
-    <!-- Scene 8 (33.8s - 36.566s) -->
-    <section class="scene" id="sc8">
-      <h2 class="h2-sub">তিনটা টুলের <span class="blue">ডাইরেক্ট লিংক</span></h2>
-      <div class="tools-col">
-        <div class="tool-row" id="sc8T1">
-          <div>
-            <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">Google Lens</div>
-            <div style="color:#2563eb;font-weight:700;font-size:13px;">স্ক্যান</div>
-          </div>
-          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">01</span>
-        </div>
-        <div class="tool-row" id="sc8T2">
-          <div>
-            <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">ChatGPT</div>
-            <div style="color:#2563eb;font-weight:700;font-size:13px;">নোট</div>
-          </div>
-          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">02</span>
-        </div>
-        <div class="tool-row" id="sc8T3">
-          <div>
-            <div style="font-family:'Inter',sans-serif;font-weight:800;font-size:16px;">Gamma AI</div>
-            <div style="color:#2563eb;font-weight:700;font-size:13px;">প্রেজেন্টেশন</div>
-          </div>
-          <span style="font-size:20px;font-weight:800;color:#cbd5e1;">03</span>
-        </div>
-      </div>
-      <div id="sc8Inbox" style="background:#facc15;color:#0f172a;font-weight:700;padding:7px 18px;border-radius:99px;font-size:14px;">
-        📩 ইনবক্সে ডাইরেক্ট লিংক
-      </div>
-    </section>
-  </div>
-
-  <div class="prog-track">
-    <div class="prog-fill" id="progFill"></div>
-  </div>
-
-  <script>
-    function fitReelFrame() {
-      const box = document.getElementById("reelCanvas");
-      const maxH = Math.min(window.innerHeight * 0.95, 920);
-      const maxW = window.innerWidth * 0.95;
-      let h = maxH;
-      let w = h * (9 / 16);
-      if (w > maxW) {
-        w = maxW;
-        h = w * (16 / 9);
-      }
-      box.style.width = Math.round(w) + "px";
-      box.style.height = Math.round(h) + "px";
-    }
-    fitReelFrame();
-    window.addEventListener("resize", fitReelFrame);
-
-    const DURATION_MS = 36566;
-    let startTime = Date.now();
-    let audioCtx = null;
-    let audioOn = false;
-    let activeScene = "";
-    let lastScanStep = -1;
-    let lastCharIdx = -1;
-    let copySoundPlayed = false;
-    let noteSoundPlayed = false;
-    let gammaSoundPlayed = false;
-
-    const scenes = [
-      { id: "sc1", start: 0, end: 2000 },
-      { id: "sc2", start: 2000, end: 3800 },
-      { id: "sc3", start: 3800, end: 13500 },
-      { id: "sc4", start: 13500, end: 23500 },
-      { id: "sc5", start: 23500, end: 29500 },
-      { id: "sc6", start: 29500, end: 31500 },
-      { id: "sc7", start: 31500, end: 33800 },
-      { id: "sc8", start: 33800, end: 36566 }
-    ];
-
-    const gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
-
-    function playTone(freq = 640, dur = 0.08, type = "sine", vol = 0.08) {
-      if (!audioOn || !audioCtx) return;
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + dur);
-      } catch (e) {}
-    }
-
-    function enableSound() {
-      if (!audioCtx) {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if (AC) audioCtx = new AC();
-      }
-      if (audioCtx && audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
-      audioOn = true;
-      playTone(740, 0.08, "triangle", 0.08);
-    }
-
-    function resetAll() {
-      activeScene = "";
-      lastScanStep = -1;
-      lastCharIdx = -1;
-      copySoundPlayed = false;
-      noteSoundPlayed = false;
-      gammaSoundPlayed = false;
-      document.getElementById("sc3Sub").style.opacity = "0";
-      document.getElementById("sc3NoType").style.opacity = "0";
-      document.getElementById("sc4Tag").style.opacity = "0";
-      document.getElementById("sc4Timer").style.opacity = "0";
-      document.getElementById("sc5Caption").style.opacity = "0";
-      document.getElementById("sc4SentBubble").style.display = "none";
-      document.getElementById("sc4NoteCard").style.display = "none";
-      document.getElementById("sc5Before").style.display = "block";
-      document.getElementById("sc5After").style.display = "none";
-      document.querySelectorAll(".sc3-line").forEach(el => (el.style.background = "#e2e8f0"));
-    }
-
-    function updateFrame() {
-      const now = Date.now();
-      const elapsed = now - startTime;
-      if (elapsed >= DURATION_MS) {
-        resetAll();
-        startTime = now;
-        return;
-      }
-
-      document.getElementById("progFill").style.width = ((elapsed / DURATION_MS) * 100) + "%";
-
-      const cur = scenes.find(s => elapsed >= s.start && elapsed < s.end) || scenes[0];
-      if (activeScene !== cur.id) {
-        activeScene = cur.id;
-        scenes.forEach(s => {
-          document.getElementById(s.id).classList.toggle("active", s.id === cur.id);
-        });
-        playTone(520, 0.07, "sine", 0.06);
-      }
-
-      if (cur.id === "sc1") {
-        const pulse = 0.92 + Math.sin(now * 0.008) * 0.1;
-        document.getElementById("sc1Ring").style.transform = `scale(${pulse.toFixed(3)})`;
-        const arrowY = Math.sin(now * 0.007) * 5;
-        document.getElementById("sc1Arrow").style.transform = `translateY(${arrowY.toFixed(1)}px)`;
-        const noteScale = elapsed > 650 ? 1 : 0.94;
-        const noteOp = elapsed > 650 ? 1 : 0.65;
-        document.getElementById("sc1NCard").style.transform = `scale(${noteScale})`;
-        document.getElementById("sc1NCard").style.opacity = noteOp;
-      }
-
-      if (cur.id === "sc2") {
-        const bobY = Math.sin(now * 0.008) * 9;
-        const rotDeg = Math.sin(now * 0.008) * 10;
-        document.getElementById("sc2Pencil").style.transform = `translateY(${bobY.toFixed(1)}px) rotate(${rotDeg.toFixed(1)}deg)`;
-      }
-
-      if (cur.id === "sc3") {
-        const t = elapsed - 3800;
-        const pct = Math.min(86, 10 + (t / 3500) * 76);
-        const beam = document.getElementById("sc3Beam");
-        beam.style.top = pct + "%";
-        beam.style.display = t > 4200 ? "none" : "block";
-
-        const step = Math.floor(t / 550);
-        if (t < 4200 && step !== lastScanStep) {
-          lastScanStep = step;
-          playTone(880 + step * 45, 0.05, "sine", 0.05);
-        }
-
-        document.querySelectorAll(".sc3-line").forEach((el, idx) => {
-          el.style.background = t > 850 + idx * 550 ? "#2563eb" : "#e2e8f0";
-        });
-
-        document.getElementById("sc3Sub").style.opacity = t > 3800 ? "1" : "0";
-        const copyBtn = document.getElementById("sc3CopyBtn");
-        if (t > 5200) {
-          copyBtn.textContent = "✓ Copied";
-          copyBtn.classList.add("copied");
-          if (!copySoundPlayed) {
-            copySoundPlayed = true;
-            playTone(1046, 0.14, "triangle", 0.1);
-          }
-        } else {
-          copyBtn.textContent = "Copy text";
-          copyBtn.classList.remove("copied");
-        }
-        document.getElementById("sc3NoType").style.opacity = t > 7000 ? "1" : "0";
-      }
-
-      if (cur.id === "sc4") {
-        const t = elapsed - 13500;
-        document.getElementById("sc4Tag").style.opacity = t > 1400 ? "1" : "0";
-
-        if (t < 5200) {
-          const len = Math.min(gptPrompt.length, Math.floor(Math.max(0, t - 1600) / 68));
-          document.getElementById("sc4Typed").textContent = gptPrompt.slice(0, len);
-          if (len > 0 && len !== lastCharIdx) {
-            lastCharIdx = len;
-            playTone(620 + (len % 5) * 35, 0.035, "square", 0.025);
-          }
-        } else {
-          document.getElementById("sc4Typed").textContent = "";
-          document.getElementById("sc4SentBubble").style.display = "block";
-          if (t > 6200) {
-            document.getElementById("sc4NoteCard").style.display = "block";
-            if (!noteSoundPlayed) {
-              noteSoundPlayed = true;
-              playTone(784, 0.12, "triangle", 0.09);
-              setTimeout(() => playTone(987, 0.14, "triangle", 0.09), 110);
-            }
-          }
-          const timerEl = document.getElementById("sc4Timer");
-          timerEl.style.opacity = t > 6500 ? "1" : "0";
-          timerEl.style.transform = t > 6500 ? "scale(1)" : "scale(0.9)";
-        }
-      }
-
-      if (cur.id === "sc5") {
-        const t = elapsed - 23500;
-        const done = t > 2000;
-        const genBtn = document.getElementById("sc5GenBtn");
-        if (!done) {
-          const btnScale = 1 + Math.sin(now * 0.01) * 0.04;
-          genBtn.style.transform = `scale(${btnScale.toFixed(3)})`;
-        }
-        document.getElementById("sc5Before").style.display = done ? "none" : "block";
-        document.getElementById("sc5After").style.display = done ? "block" : "none";
-        document.getElementById("sc5Caption").style.opacity = done ? "1" : "0";
-        if (done && !gammaSoundPlayed) {
-          gammaSoundPlayed = true;
-          playTone(659, 0.1, "triangle", 0.09);
-          setTimeout(() => playTone(880, 0.16, "triangle", 0.09), 110);
-        }
-      }
-
-      if (cur.id === "sc6") {
-        const pop = 0.96 + Math.sin(now * 0.008) * 0.04;
-        document.getElementById("sc6Card").style.transform = `scale(${pop.toFixed(3)})`;
-      }
-
-      if (cur.id === "sc7") {
-        const t = elapsed - 31500;
-        const word = "নোট";
-        const count = Math.min(word.length, Math.floor(t / 400));
-        const cursor = Math.floor(now / 400) % 2 === 0 ? "|" : "";
-        document.getElementById("sc7Comment").textContent = word.slice(0, count) + cursor;
-      }
-
-      if (cur.id === "sc8") {
-        const t = elapsed - 33800;
-        const t1 = document.getElementById("sc8T1");
-        const t2 = document.getElementById("sc8T2");
-        const t3 = document.getElementById("sc8T3");
-        const inbox = document.getElementById("sc8Inbox");
-
-        t1.style.opacity = t > 150 ? "1" : "0.35";
-        t1.style.
+      <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড
