@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Study Hack - Reels Animation (9:16)</title>
+  <title>Smart Study Hack - Reels Animation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&family=Inter:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -28,14 +28,11 @@
         radial-gradient(circle at 80% 82%, rgba(245, 158, 11, 0.14), transparent 48%);
     }
 
-    /* Fixed 405x720 base canvas auto-scaled cleanly to fit any screen */
     #reelCanvas {
       position: relative;
-      z-index: 1;
       width: 405px;
       height: 720px;
       flex-shrink: 0;
-      background: transparent;
       overflow: hidden;
       cursor: pointer;
       transform-origin: center center;
@@ -43,8 +40,7 @@
 
     .scene {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       padding: 46px 26px;
@@ -53,7 +49,6 @@
       align-items: center;
       justify-content: space-between;
       text-align: center;
-      z-index: 2;
     }
 
     .scene.active {
@@ -99,7 +94,6 @@
       font-size: 14px;
     }
 
-    /* Scene 1 */
     .cards-flow {
       display: flex;
       flex-direction: column;
@@ -118,7 +112,6 @@
       border: 1.5px solid #e2e8f0;
       position: relative;
       text-align: left;
-      transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
     .skel {
@@ -126,7 +119,6 @@
       border-radius: 99px;
       background: #e2e8f0;
       margin-bottom: 8px;
-      transition: background 0.16s ease;
     }
 
     .ring-pulse {
@@ -151,13 +143,11 @@
       margin-bottom: 8px;
     }
 
-    /* Scene 2 */
     .pencil-anim {
       font-size: 46px;
       margin-bottom: 14px;
     }
 
-    /* Scene 3 */
     .phone-body {
       width: 74%;
       background: #0f172a;
@@ -202,13 +192,11 @@
       font-size: 14px;
       background: #2563eb;
       color: #ffffff;
-      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .copy-action.copied {
       background: #facc15;
       color: #0f172a;
-      transform: scale(1.03);
     }
 
     .kbd-box {
@@ -240,7 +228,6 @@
       transform: rotate(-14deg);
     }
 
-    /* Scene 4 */
     .chat-box {
       width: 100%;
       background: #ffffff;
@@ -314,10 +301,8 @@
       font-size: 14px;
       padding: 6px 16px;
       border-radius: 99px;
-      transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
-    /* Scene 5 */
     .gamma-box {
       width: 94%;
       background: #ffffff;
@@ -351,176 +336,4 @@
       height: 104px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .card-light {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px;
-      height: 104px;
-    }
-
-    /* Scene 6 */
-    .teacher-box {
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 26px 20px;
-      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.12);
-      border: 1px solid #e2e8f0;
-      width: 92%;
-    }
-
-    .hl-yellow {
-      background: linear-gradient(transparent 55%, #fde68a 55%);
-      padding: 0 5px;
-    }
-
-    /* Scene 7 & 8 */
-    .comment-bar {
-      width: 95%;
-      background: #ffffff;
-      border-radius: 99px;
-      padding: 9px 13px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
-      border: 1px solid #e2e8f0;
-    }
-
-    .tools-col {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 92%;
-      margin: 12px 0;
-    }
-
-    .tool-row {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 13px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
-      border: 1px solid #e2e8f0;
-      text-align: left;
-      transition: transform 0.25s ease, opacity 0.25s ease;
-    }
-
-    .prog-track {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: rgba(15, 23, 42, 0.08);
-      z-index: 10;
-    }
-
-    .prog-fill {
-      height: 100%;
-      width: 0%;
-      background: #2563eb;
-    }
-  </style>
-</head>
-<body onclick="enableSound()">
-
-  <div id="reelCanvas">
-    <!-- Scene 1 (0.0s - 2.0s) -->
-    <section class="scene active" id="sc1">
-      <h1 class="h1-main" id="sc1Title">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
-      <div class="cards-flow">
-        <div class="white-card" id="sc1QCard">
-          <div style="font-weight:700;color:#2563eb;margin-bottom:7px;">? প্রশ্ন</div>
-          <div class="skel" style="width:90%"></div>
-          <div class="skel" style="width:76%"></div>
-          <div class="skel" style="width:84%"></div>
-          <div class="ring-pulse" id="sc1Ring"></div>
-        </div>
-        <div id="sc1Arrow" style="font-size:24px;color:#2563eb;font-weight:800;">↓</div>
-        <div class="white-card" id="sc1NCard" style="border-color:#bfdbfe;">
-          <span class="yellow-tag">✓ নোট</span>
-          <div class="skel" style="width:88%;background:#cbd5e1;"></div>
-          <div class="skel" style="width:70%;background:#cbd5e1;"></div>
-        </div>
-      </div>
-      <div style="font-size:13px;color:#64748b;font-weight:600;">স্মার্ট স্টাডি হ্যাক</div>
-    </section>
-
-    <!-- Scene 2 (2.0s - 3.8s) -->
-    <section class="scene" id="sc2" style="justify-content:center;">
-      <div class="pencil-anim" id="sc2Pencil">✏️</div>
-      <h1 class="h1-main" style="font-size:38px;">
-        লেখালেখির<br><span class="muted">দিন শেষ।</span>
-      </h1>
-    </section>
-
-    <!-- Scene 3 (3.8s - 13.5s) -->
-    <section class="scene" id="sc3">
-      <div>
-        <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
-        <h2 class="h2-sub" style="margin-top:8px;">
-          ছবি তুলে <span class="blue">স্ক্যান</span><br>
-          <span id="sc3Sub" style="opacity:0;">এক ক্লিকে <span class="blue">কপি</span></span>
-        </h2>
-      </div>
-
-      <div class="phone-body">
-        <div class="phone-display">
-          <div class="scan-box">
-            <div style="font-size:12px;font-weight:700;color:#2563eb;text-align:left;margin-bottom:7px;">?</div>
-            <div class="skel sc3-line" style="width:92%"></div>
-            <div class="skel sc3-line" style="width:80%"></div>
-            <div class="skel sc3-line" style="width:88%"></div>
-            <div class="skel sc3-line" style="width:72%"></div>
-            <div class="skel sc3-line" style="width:84%"></div>
-            <div class="laser-line" id="sc3Beam"></div>
-          </div>
-          <div class="copy-action" id="sc3CopyBtn">Copy text</div>
-        </div>
-      </div>
-
-      <div id="sc3NoType" style="opacity:0;">
-        <div class="h2-sub" style="font-size:19px;">আর <span class="blue">টাইপ</span> করতে হবে না</div>
-        <div class="kbd-box">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Scene 4 (13.5s - 23.5s) -->
-    <section class="scene" id="sc4">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
-        <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
-        <span id="sc4Tag" style="opacity:0;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
-      </div>
-
-      <div class="chat-box">
-        <div style="display:flex;flex-direction:column;gap:9px;">
-          <div class="bubble-pasted">
-            📋 পেস্ট করা লেখা
-            <div style="height:5px;width:80%;background:rgba(255,255,255,0.45);border-radius:99px;margin-top:5px;"></div>
-          </div>
-          <div class="bubble-prompt" id="sc4SentBubble" style="display:none;">
-            এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।
-          </div>
-          <div class="white-card" id="sc4NoteCard" style="display:none;padding:11px;background:#f8fafc;">
-            <span class="yellow-tag">✓ নোট</span>
-            <div class="skel" style="width:92%;background:#cbd5e1;"></div>
-            <div class="skel" style="width:82%;background:#cbd5e1;"></div>
-            <div class="skel" style="width:86%;background:#cbd5e1;"></div>
-          </div>
-        </div>
-
-        <div class="input-bar">
-          <span id="sc4Typed" style="text-align:left;"></span>
-          <span class="send-icon">↑</span>
-        </div>
-      </div>
-
-      <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড
+      justify-content
