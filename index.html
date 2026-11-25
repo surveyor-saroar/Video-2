@@ -34,16 +34,16 @@
     .scene.active { display: flex; }
 
     #sc5 {
-      justify-content: flex-start;
-      padding-top: 34px;
-      padding-bottom: 195px;
-      gap: 11px;
+      justify-content: center;
+      padding-top: 24px;
+      padding-bottom: 185px;
+      gap: 10px;
     }
 
     #sc7 {
       justify-content: center;
       padding-top: 24px;
-      padding-bottom: 195px;
+      padding-bottom: 185px;
       gap: 14px;
     }
 
@@ -72,8 +72,8 @@
       display: flex; align-items: center; justify-content: center; font-size: 14px;
     }
 
-    #sc5 .brand-pill { font-size: 24px; gap: 10px; }
-    #sc5 .brand-logo { width: 34px; height: 34px; border-radius: 10px; font-size: 17px; }
+    #sc5 .brand-pill { font-size: 23px; gap: 9px; }
+    #sc5 .brand-logo { width: 32px; height: 32px; border-radius: 9px; font-size: 16px; }
 
     .cards-flow { display: flex; flex-direction: column; align-items: center; gap: 9px; width: 90%; margin: 4px 0; }
     .white-card {
@@ -113,7 +113,7 @@
       display: inline-block; background: #fef3c7; color: #92400e;
       font-weight: 700; font-size: 12px; padding: 2px 10px; border-radius: 8px; margin-bottom: 6px;
     }
-    #sc5 .yellow-tag { font-size: 14px; padding: 3px 12px; }
+    #sc5 .yellow-tag { font-size: 13px; padding: 2px 10px; }
     .pencil-anim { font-size: 46px; margin-bottom: 10px; }
 
     .phone-body {
@@ -164,39 +164,39 @@
 
     .gamma-box {
       position: relative;
-      width: 95%; background: #ffffff; border-radius: 22px; padding: 15px;
-      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0; margin: 0;
+      width: 94%; background: #ffffff; border-radius: 22px; padding: 14px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0; margin: 0 auto;
     }
-    .dashed-area { border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 14px; padding: 12px; margin-bottom: 11px; text-align: left; }
-    .slides-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 9px; }
-    .card-blue { background: #2563eb; border-radius: 12px; padding: 10px; height: 92px; display: flex; flex-direction: column; justify-content: space-between; }
-    .card-light { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 92px; }
+    .dashed-area { border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 14px; padding: 11px; margin-bottom: 10px; text-align: left; }
+    .slides-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+    .card-blue { background: #2563eb; border-radius: 12px; padding: 10px; height: 88px; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-light { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 88px; }
     #sc5GenBtn {
-      font-size: 17px;
-      padding: 10px 26px;
-      border-radius: 13px;
+      font-size: 16px;
+      padding: 9px 24px;
+      border-radius: 12px;
     }
     #sc5After .slide-label {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
     }
     .gamma-pdf-corner {
       position: absolute;
-      top: -14px;
-      right: -12px;
+      top: -13px;
+      right: -11px;
       background: #facc15;
       color: #0f172a;
       font-weight: 900;
-      font-size: 24px;
+      font-size: 22px;
       line-height: 1.05;
-      padding: 8px 16px;
-      border-radius: 14px;
+      padding: 7px 14px;
+      border-radius: 13px;
       border: 2.5px solid #eab308;
       box-shadow: 0 10px 24px rgba(234, 179, 8, 0.35);
       z-index: 4;
     }
-    #sc5Caption .h2-sub { font-size: 25px; font-weight: 800; line-height: 1.24; }
-    #sc5Caption .svg-badge { width: 48px; height: 48px; }
+    #sc5Caption .h2-sub { font-size: 23px; font-weight: 800; line-height: 1.24; }
+    #sc5Caption .svg-badge { width: 44px; height: 44px; }
 
     .teacher-box {
       background: #ffffff; border-radius: 22px; padding: 24px 20px;
@@ -250,10 +250,53 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      min-height: 92px;
+      gap: 16px;
+      min-height: 108px;
+    }
+
+    .tap-network-wrap {
+      position: relative;
+      width: 108px;
+      height: 106px;
+      display: inline-flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .radio-wave-ring {
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      width: 64px;
+      height: 22px;
+      margin-left: -32px;
+      border-radius: 50%;
+      border: 2.5px solid #2563eb;
+      background: rgba(37, 99, 235, 0.12);
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.35);
+      pointer-events: none;
+      z-index: 1;
+      will-change: transform, opacity;
+    }
+    .radio-wave-ring.mid {
+      width: 82px;
+      height: 28px;
+      margin-left: -41px;
+      border-color: #0ea5e9;
+      background: rgba(14, 165, 233, 0.08);
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.28);
+    }
+    .radio-wave-ring.outer {
+      width: 98px;
+      height: 34px;
+      margin-left: -49px;
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
     }
     .tap-network-icon {
+      position: relative;
+      z-index: 2;
       width: 82px;
       height: 82px;
       display: inline-flex;
@@ -261,18 +304,20 @@
       justify-content: center;
       transform-origin: center center;
       will-change: transform, opacity;
-      filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.14));
+      filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.24));
     }
-    .tap-network-icon svg {
+    .tap-network-icon img {
       width: 100%;
       height: 100%;
+      object-fit: contain;
       display: block;
     }
+
     .outro-avatar-circle {
-      width: 82px;
-      height: 82px;
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
-      border: 2.5px solid #ffffff;
+      border: 3px solid #2563eb;
       background: #e2e8f0;
       color: #0f172a;
       font-weight: 800;
@@ -283,7 +328,7 @@
       flex-shrink: 0;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
       will-change: transform, opacity;
     }
     .outro-avatar-circle img {
@@ -331,23 +376,27 @@
       box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
     }
 
+    /* নিচের হাইলাইট বক্স: কিছুটা হালকা ব্যাকগ্রাউন্ড, কম স্পেস ও ডানে-বামে লেখার সাথে সামঞ্জস্য রেখে ছোট */
     #bottom-caption {
-      position: absolute; bottom: 118px; left: 16px; right: 16px; z-index: 6;
-      background: rgba(255, 255, 255, 0.96); color: #0f172a;
-      font-size: 17px; font-weight: 700; line-height: 1.5; padding: 10px 14px;
-      border-radius: 16px; text-align: center;
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14); border: 1.5px solid #e2e8f0;
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
+      position: absolute; bottom: 118px; left: 0; right: 0; z-index: 6;
+      width: fit-content; max-width: calc(100% - 48px);
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.78); color: #0f172a;
+      font-size: 16.5px; font-weight: 700; line-height: 1.45;
+      padding: 7px 11px;
+      border-radius: 14px; text-align: center;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); border: 1px solid rgba(226, 232, 240, 0.85);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 3px;
     }
     .cap-word {
-      display: inline-block; padding: 1px 6px; border-radius: 7px;
+      display: inline-block; padding: 1px 3px; border-radius: 6px;
       color: #0f172a; background: transparent; opacity: 0.35;
       transition: background 0.15s ease, opacity 0.15s ease;
     }
     .cap-word.shown { opacity: 1; }
     .cap-word.active-word {
       background: #facc15; color: #0f172a; opacity: 1;
-      box-shadow: 0 3px 10px rgba(250, 204, 21, 0.45);
+      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
     }
 
     .prog-track { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(15, 23, 42, 0.08); z-index: 10; }
@@ -492,7 +541,7 @@
       </div>
       <div class="gamma-box" id="sc5After" style="display:none;">
         <span class="gamma-pdf-corner">📄 PDF</span>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding-right:110px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-right:105px;">
           <span class="slide-label">Slide Presentation</span>
         </div>
         <div class="slides-row">
@@ -557,20 +606,13 @@
 
       <div class="outro-showcase">
         <div class="video-motion-row">
-          <div class="tap-network-icon" id="sc7TapIcon" aria-hidden="true">
-            <svg viewBox="0 0 100 100" fill="none">
-              <line x1="48" y1="42" x2="26" y2="27" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
-              <line x1="48" y1="42" x2="48" y2="20" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
-              <line x1="48" y1="42" x2="70" y2="27" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
-              <line x1="48" y1="42" x2="22" y2="48" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
-              <line x1="48" y1="42" x2="74" y2="48" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
-              <circle cx="26" cy="27" r="5.5" fill="#ffffff" />
-              <circle cx="48" cy="20" r="5.5" fill="#ffffff" />
-              <circle cx="70" cy="27" r="5.5" fill="#ffffff" />
-              <circle cx="22" cy="48" r="5.5" fill="#ffffff" />
-              <circle cx="74" cy="48" r="5.5" fill="#ffffff" />
-              <path d="M44 41a4 4 0 0 1 8 0v15h2.2a3.5 3.5 0 0 1 3.5 3.5v2.2h1.8a3.5 3.5 0 0 1 3.5 3.5V71c0 9.5-7 16-16.5 16h-4c-7 0-12-3.4-15.6-9.6l-5.2-9a3.6 3.6 0 0 1 6.1-3.8L38 72V41Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" stroke-linejoin="round" />
-            </svg>
+          <div class="tap-network-wrap">
+            <span class="radio-wave-ring outer" id="sc7RadioOuter" aria-hidden="true"></span>
+            <span class="radio-wave-ring mid" id="sc7RadioMid" aria-hidden="true"></span>
+            <span class="radio-wave-ring" id="sc7RadioInner" aria-hidden="true"></span>
+            <div class="tap-network-icon" id="sc7TapIcon">
+              <img src="touchnetwork.png" alt="Touch Network" onerror="this.style.opacity='0.25';" />
+            </div>
           </div>
 
           <div class="outro-avatar-circle" id="sc7Avatar">
@@ -604,7 +646,7 @@
   <script>
     var DURATION_MS = 40000;
     var BOUNCE_WINDOW = 440;
-    var BG_MUSIC_VOLUME = 0.12;
+    var BG_MUSIC_VOLUME = 0.06;
     var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
     var scenes = [
       { id: "sc1", start: 0,     end: 3600,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
@@ -659,21 +701,21 @@
         var gain = audioCtx.createGain();
         osc.type = type || "sine";
         osc.frequency.setValueAtTime(freq || 640, t);
-        if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(50, endFreq), t + (dur || 0.08));
-        gain.gain.setValueAtTime(Math.min(0.12, vol || 0.05), t);
-        gain.gain.exponentialRampToValueAtTime(0.0008, t + (dur || 0.08));
+        if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(50, endFreq), t + (dur || 0.09));
+        gain.gain.setValueAtTime(Math.min(0.35, vol || 0.18), t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + (dur || 0.09));
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(t);
-        osc.stop(t + (dur || 0.08) + 0.01);
+        osc.stop(t + (dur || 0.09) + 0.015);
       } catch (e) {}
     }
 
     function playBounceSound(phaseKey, stage) {
       if (lastBouncePhase === phaseKey) return;
       lastBouncePhase = phaseKey;
-      if (stage === "hop") playTone(380, 0.08, "sine", 0.05, 620);
-      else if (stage === "land") playTone(620, 0.07, "triangle", 0.055, 310);
+      if (stage === "hop") playTone(420, 0.09, "sine", 0.18, 700);
+      else if (stage === "land") playTone(700, 0.08, "triangle", 0.2, 320);
     }
 
     function enableSound() {
@@ -685,7 +727,7 @@
         if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
         audioOn = true;
         playBgMusic();
-        playTone(740, 0.08, "triangle", 0.07);
+        playTone(800, 0.09, "triangle", 0.22, 1040);
       } catch (e) {}
     }
 
@@ -849,7 +891,7 @@
         var step = Math.floor(se / 550);
         if (step !== lastScanStep) {
           lastScanStep = step;
-          playTone(680 + (step % 4) * 90, 0.05, "sine", 0.04);
+          playTone(720 + (step % 4) * 105, 0.065, "sine", 0.17);
         }
         if (sub3 && se > 1400) sub3.style.opacity = "1";
         if (btn3 && se > 2400) {
@@ -857,7 +899,7 @@
           btn3.textContent = "Copied ✓";
           if (!copySoundPlayed) {
             copySoundPlayed = true;
-            playTone(880, 0.1, "triangle", 0.06, 1120);
+            playTone(920, 0.13, "triangle", 0.28, 1260);
           }
         }
         if (noType && se > 3600) noType.style.opacity = "1";
@@ -876,7 +918,7 @@
           if (cIdx !== lastCharIdx) {
             lastCharIdx = cIdx;
             if (typed4) typed4.textContent = chars.slice(0, cIdx).join("");
-            if (cIdx > 0) playTone(520 + (cIdx % 5) * 45, 0.035, "square", 0.025);
+            if (cIdx > 0) playTone(580 + (cIdx % 5) * 60, 0.05, "triangle", 0.15);
           }
         } else {
           if (typed4) typed4.textContent = "";
@@ -885,7 +927,7 @@
             note4.style.display = "block";
             if (!noteSoundPlayed) {
               noteSoundPlayed = true;
-              playTone(580, 0.12, "triangle", 0.06, 860);
+              playTone(640, 0.15, "triangle", 0.28, 980);
             }
           }
           if (timer4 && se > 5200) timer4.style.opacity = "1";
@@ -906,7 +948,7 @@
           if (after5) after5.style.display = "block";
           if (!gammaSoundPlayed) {
             gammaSoundPlayed = true;
-            playTone(640, 0.14, "triangle", 0.065, 980);
+            playTone(680, 0.16, "triangle", 0.3, 1080);
           }
         }
         if (cap5 && se > 3000) cap5.style.opacity = "1";
@@ -919,20 +961,45 @@
         }
         if (!popSoundPlayed && se > 400) {
           popSoundPlayed = true;
-          playTone(460, 0.14, "sawtooth", 0.04, 920);
+          playTone(500, 0.17, "sawtooth", 0.2, 1020);
         }
       } else if (cur.id === "sc7") {
         var tapIcon = document.getElementById("sc7TapIcon");
+        var ringInner = document.getElementById("sc7RadioInner");
+        var ringMid = document.getElementById("sc7RadioMid");
+        var ringOuter = document.getElementById("sc7RadioOuter");
         var avatar = document.getElementById("sc7Avatar");
         var ident = document.getElementById("sc7Identity");
         var followBtn = document.getElementById("sc7FollowBtn");
         var followText = document.getElementById("sc7FollowText");
 
-        var tapPhase = (se % 1100) / 1100;
-        var tapDip = tapPhase < 0.35 ? (tapPhase / 0.35) * 10 : Math.max(0, (1 - (tapPhase - 0.35) / 0.65) * 10);
+        var tapPhase = (se % 1200) / 1200;
+        var tapDip = tapPhase < 0.35 ? (tapPhase / 0.35) * 9 : Math.max(0, (1 - (tapPhase - 0.35) / 0.65) * 9);
         if (tapIcon) {
           tapIcon.style.transform = "translateY(" + tapDip.toFixed(1) + "px) scale(" + (1 - tapDip * 0.008).toFixed(3) + ")";
         }
+
+        if (ringInner) {
+          var rScIn = 0.65 + tapPhase * 0.85;
+          var rOpIn = Math.max(0.12, 1 - tapPhase * 0.85);
+          ringInner.style.transform = "scale(" + rScIn.toFixed(2) + ")";
+          ringInner.style.opacity = rOpIn.toFixed(2);
+        }
+        if (ringMid) {
+          var pMid = (tapPhase + 0.33) % 1;
+          var rScMid = 0.68 + pMid * 0.9;
+          var rOpMid = Math.max(0.1, 1 - pMid * 0.88);
+          ringMid.style.transform = "scale(" + rScMid.toFixed(2) + ")";
+          ringMid.style.opacity = rOpMid.toFixed(2);
+        }
+        if (ringOuter) {
+          var pOut = (tapPhase + 0.66) % 1;
+          var rScOut = 0.72 + pOut * 0.95;
+          var rOpOut = Math.max(0.08, 1 - pOut * 0.9);
+          ringOuter.style.transform = "scale(" + rScOut.toFixed(2) + ")";
+          ringOuter.style.opacity = rOpOut.toFixed(2);
+        }
+
         if (avatar) {
           var aScale = 1 + Math.sin(se / 260) * 0.035;
           avatar.style.transform = "scale(" + aScale.toFixed(3) + ")";
@@ -945,7 +1012,7 @@
           if (followText) followText.textContent = "Following ✓";
           if (!followSoundPlayed) {
             followSoundPlayed = true;
-            playTone(760, 0.12, "triangle", 0.06, 1040);
+            playTone(800, 0.15, "triangle", 0.3, 1180);
           }
         }
       }
