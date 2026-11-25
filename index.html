@@ -118,20 +118,20 @@
       transform-origin: right center;
     }
     .scene.active .skel:not(.sc3-line) {
-      animation: trimRightAnim 1.8s ease-in-out infinite both;
+      animation: trimRightAnim 0.85s ease-in-out infinite both;
     }
-    .scene.active .skel:not(.sc3-line):nth-of-type(2) { animation-delay: 0.22s; }
-    .scene.active .skel:not(.sc3-line):nth-of-type(3) { animation-delay: 0.44s; }
-    .scene.active .skel:not(.sc3-line):nth-of-type(4) { animation-delay: 0.66s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(2) { animation-delay: 0.1s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(3) { animation-delay: 0.2s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(4) { animation-delay: 0.3s; }
 
     .sc3-line { transform-origin: right center; }
     .scene.active #sc3 .sc3-line {
-      animation: trimRightAnim 1.7s ease-in-out infinite both;
+      animation: trimRightAnim 0.8s ease-in-out infinite both;
     }
-    .scene.active #sc3 .sc3-line:nth-of-type(2) { animation-delay: 0.16s; }
-    .scene.active #sc3 .sc3-line:nth-of-type(3) { animation-delay: 0.32s; }
-    .scene.active #sc3 .sc3-line:nth-of-type(4) { animation-delay: 0.48s; }
-    .scene.active #sc3 .sc3-line:nth-of-type(5) { animation-delay: 0.64s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(2) { animation-delay: 0.08s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(3) { animation-delay: 0.16s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(4) { animation-delay: 0.24s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(5) { animation-delay: 0.32s; }
 
     .ring-pulse {
       position: absolute; right: 10px; bottom: 6px; width: 88px; height: 88px;
@@ -154,7 +154,7 @@
       position: absolute; left: 6px; right: 6px; top: 10%; height: 3px;
       background: #2563eb; box-shadow: 0 0 12px #2563eb;
     }
-    .copy-action { width: 100%; padding: 8px; border-radius: 12px; font-weight: 700; font-size: 14px; background: #2563eb; color: #ffffff; transition: background 0.2s ease, color 0.2s ease; }
+    .copy-action { width: 100%; padding: 8px; border-radius: 12px; font-weight: 700; font-size: 14px; background: #2563eb; color: #ffffff; transition: background 0.1s ease, color 0.1s ease; }
     .copy-action.copied { background: #facc15; color: #0f172a; }
 
     .kbd-box {
@@ -306,7 +306,7 @@
     .cap-word {
       display: inline-block; padding: 1px 3px; border-radius: 6px;
       color: #0f172a; background: transparent; opacity: 0.35;
-      transition: background 0.15s ease, opacity 0.15s ease;
+      transition: background 0.1s ease, opacity 0.1s ease;
     }
     .cap-word.shown { opacity: 1; }
     .cap-word.active-word {
@@ -553,19 +553,36 @@
 
   <script>
     (function () {
-      var DURATION_MS = 40000;
-      var BOUNCE_WINDOW = 440;
+      // বর্তমান গতি: 1.5x (আগের 1.25x থেকে আরও 20% দ্রুত, মোট সময় ~16.0 সেকেন্ড)
+      var SPEED_MULTIPLIER = 1.5;
+
+      var BASE_DURATION_MS = 24000;
+      var DURATION_MS = Math.round(BASE_DURATION_MS / SPEED_MULTIPLIER);
+      var BOUNCE_WINDOW = Math.round(240 / SPEED_MULTIPLIER);
       var BG_MUSIC_VOLUME = 0.05;
       var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
-      var scenes = [
-        { id: "sc1", start: 0,     end: 3600,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
-        { id: "sc2", start: 3600,  end: 7200,  words: ["হাতে", "লিখে", "সময়", "নষ্টের", "দিন", "শেষ!"] },
-        { id: "sc3", start: 7200,  end: 14800, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
-        { id: "sc4", start: 14800, end: 23000, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
-        { id: "sc5", start: 23000, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
-        { id: "sc6", start: 29500, end: 33400, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
-        { id: "sc7", start: 33400, end: 40000, words: ["পেইজটি", "ফলো", "দিয়ে", "যুক্ত", "থাকুন!"] }
+      var baseScenes = [
+        { id: "sc1", start: 0,     end: 2200,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
+        { id: "sc2", start: 2200,  end: 4400,  words: ["হাতে", "লিখে", "সময়", "নষ্টের", "দিন", "শেষ!"] },
+        { id: "sc3", start: 4400,  end: 9000,  words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
+        { id: "sc4", start: 9000,  end: 14200, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
+        { id: "sc5", start: 14200, end: 18200, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
+        { id: "sc6", start: 18200, end: 20600, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
+        { id: "sc7", start: 20600, end: 24000, words: ["পেইজটি", "ফলো", "দিয়ে", "যুক্ত", "থাকুন!"] }
       ];
+
+      var scenes = baseScenes.map(function (s, idx) {
+        return {
+          id: s.id,
+          start: Math.round(s.start / SPEED_MULTIPLIER),
+          end: idx === baseScenes.length - 1 ? DURATION_MS : Math.round(s.end / SPEED_MULTIPLIER),
+          words: s.words
+        };
+      });
+
+      function tMs(ms) {
+        return ms / SPEED_MULTIPLIER;
+      }
 
       if (window.__reelTimer) {
         clearInterval(window.__reelTimer);
@@ -615,8 +632,8 @@
       function playBounceSound(phaseKey, stage) {
         if (lastBouncePhase === phaseKey) return;
         lastBouncePhase = phaseKey;
-        if (stage === "hop") playTone(440, 0.095, "sine", 0.24, 740);
-        else if (stage === "land") playTone(740, 0.085, "triangle", 0.26, 330);
+        if (stage === "hop") playTone(440, 0.08, "sine", 0.24, 740);
+        else if (stage === "land") playTone(740, 0.075, "triangle", 0.26, 330);
       }
 
       function renderCaptionWords(words) {
@@ -633,7 +650,7 @@
       function syncWordsByTime(sceneObj, sceneElapsed) {
         var words = sceneObj.words || [];
         if (!words.length) return;
-        var sceneDur = Math.max(400, sceneObj.end - sceneObj.start);
+        var sceneDur = Math.max(200, sceneObj.end - sceneObj.start);
         var stepDur = (sceneDur * 0.88) / words.length;
         var currentIdx = Math.min(words.length - 1, Math.max(0, Math.floor(sceneElapsed / stepDur)));
         if (currentIdx !== lastWordIdx) {
@@ -650,25 +667,25 @@
         var secEl = document.getElementById(cur.id);
         if (!secEl) return;
 
-        var halfWin = BOUNCE_WINDOW / 2;
+        var halfWin = Math.max(45, BOUNCE_WINDOW / 2);
         var timeToEnd = cur.end - elapsed;
         var timeFromStart = elapsed - cur.start;
 
         if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= halfWin) {
           var pIn = timeFromStart / halfWin;
           var bounceIn = Math.abs(Math.sin(pIn * Math.PI * 1.5)) * (1 - pIn);
-          var yIn = -bounceIn * 28;
-          var scaleIn = 0.94 + pIn * 0.06 + bounceIn * 0.04;
+          var yIn = -bounceIn * 22;
+          var scaleIn = 0.95 + pIn * 0.05 + bounceIn * 0.03;
           secEl.style.transform = "translateY(" + yIn.toFixed(1) + "px) scale(" + scaleIn.toFixed(3) + ")";
-          secEl.style.opacity = Math.min(1, 0.35 + pIn * 0.65).toFixed(2);
+          secEl.style.opacity = Math.min(1, 0.4 + pIn * 0.6).toFixed(2);
           playBounceSound(cur.id + "-in-" + (pIn < 0.5 ? "1" : "2"), pIn < 0.5 ? "hop" : "land");
         } else if (timeToEnd >= 0 && timeToEnd <= halfWin) {
           var pOut = 1 - timeToEnd / halfWin;
           var bounceOut = Math.abs(Math.sin(pOut * Math.PI * 1.5)) * (1 - pOut * 0.5);
-          var yOut = -bounceOut * 22 + pOut * 14;
-          var scaleOut = 1 - pOut * 0.05 + bounceOut * 0.03;
+          var yOut = -bounceOut * 18 + pOut * 12;
+          var scaleOut = 1 - pOut * 0.04 + bounceOut * 0.025;
           secEl.style.transform = "translateY(" + yOut.toFixed(1) + "px) scale(" + scaleOut.toFixed(3) + ")";
-          secEl.style.opacity = Math.max(0.25, 1 - pOut * 0.75).toFixed(2);
+          secEl.style.opacity = Math.max(0.3, 1 - pOut * 0.7).toFixed(2);
           playBounceSound(cur.id + "-out-" + (pOut < 0.5 ? "1" : "2"), pOut < 0.5 ? "hop" : "land");
         } else {
           secEl.style.transform = "translateY(0px) scale(1)";
@@ -764,18 +781,18 @@
           var ring = document.getElementById("sc1Ring");
           var arrow = document.getElementById("sc1Arrow");
           var nCard = document.getElementById("sc1NCard");
-          var p1 = (se % 1200) / 1200;
+          var p1 = (se % tMs(800)) / tMs(800);
           if (ring) {
             ring.style.transform = "scale(" + (0.75 + p1 * 0.55).toFixed(2) + ")";
             ring.style.opacity = (1 - p1 * 0.75).toFixed(2);
           }
-          if (arrow) arrow.style.transform = "translateY(" + (Math.sin(se / 180) * 5).toFixed(1) + "px)";
-          if (nCard) nCard.style.opacity = se > 650 ? "1" : "0.45";
+          if (arrow) arrow.style.transform = "translateY(" + (Math.sin((se * SPEED_MULTIPLIER) / 120) * 5).toFixed(1) + "px)";
+          if (nCard) nCard.style.opacity = se > tMs(350) ? "1" : "0.5";
         } else if (cur.id === "sc2") {
           var pen = document.getElementById("sc2Pencil");
           if (pen) {
-            var w = Math.sin(se / 120) * 16;
-            var hop = Math.abs(Math.sin(se / 240)) * 8;
+            var w = Math.sin((se * SPEED_MULTIPLIER) / 85) * 18;
+            var hop = Math.abs(Math.sin((se * SPEED_MULTIPLIER) / 160)) * 9;
             pen.style.transform = "translateY(" + (-hop).toFixed(1) + "px) rotate(" + w.toFixed(1) + "deg)";
           }
         } else if (cur.id === "sc3") {
@@ -784,23 +801,23 @@
           var btn3 = document.getElementById("sc3CopyBtn");
           var noType = document.getElementById("sc3NoType");
 
-          var scanP = (se % 2200) / 2200;
+          var scanP = (se % tMs(1400)) / tMs(1400);
           if (beam) beam.style.top = (8 + scanP * 82).toFixed(1) + "%";
-          var step = Math.floor(se / 550);
+          var step = Math.floor(se / tMs(350));
           if (step !== lastScanStep) {
             lastScanStep = step;
-            playTone(740 + (step % 4) * 110, 0.07, "sine", 0.24);
+            playTone(740 + (step % 4) * 110, 0.06, "sine", 0.24);
           }
-          if (sub3 && se > 1400) sub3.style.opacity = "1";
-          if (btn3 && se > 2400) {
+          if (sub3 && se > tMs(800)) sub3.style.opacity = "1";
+          if (btn3 && se > tMs(1450)) {
             btn3.className = "copy-action copied";
             btn3.textContent = "Copied ✓";
             if (!copySoundPlayed) {
               copySoundPlayed = true;
-              playTone(950, 0.14, "triangle", 0.36, 1320);
+              playTone(950, 0.12, "triangle", 0.36, 1320);
             }
           }
-          if (noType && se > 3600) noType.style.opacity = "1";
+          if (noType && se > tMs(2200)) noType.style.opacity = "1";
         } else if (cur.id === "sc4") {
           var tag4 = document.getElementById("sc4Tag");
           var typed4 = document.getElementById("sc4Typed");
@@ -808,27 +825,27 @@
           var note4 = document.getElementById("sc4NoteCard");
           var timer4 = document.getElementById("sc4Timer");
 
-          if (tag4 && se > 600) tag4.style.opacity = "1";
+          if (tag4 && se > tMs(350)) tag4.style.opacity = "1";
           var chars = Array.from(gptPrompt);
-          var typeEnd = 3600;
+          var typeEnd = tMs(2100);
           if (se <= typeEnd) {
             var cIdx = Math.min(chars.length, Math.floor((se / typeEnd) * chars.length));
             if (cIdx !== lastCharIdx) {
               lastCharIdx = cIdx;
               if (typed4) typed4.textContent = chars.slice(0, cIdx).join("");
-              if (cIdx > 0) playTone(600 + (cIdx % 5) * 65, 0.055, "triangle", 0.22);
+              if (cIdx > 0) playTone(600 + (cIdx % 5) * 65, 0.045, "triangle", 0.22);
             }
           } else {
             if (typed4) typed4.textContent = "";
             if (sent4) sent4.style.display = "block";
-            if (note4 && se > 4500) {
+            if (note4 && se > tMs(2700)) {
               note4.style.display = "block";
               if (!noteSoundPlayed) {
                 noteSoundPlayed = true;
-                playTone(660, 0.16, "triangle", 0.36, 1020);
+                playTone(660, 0.14, "triangle", 0.36, 1020);
               }
             }
-            if (timer4 && se > 5200) timer4.style.opacity = "1";
+            if (timer4 && se > tMs(3200)) timer4.style.opacity = "1";
           }
         } else if (cur.id === "sc5") {
           var before5 = document.getElementById("sc5Before");
@@ -837,29 +854,29 @@
           var genBtn = document.getElementById("sc5GenBtn");
 
           if (genBtn) {
-            var pulse5 = 1 + Math.sin(se / 180) * 0.04;
+            var pulse5 = 1 + Math.sin((se * SPEED_MULTIPLIER) / 120) * 0.05;
             genBtn.style.transform = "scale(" + pulse5.toFixed(3) + ")";
           }
 
-          if (se > 2200) {
+          if (se > tMs(1300)) {
             if (before5) before5.style.display = "none";
             if (after5) after5.style.display = "block";
             if (!gammaSoundPlayed) {
               gammaSoundPlayed = true;
-              playTone(700, 0.17, "triangle", 0.38, 1120);
+              playTone(700, 0.15, "triangle", 0.38, 1120);
             }
           }
-          if (cap5 && se > 3000) cap5.style.opacity = "1";
+          if (cap5 && se > tMs(1800)) cap5.style.opacity = "1";
         } else if (cur.id === "sc6") {
           var shock = document.getElementById("sc6ShockSign");
           if (shock) {
-            var sScale = 1 + Math.abs(Math.sin(se / 170)) * 0.18;
-            var sRot = Math.sin(se / 90) * 8;
+            var sScale = 1 + Math.abs(Math.sin((se * SPEED_MULTIPLIER) / 120)) * 0.2;
+            var sRot = Math.sin((se * SPEED_MULTIPLIER) / 65) * 10;
             shock.style.transform = "scale(" + sScale.toFixed(3) + ") rotate(" + sRot.toFixed(1) + "deg)";
           }
-          if (!popSoundPlayed && se > 400) {
+          if (!popSoundPlayed && se > tMs(200)) {
             popSoundPlayed = true;
-            playTone(520, 0.18, "sawtooth", 0.28, 1060);
+            playTone(520, 0.16, "sawtooth", 0.28, 1060);
           }
         } else if (cur.id === "sc7") {
           var tapIcon = document.getElementById("sc7TapIcon");
@@ -871,7 +888,7 @@
           var followBtn = document.getElementById("sc7FollowBtn");
           var followText = document.getElementById("sc7FollowText");
 
-          var tapPhase = (se % 1200) / 1200;
+          var tapPhase = (se % tMs(850)) / tMs(850);
           var tapDip = tapPhase < 0.35 ? (tapPhase / 0.35) * 6 : Math.max(0, (1 - (tapPhase - 0.35) / 0.65) * 6);
           if (tapIcon) {
             tapIcon.style.transform = "translateY(" + tapDip.toFixed(1) + "px) scale(" + (1 - tapDip * 0.008).toFixed(3) + ")";
@@ -899,18 +916,18 @@
           }
 
           if (avatar) {
-            var aScale = 1 + Math.sin(se / 260) * 0.035;
+            var aScale = 1 + Math.sin((se * SPEED_MULTIPLIER) / 180) * 0.04;
             avatar.style.transform = "scale(" + aScale.toFixed(3) + ")";
           }
           if (ident) {
-            ident.style.transform = "translateY(" + (Math.sin(se / 320) * 2.5).toFixed(1) + "px)";
+            ident.style.transform = "translateY(" + (Math.sin((se * SPEED_MULTIPLIER) / 220) * 2.5).toFixed(1) + "px)";
           }
-          if (followBtn && se > 2400) {
+          if (followBtn && se > tMs(1200)) {
             followBtn.className = "outro-follow-btn done";
             if (followText) followText.textContent = "Following ✓";
             if (!followSoundPlayed) {
               followSoundPlayed = true;
-              playTone(840, 0.16, "triangle", 0.38, 1220);
+              playTone(840, 0.14, "triangle", 0.38, 1220);
             }
           }
         }
