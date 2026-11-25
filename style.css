@@ -30,7 +30,7 @@ body {
 
 .gamma-ai-box {
   width: fit-content;
-  max-width: min(92vw, 440px);
+  max-width: 92vw;
   margin: 0 auto;
   padding: 10px 16px;
   border-radius: 13px;
@@ -61,7 +61,7 @@ body {
 
 .hand-network-box {
   width: fit-content;
-  max-width: min(90vw, 340px);
+  max-width: 90vw;
   margin: 0 auto;
   padding: 16px 20px;
   border-radius: 14px;
@@ -97,7 +97,7 @@ body {
 
 .status-bottom-box {
   width: fit-content;
-  max-width: min(92vw, 400px);
+  max-width: 92vw;
   margin: 0 auto;
   padding: 7px 14px;
   border-radius: 10px;
