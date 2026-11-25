@@ -2,12 +2,13 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background: #090d16;
+  background-color: #090d16;
   color: #f8fafc;
   font-family: "Segoe UI", Arial, sans-serif;
   display: flex;
@@ -30,12 +31,12 @@ html, body {
 
 /* গামা এআই বক্স: সেন্টার স্কেলে, লেখার প্রয়োজন অনুযায়ী মাপ */
 .gamma-ai-box {
-  width: fit-content;
+  width: auto;
   max-width: min(92vw, 440px);
   margin: 0 auto;
   padding: 10px 16px;
   border-radius: 13px;
-  background: rgba(15, 23, 42, 0.92);
+  background-color: rgba(15, 23, 42, 0.92);
   border: 1px solid rgba(125, 211, 252, 0.38);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.48);
   display: flex;
@@ -64,14 +65,14 @@ html, body {
   color: #e2e8f0;
 }
 
-/* হ্যান্ড নেটওয়ার্ক বক্স: ক্লিয়ার ইমেজ ও সক্রিয় অ্যানিমেশন */
+/* হ্যান্ড নেটওয়ার্ক বক্স */
 .hand-network-box {
-  width: fit-content;
+  width: auto;
   max-width: min(90vw, 340px);
   margin: 0 auto;
   padding: 10px 14px;
   border-radius: 14px;
-  background: radial-gradient(circle at center, rgba(14, 165, 233, 0.16), rgba(15, 23, 42, 0.9));
+  background-color: rgba(15, 23, 42, 0.9);
   border: 1px solid rgba(56, 189, 248, 0.35);
   display: flex;
   align-items: center;
@@ -82,8 +83,8 @@ html, body {
 
 .pulse-aura {
   position: absolute;
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   border: 2px solid rgba(255, 212, 0, 0.75);
   pointer-events: none;
@@ -97,9 +98,7 @@ html, body {
   width: auto;
   height: auto;
   object-fit: contain;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  filter: contrast(1.1) brightness(1.06) drop-shadow(0 0 10px rgba(56, 189, 248, 0.35));
+  filter: contrast(1.08) brightness(1.05);
   animation: handFloatMotion 2.4s ease-in-out infinite;
   position: relative;
   z-index: 2;
@@ -109,7 +108,6 @@ html, body {
   width: 200px;
   height: 120px;
   display: none;
-  shape-rendering: geometricPrecision;
   animation: handFloatMotion 2.4s ease-in-out infinite;
   position: relative;
   z-index: 2;
@@ -117,7 +115,7 @@ html, body {
 
 /* নিচের হাইলাইট বাটন ও কিছুটা ডিপ কালারের নিচের বক্স */
 .highlight-group {
-  width: fit-content;
+  width: auto;
   max-width: min(92vw, 400px);
   margin: 0 auto;
   display: flex;
@@ -130,7 +128,7 @@ html, body {
   padding: 8px 18px;
   border: none;
   border-radius: 9px;
-  background: #ffd400;
+  background-color: #ffd400;
   color: #090d16;
   font-size: 13.5px;
   font-weight: 700;
@@ -140,21 +138,21 @@ html, body {
 }
 
 .highlight-bottom-box {
-  width: fit-content;
+  width: auto;
   max-width: 100%;
   padding: 7px 14px;
   border-radius: 10px;
-  background: #1b263b;
+  background-color: #1b263b;
   border: 1px solid #334155;
   color: #f1f5f9;
   font-size: 12.5px;
   line-height: 1.35;
   text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @keyframes boxBreath {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     border-color: rgba(125, 211, 252, 0.38);
   }
@@ -165,7 +163,8 @@ html, body {
 }
 
 @keyframes handFloatMotion {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) scale(1);
   }
   50% {
@@ -185,12 +184,11 @@ html, body {
 }
 
 @keyframes highlightPulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 0 0 rgba(255, 212, 0, 0);
   }
   50% {
     transform: scale(1.04);
-    box-shadow: 0 0 16px rgba(255, 212, 0, 0.45);
   }
 }
