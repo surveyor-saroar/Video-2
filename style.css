@@ -25,7 +25,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .gamma-ai-box {
@@ -34,15 +34,14 @@ body {
   margin: 0 auto;
   padding: 10px 16px;
   border-radius: 13px;
-  background-color: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(125, 211, 252, 0.38);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.48);
+  background-color: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 5px;
-  will-change: transform, box-shadow;
 }
 
 .gamma-title {
@@ -50,7 +49,6 @@ body {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.25;
-  letter-spacing: 0.2px;
   color: #ffd400;
 }
 
@@ -58,8 +56,6 @@ body {
   margin: 0;
   font-size: 13px;
   line-height: 1.4;
-  letter-spacing: 0.1px;
-  word-spacing: normal;
   color: #e2e8f0;
 }
 
@@ -67,27 +63,25 @@ body {
   width: fit-content;
   max-width: min(90vw, 340px);
   margin: 0 auto;
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-radius: 14px;
-  background-color: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background-color: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(56, 189, 248, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  will-change: box-shadow;
 }
 
 .pulse-aura {
   position: absolute;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  border: 2.5px solid #ffd400;
+  border: 3px solid #ffd400;
   pointer-events: none;
   z-index: 3;
-  will-change: transform, opacity;
 }
 
 .touch-network-img {
@@ -99,44 +93,12 @@ body {
   object-fit: contain;
   position: relative;
   z-index: 2;
-  will-change: transform;
 }
 
-.touch-network-fallback {
-  width: 200px;
-  height: 120px;
-  display: none;
-  position: relative;
-  z-index: 2;
-  will-change: transform;
-}
-
-.highlight-group {
+.status-bottom-box {
   width: fit-content;
   max-width: min(92vw, 400px);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.highlight-btn {
-  padding: 8px 18px;
-  border: none;
-  border-radius: 9px;
-  background-color: #ffd400;
-  color: #090d16;
-  font-size: 13.5px;
-  font-weight: 700;
-  line-height: 1.2;
-  cursor: pointer;
-  will-change: transform;
-}
-
-.highlight-bottom-box {
-  width: fit-content;
-  max-width: 100%;
   padding: 7px 14px;
   border-radius: 10px;
   background-color: #162033;
