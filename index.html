@@ -4,315 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gamma AI & Touch Network Animation</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background: #090d16;
-      color: #f8fafc;
-      font-family: "Segoe UI", Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .center-wrapper {
-      width: 100%;
-      min-height: 100vh;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    /* গামা এআই বক্স: সেন্টারে, লেখার প্রয়োজন অনুযায়ী মাপ */
-    .gamma-ai-box {
-      width: fit-content;
-      max-width: min(92vw, 460px);
-      margin: 0 auto;
-      padding: 11px 16px;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(125, 211, 252, 0.35);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 6px;
-      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-    }
-
-    .gamma-title {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.3;
-      color: #ffd400;
-    }
-
-    .gamma-text {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.4;
-      color: #e2e8f0;
-    }
-
-    /* হাতের নেটওয়ার্ক বক্স */
-    .visual-box {
-      width: fit-content;
-      max-width: min(90vw, 320px);
-      margin: 0 auto;
-      padding: 8px 14px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.28);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.35s ease, border-color 0.35s ease;
-    }
-
-    .touch-network-img {
-      display: block;
-      max-width: 240px;
-      max-height: 120px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: crisp-edges;
-      filter: contrast(1.06) brightness(1.04);
-    }
-
-    .touch-network-fallback {
-      width: 200px;
-      height: 110px;
-      display: block;
-      shape-rendering: geometricPrecision;
-    }
-
-    /* সক্রিয় অ্যানিমেশন ক্লাসসমূহ */
-    .is-animating .gamma-ai-box {
-      transform: scale(1.02);
-      border-color: #ffd400;
-      box-shadow: 0 0 24px rgba(255, 212, 0, 0.2);
-    }
-
-    .is-animating .visual-box {
-      transform: scale(1.03);
-      border-color: #38bdf8;
-    }
-
-    .is-animating .hand-motion {
-      animation: handTapFloat 1.8s ease-in-out infinite;
-    }
-
-    .is-animating .touch-ring {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: ringPulse 1.8s ease-out infinite;
-    }
-
-    .is-animating .highlight-btn {
-      animation: btnGlow 1.6s ease-in-out infinite;
-    }
-
-    @keyframes handTapFloat {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-      }
-      50% {
-        transform: translateY(-5px) scale(1.04);
-      }
-    }
-
-    @keyframes ringPulse {
-      0% {
-        transform: scale(0.7);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1.9);
-        opacity: 0;
-      }
-    }
-
-    @keyframes btnGlow {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 rgba(255, 212, 0, 0);
-      }
-      50% {
-        transform: scale(1.04);
-        box-shadow: 0 0 18px rgba(255, 212, 0, 0.45);
-      }
-    }
-
-    /* নিচের হাইলাইট বাটন ও কিছুটা ডিপ কালারের নিচের বক্স */
-    .bottom-highlight-container {
-      width: fit-content;
-      max-width: min(90vw, 420px);
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .highlight-btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 9px;
-      background: #ffd400;
-      color: #090d16;
-      font-size: 13.5px;
-      font-weight: 700;
-      line-height: 1.2;
-      cursor: pointer;
-    }
-
-    .highlight-sub-box {
-      width: fit-content;
-      max-width: 100%;
-      padding: 7px 14px;
-      border-radius: 10px;
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #f1f5f9;
-      font-size: 12.5px;
-      line-height: 1.35;
-      text-align: center;
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-
-    .is-animating .highlight-sub-box {
-      background: #172033;
-      border-color: #475569;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="center-wrapper" id="stageWrapper">
-    <section class="gamma-ai-box" id="gammaBox">
+  <main class="main-stage">
+    <section class="gamma-ai-box">
       <h1 class="gamma-title">গামা এআই</h1>
-      <p class="gamma-text">
-        সেন্টার স্কেলে সাজানো কম্প্যাক্ট বক্স—লেখার প্রয়োজন অনুযায়ী মাপ ও স্বাভাবিক স্পেস।
+      <p class="gamma-desc">
+        স্মার্ট টাচ নেটওয়ার্ক ও ব্যাকগ্রাউন্ড অ্যানিমেশন সিস্টেম
       </p>
     </section>
 
-    <section class="visual-box" id="visualBox">
+    <section class="hand-network-box">
+      <span class="pulse-aura" aria-hidden="true"></span>
+
       <img
         id="touchHandImg"
-        class="touch-network-img hand-motion"
+        class="touch-network-img"
         src="touchnetwork"
         alt="Touch Network Hand"
-        style="display: none;"
       />
+
       <svg
         id="touchHandFallback"
         class="touch-network-fallback"
         viewBox="0 0 220 120"
         xmlns="http://www.w3.org/2000/svg"
-        aria-label="Touch Network Hand"
+        aria-hidden="true"
       >
-        <circle class="touch-ring" cx="112" cy="30" r="12" fill="none" stroke="#ffd400" stroke-width="2" />
+        <circle cx="112" cy="30" r="12" fill="none" stroke="#ffd400" stroke-width="2" />
         <circle cx="112" cy="30" r="4" fill="#ffd400" />
-        <g class="hand-motion">
-          <path
-            d="M107 70 L107 40 C107 36 113 36 113 40 L113 68 L113 46 C113 42 119 42 119 46 L119 70 L119 52 C119 48 125 48 125 52 L125 78 C125 92 117 104 106 110 L86 110 C79 98 76 84 76 70 L90 58 C93 55 97 59 94 63 L102 71 Z"
-            fill="rgba(30, 41, 59, 0.85)"
-            stroke="#7dd3fc"
-            stroke-width="2.2"
-            stroke-linejoin="round"
-          />
-        </g>
+        <path
+          d="M107 70 L107 40 C107 36 113 36 113 40 L113 68 L113 46 C113 42 119 42 119 46 L119 70 L119 52 C119 48 125 48 125 52 L125 78 C125 92 117 104 106 110 L86 110 C79 98 76 84 76 70 L90 58 C93 55 97 59 94 63 L102 71 Z"
+          fill="rgba(30, 41, 59, 0.85)"
+          stroke="#7dd3fc"
+          stroke-width="2.2"
+          stroke-linejoin="round"
+        />
       </svg>
     </section>
 
-    <section class="bottom-highlight-container">
+    <section class="highlight-group">
       <button type="button" class="highlight-btn" id="highlightBtn">
-        হাইলাইট চালু করুন
+        হাইলাইট ও সাউন্ড চালু করুন
       </button>
-      <div class="highlight-sub-box" id="statusBox">
-        ব্যাকগ্রাউন্ড অডিও: কম ভলিউমে প্রস্তুত (letmegoaudio)
+      <div class="highlight-bottom-box" id="statusBox">
+        অ্যানিমেশন চলছে • সাউন্ড শুনতে বাটনে ক্লিক করুন
       </div>
     </section>
   </main>
 
-  <audio id="letmegoaudio" src="letmegoaudio" preload="auto"></audio>
+  <audio id="letmegoaudio" preload="auto"></audio>
 
-  <script>
-    const stageWrapper = document.getElementById("stageWrapper");
-    const touchHandImg = document.getElementById("touchHandImg");
-    const touchHandFallback = document.getElementById("touchHandFallback");
-    const highlightBtn = document.getElementById("highlightBtn");
-    const statusBox = document.getElementById("statusBox");
-    const letmegoaudio = document.getElementById("letmegoaudio");
-
-    const neededDurationMs = 15000;
-    const maxAudioSeconds = 150;
-    let audioTimer = null;
-
-    // touchnetwork ছবি লোড হলে দেখাবে, না হলে স্পষ্ট ভেক্টর হাত দেখাবে
-    touchHandImg.addEventListener("load", () => {
-      if (touchHandImg.naturalWidth > 0) {
-        touchHandImg.style.display = "block";
-        touchHandFallback.style.display = "none";
-      }
-    });
-
-    touchHandImg.addEventListener("error", () => {
-      touchHandImg.style.display = "none";
-      touchHandFallback.style.display = "block";
-    });
-
-    function startVisualAnimation() {
-      stageWrapper.classList.remove("is-animating");
-      void stageWrapper.offsetWidth;
-      stageWrapper.classList.add("is-animating");
-    }
-
-    function playAudioAndAnimation() {
-      startVisualAnimation();
-
-      // ছোট সাউন্ড স্পষ্ট রাখতে ব্যাকগ্রাউন্ড অডিও কম ভলিউমে (১০%)
-      letmegoaudio.volume = 0.1;
-      letmegoaudio.currentTime = 0;
-
-      const playMs = Math.min(neededDurationMs, maxAudioSeconds * 1000);
-      letmegoaudio.play().then(() => {
-        statusBox.textContent = "অ্যানিমেশন ও কম ভলিউম অডিও চলছে...";
-      }).catch(() => {
-        statusBox.textContent = "অ্যানিমেশন চলছে (letmegoaudio ফাইল যুক্ত হলে সাউন্ড বাজবে)";
-      });
-
-      clearTimeout(audioTimer);
-      audioTimer = setTimeout(() => {
-        letmegoaudio.pause();
-        letmegoaudio.currentTime = 0;
-        statusBox.textContent = "ব্যাকগ্রাউন্ড অডিও: কম ভলিউমে প্রস্তুত (letmegoaudio)";
-      }, playMs);
-    }
-
-    letmegoaudio.addEventListener("timeupdate", () => {
-      if (letmegoaudio.currentTime >= maxAudioSeconds) {
-        letmegoaudio.pause();
-        letmegoaudio.currentTime = 0;
-      }
-    });
-
-    highlightBtn.addEventListener("click", playAudioAndAnimation);
-
-    // পেজ খুললেই ভিজ্যুয়াল অ্যানিমেশন শুরু হবে
-    window.addEventListener("DOMContentLoaded", startVisualAnimation);
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
