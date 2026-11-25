@@ -19,7 +19,7 @@
         window.__audioOn = true;
         var bg = document.getElementById("bgMusic");
         if (bg) {
-          bg.volume = 0.07;
+          bg.volume = 0.06;
           if (bg.paused) {
             var p = bg.play();
             if (p && typeof p.catch === "function") p.catch(function () {});
@@ -286,7 +286,7 @@
     }
     .underhand-wave-circle {
       position: absolute;
-      top: 20px;
+      top: 12px;
       left: 50%;
       width: 34px;
       height: 34px;
@@ -296,7 +296,7 @@
       border: 2.5px solid #2563eb;
       background: rgba(37, 99, 235, 0.08);
       pointer-events: none;
-      z-index: 3;
+      z-index: 1;
       transform-origin: center center;
       will-change: transform, opacity;
     }
@@ -310,7 +310,7 @@
     }
     .tap-network-icon {
       position: relative;
-      z-index: 2;
+      z-index: 4;
       width: 78px;
       height: 78px;
       margin-bottom: 12px;
@@ -660,7 +660,7 @@
     (function () {
       var DURATION_MS = 40000;
       var BOUNCE_WINDOW = 440;
-      var BG_MUSIC_VOLUME = 0.07;
+      var BG_MUSIC_VOLUME = 0.06;
       var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
       var scenes = [
         { id: "sc1", start: 0,     end: 3600,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
