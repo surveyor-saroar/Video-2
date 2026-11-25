@@ -4,6 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smart Study Hack - 9:16 Reels Animation</title>
+  <script>
+    window.__audioCtx = null;
+    window.__audioOn = false;
+    window.enableSound = function () {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!window.__audioCtx && AC) {
+          window.__audioCtx = new AC();
+        }
+        if (window.__audioCtx && window.__audioCtx.state === "suspended") {
+          window.__audioCtx.resume();
+        }
+        window.__audioOn = true;
+        var bg = document.getElementById("bgMusic");
+        if (bg) {
+          bg.volume = 0.10;
+          if (bg.paused) {
+            var p = bg.play();
+            if (p && typeof p.catch === "function") p.catch(function () {});
+          }
+        }
+      } catch (e) {}
+    };
+  </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -653,8 +677,6 @@
       }
 
       var startTime = performance.now();
-      var audioCtx = null;
-      var audioOn = false;
       var activeScene = "";
       var lastScanStep = -1;
       var lastCharIdx = -1;
@@ -675,20 +697,9 @@
       scaleReelFrame();
       window.addEventListener("resize", scaleReelFrame);
 
-      function playBgMusic() {
-        var bg = document.getElementById("bgMusic");
-        if (!bg) return;
-        try {
-          bg.volume = BG_MUSIC_VOLUME;
-          if (bg.paused) {
-            var p = bg.play();
-            if (p && typeof p.catch === "function") p.catch(function () {});
-          }
-        } catch (e) {}
-      }
-
       function playTone(freq, dur, type, vol, endFreq) {
-        if (!audioOn || !audioCtx) return;
+        var audioCtx = window.__audioCtx;
+        if (!window.__audioOn || !audioCtx) return;
         try {
           var t = audioCtx.currentTime;
           var osc = audioCtx.createOscillator();
@@ -712,21 +723,9 @@
         else if (stage === "land") playTone(740, 0.085, "triangle", 0.26, 330);
       }
 
-      window.enableSound = function () {
-        try {
-          if (!audioCtx) {
-            var AC = window.AudioContext || window.webkitAudioContext;
-            if (AC) audioCtx = new AC();
-          }
-          if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-          audioOn = true;
-          playBgMusic();
-          playTone(840, 0.095, "triangle", 0.28, 1100);
-        } catch (e) {}
-      };
-
       window.addEventListener("load", function () {
-        playBgMusic();
+        var bg = document.getElementById("bgMusic");
+        if (bg) bg.volume = BG_MUSIC_VOLUME;
         renderCaptionWords(scenes[0].words);
       });
 
@@ -994,4 +993,33 @@
             if (waveOuter) {
               var pOut = (tapPhase + 0.66) % 1;
               var wScOut = 0.55 + pOut * 1.55;
-              var wOpOut = Math.max(0.05, 1 - p
+              var wOpOut = Math.max(0.05, 1 - pOut * 0.94);
+              waveOuter.style.transform = "scale(" + wScOut.toFixed(2) + ")";
+              waveOuter.style.opacity = wOpOut.toFixed(2);
+            }
+
+            if (avatar) {
+              var aScale = 1 + Math.sin(se / 260) * 0.035;
+              avatar.style.transform = "scale(" + aScale.toFixed(3) + ")";
+            }
+            if (ident) {
+              ident.style.transform = "translateY(" + (Math.sin(se / 320) * 2.5).toFixed(1) + "px)";
+            }
+            if (followBtn && se > 2400) {
+              followBtn.className = "outro-follow-btn done";
+              if (followText) followText.textContent = "Following ✓";
+              if (!followSoundPlayed) {
+                followSoundPlayed = true;
+                playTone(840, 0.16, "triangle", 0.38, 1220);
+              }
+            }
+          }
+        } catch (err) {}
+        window.__reelRafId = requestAnimationFrame(tick);
+      }
+
+      window.__reelRafId = requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>
