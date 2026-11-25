@@ -55,23 +55,11 @@
       display: none; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; z-index: 2;
       transform-origin: center center;
-      will-change: transform;
     }
     .scene.active { display: flex; }
 
-    #sc5 {
-      justify-content: center;
-      padding-top: 24px;
-      padding-bottom: 185px;
-      gap: 10px;
-    }
-
-    #sc7 {
-      justify-content: center;
-      padding-top: 24px;
-      padding-bottom: 185px;
-      gap: 14px;
-    }
+    #sc5 { justify-content: center; padding-top: 24px; padding-bottom: 185px; gap: 10px; }
+    #sc7 { justify-content: center; padding-top: 24px; padding-bottom: 185px; gap: 14px; }
 
     .blue { color: #2563eb; }
     .muted { color: #94a3b8; }
@@ -280,79 +268,4 @@
     }
     .outro-avatar-circle img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
     .outro-avatar-circle .avatar-fallback { display: none; }
-    .outro-avatar-circle.broken .avatar-fallback { display: inline-flex; }
-
-    .outro-identity { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; }
-    .outro-name { font-weight: 800; font-size: 20px; color: #0f172a; line-height: 1.25; }
-    .outro-title-roles { font-size: 13px; color: #2563eb; font-weight: 700; line-height: 1.3; white-space: nowrap; }
-    .outro-title-page { font-size: 13px; color: #475569; font-weight: 700; line-height: 1.25; }
-
-    .outro-follow-btn {
-      width: auto; max-width: 50%; min-width: 156px; margin: 0 auto;
-      padding: 10px 20px; border-radius: 999px; background: #2563eb; color: #ffffff;
-      font-weight: 800; font-size: 15px; display: inline-flex; align-items: center;
-      justify-content: center; gap: 7px; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
-    }
-    .outro-follow-btn.done { background: #16a34a; box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25); }
-
-    #bottom-caption {
-      position: absolute; bottom: 118px; left: 0; right: 0; z-index: 6;
-      width: fit-content; max-width: calc(100% - 48px); margin: 0 auto;
-      background: rgba(255, 255, 255, 0.78); color: #0f172a;
-      font-size: 16.5px; font-weight: 700; line-height: 1.45; padding: 7px 11px;
-      border-radius: 14px; text-align: center; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-      border: 1px solid rgba(226, 232, 240, 0.85); display: flex; flex-wrap: wrap;
-      align-items: center; justify-content: center; gap: 3px;
-    }
-    .cap-word {
-      display: inline-block; padding: 1px 3px; border-radius: 6px;
-      color: #0f172a; background: transparent; opacity: 0.35;
-      transition: background 0.1s ease, opacity 0.1s ease;
-    }
-    .cap-word.shown { opacity: 1; }
-    .cap-word.active-word {
-      background: #facc15; color: #0f172a; opacity: 1;
-      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
-    }
-
-    .prog-track { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(15, 23, 42, 0.08); z-index: 10; }
-    .prog-fill { height: 100%; width: 0%; background: #2563eb; }
-  </style>
-</head>
-<body onclick="enableSound()">
-
-  <audio id="bgMusic" src="letmegoaudio.mp3" preload="auto" loop></audio>
-
-  <div id="reelCanvas">
-    <section class="scene active" id="sc1">
-      <div class="header-row">
-        <span class="svg-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-            <circle cx="12" cy="13" r="4"></circle>
-          </svg>
-        </span>
-        <h1 class="h1-main">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
-      </div>
-      <div class="cards-flow">
-        <div class="white-card">
-          <div style="font-weight:700;color:#2563eb;margin-bottom:6px;">? প্রশ্ন</div>
-          <div class="skel" style="width:90%"></div>
-          <div class="skel" style="width:76%"></div>
-          <div class="skel" style="width:84%"></div>
-          <div class="ring-pulse" id="sc1Ring"></div>
-        </div>
-        <div id="sc1Arrow" style="font-size:22px;color:#2563eb;font-weight:800;">↓</div>
-        <div class="white-card" id="sc1NCard" style="border-color:#bfdbfe;">
-          <span class="yellow-tag">✓ নোট</span>
-          <div class="skel" style="width:88%;background:#cbd5e1;"></div>
-          <div class="skel" style="width:70%;background:#cbd5e1;"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="scene" id="sc2">
-      <div class="pencil-anim" id="sc2Pencil">✏️</div>
-      <div class="header-row">
-        <span class="svg-badge amber">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke
+    .
