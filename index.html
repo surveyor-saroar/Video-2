@@ -3,95 +3,235 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animation with Low Background Audio</title>
+  <title>Gamma AI Centered Box & Touch Network Animation</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
+      padding: 0;
+      min-height: 100vh;
       background: #090d16;
-      color: #ffffff;
-      font-family: sans-serif;
+      color: #f8fafc;
+      font-family: "Segoe UI", Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* পুরো কন্টেইনার সবসময় উপর-নিচ ও বাম-ডানে সেন্টারে */
+    .center-wrapper {
+      width: 100%;
+      min-height: 100vh;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      gap: 12px;
     }
 
-    .stage {
-      width: 320px;
-      height: 320px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+    /* গামা এআই বক্স: লেখার প্রয়োজন অনুযায়ী মাপ, মাঝ বরাবর সেন্টারে */
+    .gamma-ai-box {
+      width: fit-content;
+      max-width: min(92vw, 480px);
+      margin: 0 auto;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .gamma-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      line-height: 1.3;
+      color: #ffd400;
+    }
+
+    .gamma-text {
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.45;
+      letter-spacing: 0.1px;
+      word-spacing: 0.5px;
+      color: #e2e8f0;
+    }
+
+    /* হাতের নেটওয়ার্ক ভিজ্যুয়াল: লেখার প্রয়োজন অনুযায়ী কম্প্যাক্ট ও ক্লিয়ার */
+    .visual-box {
+      width: fit-content;
+      max-width: min(90vw, 340px);
+      margin: 0 auto;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(9, 13, 22, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    .box {
-      width: 80px;
-      height: 80px;
-      border-radius: 14px;
-      background: #ffd400;
-      transition: transform 0.6s ease;
+    .touch-network-img {
+      display: block;
+      max-width: 260px;
+      max-height: 130px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      filter: contrast(1.06) brightness(1.04);
     }
 
-    .box.animate {
-      transform: translateX(70px) rotate(45deg);
+    .touch-network-fallback {
+      width: 220px;
+      height: 115px;
+      display: none;
+      shape-rendering: geometricPrecision;
     }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
+    /* নিচের হাইলাইট বাটন ও তার নিচের বক্স: লাইট/উজ্জ্বল থেকে কিছুটা ডিপ কালার */
+    .bottom-highlight-container {
+      width: fit-content;
+      max-width: min(90vw, 420px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .highlight-btn {
+      padding: 8px 16px;
       border: none;
-      border-radius: 8px;
+      border-radius: 9px;
       background: #ffd400;
       color: #090d16;
-      font-weight: bold;
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.2;
       cursor: pointer;
+    }
+
+    .highlight-sub-box {
+      width: fit-content;
+      max-width: 100%;
+      padding: 7px 14px;
+      border-radius: 10px;
+      /* উজ্বল/লাইট থেকে কিছুটা ডিপ (মিডিয়াম-ডার্ক স্লেট-ব্লু) */
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      font-size: 12.5px;
+      line-height: 1.35;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="stage">
-    <div id="animBox" class="box"></div>
-  </div>
+  <main class="center-wrapper">
+    <!-- গামা এআই বক্স (সবসময় মাঝ বরাবর সেন্টারে) -->
+    <section class="gamma-ai-box" id="gammaBox">
+      <h1 class="gamma-title">গামা এআই</h1>
+      <p class="gamma-text">
+        সেন্টার স্কেলে সাজানো কম্প্যাক্ট বক্স—লেখার প্রয়োজন অনুযায়ী মাপ ও স্বাভাবিক স্পেস।
+      </p>
+    </section>
 
-  <button id="playBtn">অ্যানিমেশন চালু করুন</button>
+    <!-- হাতের নেটওয়ার্ক ছবি -->
+    <section class="visual-box">
+      <img
+        id="touchHandImg"
+        class="touch-network-img"
+        src="touchnetwork"
+        alt="Touch Network Hand"
+      />
+      <svg
+        id="touchHandFallback"
+        class="touch-network-fallback"
+        viewBox="0 0 260 130"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <circle cx="130" cy="36" r="14" fill="none" stroke="#ffd400" stroke-width="2" />
+        <circle cx="130" cy="36" r="4" fill="#ffd400" />
+        <path
+          d="M125 74 L125 44 C125 40 131 40 131 44 L131 72 L131 50 C131 46 137 46 137 50 L137 74 L137 56 C137 52 143 52 143 56 L143 84 C143 98 135 110 124 116 L104 116 C97 104 94 90 94 76 L108 64 C111 61 115 65 112 69 L120 77 Z"
+          fill="rgba(30, 41, 59, 0.85)"
+          stroke="#7dd3fc"
+          stroke-width="2.2"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </section>
 
-  <!-- অডিও ক্লিপের ফাইলের নাম এখানে দিন -->
-  <audio id="bgMusic" src="Let Me Go — Alan Walker Style Emotional EDM & Heartbreak Vibes.mp3" preload="auto"></audio>
+    <!-- নিচের হাইলাইট বাটন ও কিছুটা ডিপ কালারের নিচের বক্স -->
+    <section class="bottom-highlight-container">
+      <button type="button" class="highlight-btn" id="highlightBtn">
+        হাইলাইট চালু করুন
+      </button>
+      <div class="highlight-sub-box" id="statusBox">
+        ব্যাকগ্রাউন্ড অডিও: কম ভলিউমে প্রস্তুত (letmegoaudio)
+      </div>
+    </section>
+  </main>
+
+  <audio id="letmegoaudio" src="letmegoaudio" preload="auto"></audio>
 
   <script>
-    const bgMusic = document.getElementById("bgMusic");
-    const animBox = document.getElementById("animBox");
-    const playBtn = document.getElementById("playBtn");
+    const touchHandImg = document.getElementById("touchHandImg");
+    const touchHandFallback = document.getElementById("touchHandFallback");
+    const highlightBtn = document.getElementById("highlightBtn");
+    const statusBox = document.getElementById("statusBox");
+    const letmegoaudio = document.getElementById("letmegoaudio");
 
-    // অ্যানিমেশনের যতটুকু সময় দরকার (মিলিসেকেন্ডে), যেমন ১০ সেকেন্ড = 10000
-    const animationDurationMs = 10000;
+    // ১৫০ সেকেন্ডের মধ্যে অ্যানিমেশনের জন্য যতটুকু সময় লাগে (যেমন ১৫ সেকেন্ড = 15000 ms)
+    const neededDurationMs = 15000;
+    const maxAudioSeconds = 150;
+    let stopTimer = null;
 
-    function playAnimationAndBgAudio() {
-      // ক্লিপের ছোট সাউন্ড বা ভয়েস স্পষ্ট রাখার জন্য ব্যাকগ্রাউন্ড অডিওর ভলিউম কম রাখা হয়েছে
-      bgMusic.volume = 0.15;
-      bgMusic.currentTime = 0; // অডিও ক্লিপের প্রথম অংশ থেকে শুরু
-      bgMusic.play().catch(() => {});
+    touchHandImg.addEventListener("error", () => {
+      touchHandImg.style.display = "none";
+      touchHandFallback.style.display = "block";
+    });
 
-      // অ্যানিমেশন শুরু
-      animBox.classList.remove("animate");
-      void animBox.offsetWidth;
-      animBox.classList.add("animate");
+    function runAnimationWithLowAudio() {
+      // ছোট সাউন্ড স্পষ্ট রাখতে ভলিউম কম (১০%) রাখা হয়েছে
+      letmegoaudio.volume = 0.1;
+      letmegoaudio.currentTime = 0;
 
-      // নির্ধারিত সময় পর অডিও বন্ধ (যতটুকু অংশ লাগে ততটুকুই ব্যবহার হবে)
-      clearTimeout(window.bgAudioStopTimer);
-      window.bgAudioStopTimer = setTimeout(() => {
-        bgMusic.pause();
-        bgMusic.currentTime = 0;
-      }, animationDurationMs);
+      const playMs = Math.min(neededDurationMs, maxAudioSeconds * 1000);
+      letmegoaudio.play().catch(() => {});
+
+      statusBox.textContent = "ব্যাকগ্রাউন্ড অডিও কম ভলিউমে চলছে...";
+
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => {
+        letmegoaudio.pause();
+        letmegoaudio.currentTime = 0;
+        statusBox.textContent = "ব্যাকগ্রাউন্ড অডিও: কম ভলিউমে প্রস্তুত (letmegoaudio)";
+      }, playMs);
     }
 
-    playBtn.addEventListener("click", playAnimationAndBgAudio);
+    letmegoaudio.addEventListener("timeupdate", () => {
+      if (letmegoaudio.currentTime >= maxAudioSeconds) {
+        letmegoaudio.pause();
+        letmegoaudio.currentTime = 0;
+      }
+    });
+
+    highlightBtn.addEventListener("click", runAnimationWithLowAudio);
   </script>
 </body>
 </html>
