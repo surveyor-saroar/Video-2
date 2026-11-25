@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gamma AI & Touch Network Animation</title>
+  <title>Gamma AI & Touch Network Auto Animation</title>
   <style>
     * {
       box-sizing: border-box;
@@ -24,7 +24,6 @@
       overflow-x: hidden;
     }
 
-    /* সবসময় উপর-নিচ ও বাম-ডানের মাঝ বরাবর সেন্টারে */
     .main-stage {
       width: 100%;
       min-height: 100vh;
@@ -36,7 +35,6 @@
       gap: 12px;
     }
 
-    /* গামা এআই বক্স: লেখার প্রয়োজন অনুযায়ী মাপ, সেন্টার স্কেলে */
     .gamma-ai-box {
       width: fit-content;
       max-width: min(92vw, 440px);
@@ -72,12 +70,11 @@
       color: #e2e8f0;
     }
 
-    /* হ্যান্ড নেটওয়ার্ক বক্স */
     .hand-network-box {
       width: fit-content;
       max-width: min(90vw, 340px);
       margin: 0 auto;
-      padding: 12px 16px;
+      padding: 14px 18px;
       border-radius: 14px;
       background-color: rgba(15, 23, 42, 0.92);
       border: 1px solid rgba(56, 189, 248, 0.4);
@@ -91,8 +88,8 @@
 
     .pulse-aura {
       position: absolute;
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       border: 2.5px solid #ffd400;
       pointer-events: none;
@@ -121,33 +118,10 @@
       will-change: transform;
     }
 
-    /* নিচের হাইলাইট বাটন ও কিছুটা ডিপ কালারের নিচের বক্স */
-    .highlight-group {
+    .status-bottom-box {
       width: fit-content;
       max-width: min(92vw, 400px);
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .highlight-btn {
-      padding: 8px 18px;
-      border: none;
-      border-radius: 9px;
-      background-color: #ffd400;
-      color: #090d16;
-      font-size: 13.5px;
-      font-weight: 700;
-      line-height: 1.2;
-      cursor: pointer;
-      will-change: transform;
-    }
-
-    .highlight-bottom-box {
-      width: fit-content;
-      max-width: 100%;
       padding: 7px 14px;
       border-radius: 10px;
       background-color: #162033;
@@ -197,37 +171,31 @@
       </svg>
     </section>
 
-    <section class="highlight-group">
-      <button type="button" class="highlight-btn" id="highlightBtn">
-        হাইলাইট ও সাউন্ড চালু করুন
-      </button>
-      <div class="highlight-bottom-box" id="statusBox">
-        অ্যানিমেশন চলছে • সাউন্ড শুনতে বাটনে ক্লিক করুন
-      </div>
-    </section>
+    <div class="status-bottom-box" id="statusBox">
+      অ্যানিমেশন ও ব্যাকগ্রাউন্ড সং চালু হচ্ছে...
+    </div>
   </main>
 
   <audio id="letmegoaudio" preload="auto"></audio>
 
   <script>
     (function () {
-      function initPage() {
+      function startSystem() {
         var gammaBox = document.querySelector(".gamma-ai-box");
         var handBox = document.querySelector(".hand-network-box");
         var touchHandImg = document.getElementById("touchHandImg");
         var touchHandFallback = document.getElementById("touchHandFallback");
         var pulseAura = document.querySelector(".pulse-aura");
-        var highlightBtn = document.getElementById("highlightBtn");
         var statusBox = document.getElementById("statusBox");
         var letmegoaudio = document.getElementById("letmegoaudio");
 
-        // ১৫০ সেকেন্ডের ক্লিপের শুরু থেকে অ্যানিমেশনের প্রয়োজন অনুযায়ী সময় (মিলিসেকেন্ডে)
-        var neededDurationMs = 20000;
+        // ১৫০ সেকেন্ডের ক্লিপের শুরু থেকে প্রয়োজনমতো সময় (যেমন ৩০ সেকেন্ড = 30000 ms)
+        var neededDurationMs = 30000;
         var maxAudioSeconds = 150;
         var audioTimer = null;
-        var isAudioActive = false;
+        var audioStarted = false;
 
-        // touchnetwork ইমেজ লোডিং ও এক্সটেনশন চেক
+        // ১. touchnetwork ইমেজ লোড করা
         var imgList = [
           "touchnetwork",
           "touchnetwork.png",
@@ -252,7 +220,7 @@
           };
         }
 
-        // letmegoaudio অডিও লোডিং ও এক্সটেনশন চেক
+        // ২. letmegoaudio অডিও লোড করা
         var audioList = [
           "letmegoaudio",
           "letmegoaudio.mp3",
@@ -275,30 +243,79 @@
             if (letmegoaudio.currentTime >= maxAudioSeconds) {
               letmegoaudio.pause();
               letmegoaudio.currentTime = 0;
-              isAudioActive = false;
             }
           };
         }
 
-        // সক্রিয় ভিজ্যুয়াল অ্যানিমেশন লুপ
+        // ৩. অ্যানিমেশন শুরু হওয়ার সাথে সাথে ব্যাকগ্রাউন্ড সং চালু করার ফাংশন
+        function triggerBackgroundSong() {
+          if (!letmegoaudio) return;
+
+          try {
+            // অ্যানিমেশনের ছোট সাউন্ড স্পষ্ট রাখতে ব্যাকগ্রাউন্ড সং কম ভলিউমে (১২%)
+            letmegoaudio.volume = 0.12;
+            if (!audioStarted) {
+              letmegoaudio.currentTime = 0;
+            }
+
+            var playLimit = Math.min(neededDurationMs, maxAudioSeconds * 1000);
+            var playPromise = letmegoaudio.play();
+
+            if (playPromise && typeof playPromise.then === "function") {
+              playPromise.then(function () {
+                audioStarted = true;
+                if (statusBox) {
+                  statusBox.textContent = "অ্যানিমেশন ও ব্যাকগ্রাউন্ড সং চলছে";
+                }
+              }).catch(function () {
+                if (statusBox) {
+                  statusBox.textContent = "অ্যানিমেশন চলছে • সং শুনতে স্ক্রিনে টাচ করুন";
+                }
+              });
+            } else {
+              audioStarted = true;
+              if (statusBox) {
+                statusBox.textContent = "অ্যানিমেশন ও ব্যাকগ্রাউন্ড সং চলছে";
+              }
+            }
+
+            if (audioTimer) {
+              clearTimeout(audioTimer);
+            }
+
+            audioTimer = setTimeout(function () {
+              letmegoaudio.pause();
+              letmegoaudio.currentTime = 0;
+              audioStarted = false;
+              if (statusBox) {
+                statusBox.textContent = "অ্যানিমেশন চলছে";
+              }
+            }, playLimit);
+          } catch (err) {
+            if (statusBox) {
+              statusBox.textContent = "অ্যানিমেশন চলছে";
+            }
+          }
+        }
+
+        // ৪. সরাসরি ভিজ্যুয়াল অ্যানিমেশন লুপ
         var startTime = null;
 
-        function animateFrame(timestamp) {
+        function runAnimation(timestamp) {
           if (!startTime) startTime = timestamp;
           var t = (timestamp - startTime) / 1000;
 
-          var speed = isAudioActive ? 5.2 : 3.2;
-          var moveY = Math.sin(t * speed) * (isAudioActive ? 10 : 7);
-          var tiltDeg = Math.sin(t * (speed * 0.7)) * (isAudioActive ? 4 : 2.5);
-          var scaleVal = 1 + Math.sin(t * speed) * (isAudioActive ? 0.06 : 0.035);
+          var moveY = Math.sin(t * 3.4) * 9;
+          var tilt = Math.sin(t * 2.4) * 3.5;
+          var scaleHand = 1 + Math.sin(t * 3.4) * 0.05;
 
           var handTransform =
             "translate3d(0px, " +
             moveY.toFixed(2) +
             "px, 0px) rotate(" +
-            tiltDeg.toFixed(2) +
+            tilt.toFixed(2) +
             "deg) scale(" +
-            scaleVal.toFixed(3) +
+            scaleHand.toFixed(3) +
             ")";
 
           if (touchHandImg && touchHandImg.style.display !== "none") {
@@ -309,9 +326,46 @@
           }
 
           if (pulseAura) {
-            var ringRate = isAudioActive ? 1.15 : 0.75;
-            var phase = (t * ringRate) % 1;
-            var ringScale = 0.5 + phase * 2.2;
-            var ringOpacity = (1 - phase) * 0.9;
+            var p = (t * 0.85) % 1;
+            var ringScale = 0.5 + p * 2.2;
+            var ringOpacity = (1 - p) * 0.9;
             pulseAura.style.transform = "scale(" + ringScale.toFixed(2) + ")";
-            pulseAura
+            pulseAura.style.opacity = ringOpacity.toFixed(2);
+          }
+
+          if (gammaBox) {
+            var gScale = 1 + Math.sin(t * 2.5) * 0.016;
+            gammaBox.style.transform = "scale(" + gScale.toFixed(4) + ")";
+            gammaBox.style.boxShadow = "0 0 20px rgba(255, 212, 0, 0.22)";
+          }
+
+          if (handBox) {
+            var glow = 0.25 + (Math.sin(t * 3.0) + 1) * 0.25;
+            handBox.style.boxShadow = "0 0 22px rgba(56, 189, 248, " + glow.toFixed(2) + ")";
+          }
+
+          requestAnimationFrame(runAnimation);
+        }
+
+        // অ্যানিমেশন শুরু + সাথে সাথে ব্যাকগ্রাউন্ড সং চালুর চেষ্টা
+        requestAnimationFrame(runAnimation);
+        triggerBackgroundSong();
+
+        // ব্রাউজার অটোপ্লে আটকালে প্রথম ক্লিক/টাচেই কোনো বাটন ছাড়া সং চালু হবে
+        document.addEventListener("pointerdown", function onceTouch() {
+          if (!audioStarted) {
+            triggerBackgroundSong();
+          }
+          document.removeEventListener("pointerdown", onceTouch);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", startSystem);
+      } else {
+        startSystem();
+      }
+    })();
+  </script>
+</body>
+</html>
