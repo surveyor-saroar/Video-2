@@ -1,79 +1,117 @@
-const touchHandImg = document.getElementById("touchHandImg");
-const touchHandFallback = document.getElementById("touchHandFallback");
-const highlightBtn = document.getElementById("highlightBtn");
-const statusBox = document.getElementById("statusBox");
-const letmegoaudio = document.getElementById("letmegoaudio");
+(function () {
+  function initPage() {
+    var touchHandImg = document.getElementById("touchHandImg");
+    var touchHandFallback = document.getElementById("touchHandFallback");
+    var highlightBtn = document.getElementById("highlightBtn");
+    var statusBox = document.getElementById("statusBox");
+    var letmegoaudio = document.getElementById("letmegoaudio");
 
-// ১৫০ সেকেন্ডের ক্লিপের শুরু থেকে যতটুকু অংশ দরকার (যেমন ২০ সেকেন্ড = 20000 ms)
-const neededDurationMs = 20000;
-const maxAudioSeconds = 150;
-let audioStopTimer = null;
+    var neededDurationMs = 20000;
+    var maxAudioSeconds = 150;
+    var audioTimer = null;
 
-// আপলোড করা touchnetwork ছবির সম্ভাব্য এক্সটেনশন স্বয়ংক্রিয়ভাবে চেক করা
-const imgCandidates = [
-  "touchnetwork",
-  "touchnetwork.png",
-  "touchnetwork.jpg",
-  "touchnetwork.jpeg",
-  "touchnetwork.webp"
-];
-let imgIndex = 0;
+    var imgList = [
+      "touchnetwork",
+      "touchnetwork.png",
+      "touchnetwork.jpg",
+      "touchnetwork.jpeg",
+      "touchnetwork.webp"
+    ];
+    var imgIdx = 0;
 
-touchHandImg.addEventListener("error", () => {
-  imgIndex++;
-  if (imgIndex < imgCandidates.length) {
-    touchHandImg.src = imgCandidates[imgIndex];
+    if (touchHandImg) {
+      touchHandImg.src = imgList[0];
+      touchHandImg.onerror = function () {
+        imgIdx += 1;
+        if (imgIdx < imgList.length) {
+          touchHandImg.src = imgList[imgIdx];
+        } else {
+          touchHandImg.style.display = "none";
+          if (touchHandFallback) {
+            touchHandFallback.style.display = "block";
+          }
+        }
+      };
+    }
+
+    var audioList = [
+      "letmegoaudio",
+      "letmegoaudio.mp3",
+      "letmegoaudio.wav",
+      "letmegoaudio.ogg",
+      "letmegoaudio.m4a"
+    ];
+    var audioIdx = 0;
+
+    if (letmegoaudio) {
+      letmegoaudio.src = audioList[0];
+      letmegoaudio.onerror = function () {
+        audioIdx += 1;
+        if (audioIdx < audioList.length) {
+          letmegoaudio.src = audioList[audioIdx];
+        }
+      };
+
+      letmegoaudio.ontimeupdate = function () {
+        if (letmegoaudio.currentTime >= maxAudioSeconds) {
+          letmegoaudio.pause();
+          letmegoaudio.currentTime = 0;
+        }
+      };
+    }
+
+    function playLowBackgroundAudio() {
+      if (!letmegoaudio) {
+        return;
+      }
+
+      try {
+        letmegoaudio.volume = 0.12;
+        letmegoaudio.currentTime = 0;
+
+        var playLimit = Math.min(neededDurationMs, maxAudioSeconds * 1000);
+        var res = letmegoaudio.play();
+
+        if (res && typeof res.then === "function") {
+          res.then(function () {
+            if (statusBox) {
+              statusBox.textContent = "অ্যানিমেশন ও কম ভলিউমে ব্যাকগ্রাউন্ড অডিও চলছে";
+            }
+          }).catch(function () {
+            if (statusBox) {
+              statusBox.textContent = "স্ক্রিনে ক্লিক করলে ব্যাকগ্রাউন্ড অডিও চালু হবে";
+            }
+          });
+        } else if (statusBox) {
+          statusBox.textContent = "অ্যানিমেশন ও কম ভলিউমে ব্যাকগ্রাউন্ড অডিও চলছে";
+        }
+
+        if (audioTimer) {
+          clearTimeout(audioTimer);
+        }
+
+        audioTimer = setTimeout(function () {
+          letmegoaudio.pause();
+          letmegoaudio.currentTime = 0;
+          if (statusBox) {
+            statusBox.textContent = "অ্যানিমেশন চলছে • আবার শুনতে বাটনে ক্লিক করুন";
+          }
+        }, playLimit);
+      } catch (e) {
+        if (statusBox) {
+          statusBox.textContent = "অডিও চালু করা যায়নি";
+        }
+      }
+    }
+
+    if (highlightBtn) {
+      highlightBtn.onclick = playLowBackgroundAudio;
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPage);
   } else {
-    touchHandImg.style.display = "none";
-    touchHandFallback.style.display = "block";
+    initPage();
   }
-});
-
-// আপলোড করা letmegoaudio অডিওর সম্ভাব্য এক্সটেনশন সেট করা
-const audioCandidates = [
-  "letmegoaudio",
-  "letmegoaudio.mp3",
-  "letmegoaudio.wav",
-  "letmegoaudio.ogg",
-  "letmegoaudio.m4a"
-];
-let audioIndex = 0;
-letmegoaudio.src = audioCandidates[0];
-
-letmegoaudio.addEventListener("error", () => {
-  audioIndex++;
-  if (audioIndex < audioCandidates.length) {
-    letmegoaudio.src = audioCandidates[audioIndex];
-    letmegoaudio.load();
-  }
-});
-
-function startLowBackgroundAudio() {
-  // ছোট সাউন্ড স্পষ্ট রাখতে ব্যাকগ্রাউন্ড অডিও কম ভলিউমে (১২%)
-  letmegoaudio.volume = 0.12;
-  letmegoaudio.currentTime = 0;
-
-  const playForMs = Math.min(neededDurationMs, maxAudioSeconds * 1000);
-
-  letmegoaudio.play().then(() => {
-    statusBox.textContent = "অ্যানিমেশন ও কম ভলিউমে ব্যাকগ্রাউন্ড অডিও চলছে";
-  }).catch(() => {
-    statusBox.textContent = "স্ক্রিনে ক্লিক করলে ব্যাকগ্রাউন্ড অডিও চালু হবে";
-  });
-
-  clearTimeout(audioStopTimer);
-  audioStopTimer = setTimeout(() => {
-    letmegoaudio.pause();
-    letmegoaudio.currentTime = 0;
-    statusBox.textContent = "অ্যানিমেশন চলছে • আবার শুনতে বাটনে ক্লিক করুন";
-  }, playForMs);
-}
-
-letmegoaudio.addEventListener("timeupdate", () => {
-  if (letmegoaudio.currentTime >= maxAudioSeconds) {
-    letmegoaudio.pause();
-    letmegoaudio.currentTime = 0;
-  }
-});
-
-highlightBtn.addEventListener("click", startLowBackgroundAudio);
+})();
