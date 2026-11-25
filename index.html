@@ -3,34 +3,957 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gamma AI & Touch Network</title>
-  <link rel="stylesheet" href="style.css?v=11" />
+  <title>Smart Study Hack - 9:16 Reels Animation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Hind Siliguri", "Nirmala UI", Arial, sans-serif;
+      background-color: #eef3fb;
+      background-image:
+        radial-gradient(circle at 18% 20%, rgba(37, 99, 235, 0.22), transparent 52%),
+        radial-gradient(circle at 82% 78%, rgba(245, 158, 11, 0.22), transparent 54%),
+        linear-gradient(160deg, rgba(219, 234, 254, 0.55) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(254, 243, 199, 0.45) 100%);
+    }
+
+    #reelCanvas {
+      position: relative; z-index: 1;
+      width: 405px; height: 720px; flex-shrink: 0;
+      background: transparent; overflow: hidden; cursor: pointer;
+    }
+
+    .scene {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      padding: 24px 24px 185px; gap: 9px;
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; z-index: 2;
+      transform-origin: center center;
+      will-change: transform, opacity;
+    }
+    .scene.active { display: flex; }
+
+    #sc5 {
+      justify-content: flex-start;
+      padding-top: 34px;
+      padding-bottom: 195px;
+      gap: 11px;
+    }
+
+    #sc7 {
+      justify-content: center;
+      padding-top: 24px;
+      padding-bottom: 195px;
+      gap: 14px;
+    }
+
+    .blue { color: #2563eb; }
+    .muted { color: #94a3b8; }
+
+    .header-row { display: inline-flex; align-items: center; justify-content: center; gap: 11px; }
+    .svg-badge {
+      width: 44px; height: 44px; border-radius: 13px;
+      background: #eff6ff; border: 1.5px solid #bfdbfe; color: #2563eb;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.12);
+    }
+    .svg-badge.amber {
+      background: #fef9c3; border-color: #fde047; color: #b45309;
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.16);
+    }
+    .svg-badge svg { width: 24px; height: 24px; display: block; }
+
+    .h1-main { font-size: 28px; font-weight: 700; color: #0f172a; line-height: 1.24; text-align: left; }
+    .h2-sub { font-size: 22px; font-weight: 700; color: #0f172a; line-height: 1.26; text-align: left; }
+
+    .brand-pill { display: inline-flex; align-items: center; gap: 9px; font-size: 20px; font-weight: 800; color: #0f172a; }
+    .brand-logo {
+      width: 28px; height: 28px; border-radius: 8px; background: #2563eb; color: #ffffff;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+
+    #sc5 .brand-pill { font-size: 24px; gap: 10px; }
+    #sc5 .brand-logo { width: 34px; height: 34px; border-radius: 10px; font-size: 17px; }
+
+    .cards-flow { display: flex; flex-direction: column; align-items: center; gap: 9px; width: 90%; margin: 4px 0; }
+    .white-card {
+      width: 100%; background: #ffffff; border-radius: 18px; padding: 13px 15px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07); border: 1.5px solid #e2e8f0;
+      position: relative; text-align: left;
+    }
+
+    @keyframes trimLeftToRight {
+      0% { transform: scaleX(0); opacity: 0.35; }
+      65% { transform: scaleX(1.02); opacity: 1; }
+      100% { transform: scaleX(1); opacity: 1; }
+    }
+    .skel {
+      height: 9px; border-radius: 99px; background: #e2e8f0; margin-bottom: 7px;
+      transform-origin: left center;
+      will-change: transform, opacity;
+    }
+    .scene.active .skel:not(.sc3-line) {
+      animation: trimLeftToRight 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .scene.active .skel:not(.sc3-line):nth-of-type(2) { animation-delay: 0.12s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(3) { animation-delay: 0.24s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(4) { animation-delay: 0.36s; }
+
+    .sc3-line {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+
+    .ring-pulse {
+      position: absolute; right: 10px; bottom: 6px; width: 88px; height: 88px;
+      border-radius: 50%; border: 5px solid #2563eb; background: rgba(37, 99, 235, 0.08);
+    }
+    .yellow-tag {
+      display: inline-block; background: #fef3c7; color: #92400e;
+      font-weight: 700; font-size: 12px; padding: 2px 10px; border-radius: 8px; margin-bottom: 6px;
+    }
+    #sc5 .yellow-tag { font-size: 14px; padding: 3px 12px; }
+    .pencil-anim { font-size: 46px; margin-bottom: 10px; }
+
+    .phone-body {
+      width: 70%; background: #0f172a; border-radius: 28px; padding: 9px;
+      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.2); margin: 2px 0;
+    }
+    .phone-display { background: #ffffff; border-radius: 20px; padding: 11px; position: relative; overflow: hidden; }
+    .scan-box { border: 2px solid #93c5fd; border-radius: 14px; padding: 10px; position: relative; margin-bottom: 9px; }
+    .laser-line {
+      position: absolute; left: 6px; right: 6px; top: 10%; height: 3px;
+      background: #2563eb; box-shadow: 0 0 12px #2563eb;
+    }
+    .copy-action { width: 100%; padding: 8px; border-radius: 12px; font-weight: 700; font-size: 14px; background: #2563eb; color: #ffffff; transition: background 0.2s ease, color 0.2s ease; }
+    .copy-action.copied { background: #facc15; color: #0f172a; }
+
+    .kbd-box {
+      position: relative; display: inline-grid; grid-template-columns: repeat(5, 1fr);
+      gap: 5px; background: #e2e8f0; padding: 7px; border-radius: 10px; margin-top: 5px;
+    }
+    .kbd-box span { width: 16px; height: 10px; background: #ffffff; border-radius: 3px; }
+    .kbd-box::after {
+      content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 3px;
+      background: #f59e0b; transform: rotate(-14deg);
+    }
+
+    .chat-box {
+      width: 100%; background: #ffffff; border-radius: 22px; padding: 12px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0;
+      display: flex; flex-direction: column; gap: 8px; height: 270px; justify-content: space-between; margin: 2px 0;
+    }
+    .bubble-pasted {
+      align-self: flex-end; background: #2563eb; color: #ffffff;
+      padding: 8px 12px; border-radius: 14px 14px 4px 14px; font-size: 13px; font-weight: 600; text-align: left; width: 78%;
+    }
+    .bubble-prompt {
+      align-self: flex-end; background: #eff6ff; border: 1px solid #bfdbfe; color: #0f172a;
+      padding: 8px 12px; border-radius: 14px 14px 4px 14px; font-size: 13px; font-weight: 600; text-align: left; max-width: 88%;
+    }
+    .input-bar {
+      background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 99px;
+      padding: 6px 11px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #0f172a; min-height: 36px;
+    }
+    .send-icon {
+      width: 24px; height: 24px; border-radius: 50%; background: #2563eb; color: #ffffff;
+      display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;
+    }
+    .time-chip { background: #fef08a; color: #854d0e; font-weight: 700; font-size: 14px; padding: 5px 15px; border-radius: 99px; }
+
+    .gamma-box {
+      position: relative;
+      width: 95%; background: #ffffff; border-radius: 22px; padding: 15px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0; margin: 0;
+    }
+    .dashed-area { border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 14px; padding: 12px; margin-bottom: 11px; text-align: left; }
+    .slides-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 9px; }
+    .card-blue { background: #2563eb; border-radius: 12px; padding: 10px; height: 92px; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-light { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 92px; }
+    #sc5GenBtn {
+      font-size: 17px;
+      padding: 10px 26px;
+      border-radius: 13px;
+    }
+    #sc5After .slide-label {
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .gamma-pdf-corner {
+      position: absolute;
+      top: -14px;
+      right: -12px;
+      background: #facc15;
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 24px;
+      line-height: 1.05;
+      padding: 8px 16px;
+      border-radius: 14px;
+      border: 2.5px solid #eab308;
+      box-shadow: 0 10px 24px rgba(234, 179, 8, 0.35);
+      z-index: 4;
+    }
+    #sc5Caption .h2-sub { font-size: 25px; font-weight: 800; line-height: 1.24; }
+    #sc5Caption .svg-badge { width: 48px; height: 48px; }
+
+    .teacher-box {
+      background: #ffffff; border-radius: 22px; padding: 24px 20px;
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.12); border: 1px solid #e2e8f0; width: 94%;
+    }
+    .shock-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .shock-sign {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: #fef08a; border: 2px solid #f59e0b; color: #b45309;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
+    }
+    .shock-sign svg { width: 30px; height: 30px; display: block; }
+    .hl-yellow { background: linear-gradient(transparent 55%, #fde68a 55%); padding: 0 5px; }
+
+    .outro-header {
+      display: flex; align-items: center; justify-content: flex-start; gap: 14px;
+      width: 96%; background: #ffffff; border-radius: 22px; padding: 12px 16px;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08); border: 1.5px solid #cbd5e1;
+      text-align: left;
+    }
+    .outro-header-badge {
+      width: 72px; height: 72px; border-radius: 18px;
+      background: #fef9c3; border: 2px solid #fde047; color: #b45309;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.18);
+    }
+    .outro-header-badge svg { width: 34px; height: 34px; display: block; }
+    .outro-lines { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+    .outro-line-top {
+      font-size: 23px; font-weight: 800; line-height: 1.18;
+      color: #ca8a04;
+      background: linear-gradient(transparent 58%, #fef08a 58%);
+      padding: 0 4px;
+    }
+    .outro-line-sub { font-size: 17px; font-weight: 700; line-height: 1.25; color: #2563eb; }
+
+    .outro-showcase {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 4px 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    .video-motion-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-height: 92px;
+    }
+    .tap-network-icon {
+      width: 82px;
+      height: 82px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center center;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.14));
+    }
+    .tap-network-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .outro-avatar-circle {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      border: 2.5px solid #ffffff;
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
+      will-change: transform, opacity;
+    }
+    .outro-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .outro-avatar-circle .avatar-fallback { display: none; }
+    .outro-avatar-circle.broken .avatar-fallback { display: inline-flex; }
+
+    .outro-identity {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2px;
+      will-change: transform, opacity;
+    }
+    .outro-name {
+      font-weight: 800;
+      font-size: 20px;
+      color: #0f172a;
+      line-height: 1.25;
+    }
+    .outro-title {
+      font-size: 14px;
+      color: #2563eb;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .outro-follow-btn {
+      width: auto; max-width: 50%; min-width: 156px;
+      margin: 0 auto;
+      padding: 10px 20px; border-radius: 999px;
+      background: #2563eb; color: #ffffff; font-weight: 800; font-size: 15px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+    .outro-follow-btn.done {
+      background: #16a34a;
+      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+    }
+
+    #bottom-caption {
+      position: absolute; bottom: 118px; left: 16px; right: 16px; z-index: 6;
+      background: rgba(255, 255, 255, 0.96); color: #0f172a;
+      font-size: 17px; font-weight: 700; line-height: 1.5; padding: 10px 14px;
+      border-radius: 16px; text-align: center;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14); border: 1.5px solid #e2e8f0;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
+    }
+    .cap-word {
+      display: inline-block; padding: 1px 6px; border-radius: 7px;
+      color: #0f172a; background: transparent; opacity: 0.35;
+      transition: background 0.15s ease, opacity 0.15s ease;
+    }
+    .cap-word.shown { opacity: 1; }
+    .cap-word.active-word {
+      background: #facc15; color: #0f172a; opacity: 1;
+      box-shadow: 0 3px 10px rgba(250, 204, 21, 0.45);
+    }
+
+    .prog-track { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(15, 23, 42, 0.08); z-index: 10; }
+    .prog-fill { height: 100%; width: 0%; background: #2563eb; }
+  </style>
 </head>
-<body>
-  <main class="main-stage">
-    <section class="gamma-ai-box">
-      <h1 class="gamma-title">গামা এআই</h1>
-      <p class="gamma-desc">
-        স্মার্ট টাচ নেটওয়ার্ক ও ব্যাকগ্রাউন্ড অ্যানিমেশন সিস্টেম
-      </p>
+<body onclick="enableSound()">
+
+  <audio id="bgMusic" src="letmegoaudio.mp3" preload="auto" loop></audio>
+
+  <div id="reelCanvas">
+    <!-- Scene 1 -->
+    <section class="scene active" id="sc1">
+      <div class="header-row">
+        <span class="svg-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </span>
+        <h1 class="h1-main">প্রশ্নের ছবি তুললেই<br>পুরো <span class="blue">নোট রেডি।</span></h1>
+      </div>
+      <div class="cards-flow">
+        <div class="white-card">
+          <div style="font-weight:700;color:#2563eb;margin-bottom:6px;">? প্রশ্ন</div>
+          <div class="skel" style="width:90%"></div>
+          <div class="skel" style="width:76%"></div>
+          <div class="skel" style="width:84%"></div>
+          <div class="ring-pulse" id="sc1Ring"></div>
+        </div>
+        <div id="sc1Arrow" style="font-size:22px;color:#2563eb;font-weight:800;">↓</div>
+        <div class="white-card" id="sc1NCard" style="border-color:#bfdbfe;">
+          <span class="yellow-tag">✓ নোট</span>
+          <div class="skel" style="width:88%;background:#cbd5e1;"></div>
+          <div class="skel" style="width:70%;background:#cbd5e1;"></div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:#64748b;font-weight:600;">স্মার্ট স্টাডি হ্যাক</div>
     </section>
 
-    <section class="hand-network-box">
-      <span class="pulse-aura" aria-hidden="true"></span>
-      <img
-        id="touchHandImg"
-        class="touch-network-img"
-        src="touchnetwork.png"
-        alt="Touch Network Hand"
-      />
+    <!-- Scene 2 -->
+    <section class="scene" id="sc2">
+      <div class="pencil-anim" id="sc2Pencil">✏️</div>
+      <div class="header-row">
+        <span class="svg-badge amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+        </span>
+        <h1 class="h1-main" style="font-size:34px;">লেখালেখির<br><span class="muted">দিন শেষ।</span></h1>
+      </div>
     </section>
 
-    <div class="status-bottom-box" id="statusBox">
-      অ্যানিমেশন ও ব্যাকগ্রাউন্ড সং চলছে...
-    </div>
-  </main>
+    <!-- Scene 3 -->
+    <section class="scene" id="sc3">
+      <div>
+        <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
+        <div class="header-row" style="margin-top:6px;">
+          <span class="svg-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <h2 class="h2-sub">ছবি তুলে <span class="blue">স্ক্যান</span><br><span id="sc3Sub" style="opacity:0;">এক ক্লিকে <span class="blue">কপি</span></span></h2>
+        </div>
+      </div>
+      <div class="phone-body">
+        <div class="phone-display">
+          <div class="scan-box">
+            <div style="font-size:12px;font-weight:700;color:#2563eb;text-align:left;margin-bottom:6px;">?</div>
+            <div class="skel sc3-line" style="width:92%"></div>
+            <div class="skel sc3-line" style="width:80%"></div>
+            <div class="skel sc3-line" style="width:88%"></div>
+            <div class="skel sc3-line" style="width:72%"></div>
+            <div class="skel sc3-line" style="width:84%"></div>
+            <div class="laser-line" id="sc3Beam"></div>
+          </div>
+          <div class="copy-action" id="sc3CopyBtn">Copy text</div>
+        </div>
+      </div>
+      <div id="sc3NoType" style="opacity:0;">
+        <div class="header-row">
+          <span class="svg-badge amber" style="width:36px;height:36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px;">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"></path>
+            </svg>
+          </span>
+          <div class="h2-sub" style="font-size:18px;">আর <span class="blue">টাইপ</span> করতে হবে না</div>
+        </div>
+        <div class="kbd-box"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+    </section>
 
-  <audio id="letmegoaudio" src="letmegoaudio.mp3" preload="auto"></audio>
-  <script src="script.js?v=11"></script>
+    <!-- Scene 4 -->
+    <section class="scene" id="sc4">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+        <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
+        <div class="header-row">
+          <span class="svg-badge" style="width:36px;height:36px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8" y1="13" x2="16" y2="13"></line>
+              <line x1="8" y1="17" x2="13" y2="17"></line>
+            </svg>
+          </span>
+          <span id="sc4Tag" style="opacity:0;background:#dbeafe;color:#1d4ed8;padding:4px 13px;border-radius:99px;font-size:13px;font-weight:700;">সহজ বাংলায় পয়েন্ট নোট</span>
+        </div>
+      </div>
+      <div class="chat-box">
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div class="bubble-pasted">📋 পেস্ট করা লেখা<div style="height:4px;width:80%;background:rgba(255,255,255,0.45);border-radius:99px;margin-top:4px;"></div></div>
+          <div class="bubble-prompt" id="sc4SentBubble" style="display:none;">এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।</div>
+          <div class="white-card" id="sc4NoteCard" style="display:none;padding:9px;background:#f8fafc;">
+            <span class="yellow-tag">✓ নোট</span>
+            <div class="skel" style="width:92%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:82%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:86%;background:#cbd5e1;"></div>
+          </div>
+        </div>
+        <div class="input-bar">
+          <span id="sc4Typed" style="text-align:left;"></span>
+          <span class="send-icon">↑</span>
+        </div>
+      </div>
+      <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড</div>
+    </section>
+
+    <!-- Scene 5 -->
+    <section class="scene" id="sc5">
+      <div class="brand-pill"><span class="brand-logo">G</span> Gamma AI</div>
+      <div class="gamma-box" id="sc5Before">
+        <div class="dashed-area">
+          <span class="yellow-tag">নোট</span>
+          <div class="skel" style="width:90%;background:#cbd5e1;"></div>
+          <div class="skel" style="width:76%;background:#cbd5e1;"></div>
+        </div>
+        <div id="sc5GenBtn" style="background:#2563eb;color:#ffffff;font-weight:700;display:inline-block;">Generate</div>
+      </div>
+      <div class="gamma-box" id="sc5After" style="display:none;">
+        <span class="gamma-pdf-corner">📄 PDF</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-right:110px;">
+          <span class="slide-label">Slide Presentation</span>
+        </div>
+        <div class="slides-row">
+          <div class="card-blue">
+            <div style="width:22px;height:22px;border-radius:50%;background:#facc15;"></div>
+            <div style="height:6px;width:80%;background:rgba(255,255,255,0.6);border-radius:99px;"></div>
+          </div>
+          <div class="card-light">
+            <div class="skel" style="width:75%;background:#94a3b8;"></div>
+            <div class="skel" style="width:90%;background:#cbd5e1;"></div>
+            <div class="skel" style="width:65%;background:#cbd5e1;"></div>
+          </div>
+        </div>
+      </div>
+      <div id="sc5Caption" style="opacity:0;" class="header-row">
+        <span class="svg-badge amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </span>
+        <h2 class="h2-sub">ডিজাইনসহ <span class="blue">পিডিএফ</span> প্রেজেন্টেশন</h2>
+      </div>
+    </section>
+
+    <!-- Scene 6 -->
+    <section class="scene" id="sc6">
+      <div class="teacher-box" id="sc6Card">
+        <div class="shock-row">
+          <h1 class="h1-main">আপনি নিজে<br><span class="blue hl-yellow">চমকে যাবেন।</span></h1>
+          <span class="shock-sign" id="sc6ShockSign" title="চমকে যাওয়ার সাইন">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="14"></line>
+              <circle cx="12" cy="18.5" r="1.4" fill="currentColor"></circle>
+              <path d="M5 6L3 4"></path>
+              <path d="M19 6l2-2"></path>
+              <path d="M4 12H1.5"></path>
+              <path d="M22.5 12H20"></path>
+              <path d="M6 18l-2.5 2"></path>
+              <path d="M18 18l2.5 2"></path>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 7 (Last Scene) -->
+    <section class="scene" id="sc7">
+      <div class="outro-header">
+        <span class="outro-header-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </span>
+        <div class="outro-lines">
+          <span class="outro-line-top">সব আপডেট পেতে</span>
+          <span class="outro-line-sub">পেজটি ফলো করুন</span>
+        </div>
+      </div>
+
+      <div class="outro-showcase">
+        <div class="video-motion-row">
+          <div class="tap-network-icon" id="sc7TapIcon" aria-hidden="true">
+            <svg viewBox="0 0 100 100" fill="none">
+              <line x1="48" y1="42" x2="26" y2="27" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
+              <line x1="48" y1="42" x2="48" y2="20" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
+              <line x1="48" y1="42" x2="70" y2="27" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
+              <line x1="48" y1="42" x2="22" y2="48" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
+              <line x1="48" y1="42" x2="74" y2="48" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" />
+              <circle cx="26" cy="27" r="5.5" fill="#ffffff" />
+              <circle cx="48" cy="20" r="5.5" fill="#ffffff" />
+              <circle cx="70" cy="27" r="5.5" fill="#ffffff" />
+              <circle cx="22" cy="48" r="5.5" fill="#ffffff" />
+              <circle cx="74" cy="48" r="5.5" fill="#ffffff" />
+              <path d="M44 41a4 4 0 0 1 8 0v15h2.2a3.5 3.5 0 0 1 3.5 3.5v2.2h1.8a3.5 3.5 0 0 1 3.5 3.5V71c0 9.5-7 16-16.5 16h-4c-7 0-12-3.4-15.6-9.6l-5.2-9a3.6 3.6 0 0 1 6.1-3.8L38 72V41Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <div class="outro-avatar-circle" id="sc7Avatar">
+            <img src="saroar01.png" alt="মোঃ সরওয়ার আলম সবুজ" onerror="this.style.display='none';this.parentNode.classList.add('broken');" />
+            <span class="avatar-fallback">SA</span>
+          </div>
+        </div>
+
+        <div class="outro-identity" id="sc7Identity">
+          <div class="outro-name">মোঃ সরওয়ার আলম সবুজ</div>
+          <div class="outro-title">সার্ভেয়ার • Facebook পেজ</div>
+        </div>
+      </div>
+
+      <div class="outro-follow-btn" id="sc7FollowBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+        <span id="sc7FollowText">Follow</span>
+      </div>
+    </section>
+
+    <div id="bottom-caption"></div>
+  </div>
+
+  <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+
+  <script>
+    var DURATION_MS = 40000;
+    var BOUNCE_WINDOW = 440;
+    var BG_MUSIC_VOLUME = 0.12;
+    var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
+    var scenes = [
+      { id: "sc1", start: 0,     end: 3600,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
+      { id: "sc2", start: 3600,  end: 7200,  words: ["হাতে", "লিখে", "সময়", "নষ্টের", "দিন", "শেষ!"] },
+      { id: "sc3", start: 7200,  end: 14800, words: ["Google", "Lens", "দিয়ে", "স্ক্যান", "করে", "এক", "ক্লিকে", "কপি!"] },
+      { id: "sc4", start: 14800, end: 23000, words: ["ChatGPT", "মাত্র", "২", "সেকেন্ডে", "পয়েন্ট", "নোট", "বানিয়ে", "দেবে!"] },
+      { id: "sc5", start: 23000, end: 29500, words: ["Gamma", "AI", "দিয়ে", "ডিজাইনসহ", "PDF", "প্রেজেন্টেশন", "তৈরি!"] },
+      { id: "sc6", start: 29500, end: 33400, words: ["এমন", "নোট", "দেখে", "আপনি", "নিজে", "চমকে", "যাবেন!"] },
+      { id: "sc7", start: 33400, end: 40000, words: ["সব", "আপডেট", "পেতে", "পেজটি", "ফলো", "করুন!"] }
+    ];
+
+    var startTime = performance.now();
+    var audioCtx = null;
+    var audioOn = false;
+    var activeScene = "";
+    var lastScanStep = -1;
+    var lastCharIdx = -1;
+    var lastWordIdx = -1;
+    var lastBouncePhase = "";
+    var copySoundPlayed = false;
+    var noteSoundPlayed = false;
+    var gammaSoundPlayed = false;
+    var popSoundPlayed = false;
+    var followSoundPlayed = false;
+
+    function scaleReelFrame() {
+      var box = document.getElementById("reelCanvas");
+      if (!box) return;
+      var scale = Math.min((window.innerWidth * 0.96) / 405, (window.innerHeight * 0.96) / 720, 1.25);
+      box.style.transform = "scale(" + scale.toFixed(4) + ")";
+    }
+    scaleReelFrame();
+    window.addEventListener("resize", scaleReelFrame);
+
+    function playBgMusic() {
+      var bg = document.getElementById("bgMusic");
+      if (!bg) return;
+      try {
+        bg.volume = BG_MUSIC_VOLUME;
+        if (bg.paused) {
+          var p = bg.play();
+          if (p && typeof p.catch === "function") p.catch(function () {});
+        }
+      } catch (e) {}
+    }
+
+    function playTone(freq, dur, type, vol, endFreq) {
+      if (!audioOn || !audioCtx) return;
+      try {
+        var t = audioCtx.currentTime;
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = type || "sine";
+        osc.frequency.setValueAtTime(freq || 640, t);
+        if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(50, endFreq), t + (dur || 0.08));
+        gain.gain.setValueAtTime(Math.min(0.12, vol || 0.05), t);
+        gain.gain.exponentialRampToValueAtTime(0.0008, t + (dur || 0.08));
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + (dur || 0.08) + 0.01);
+      } catch (e) {}
+    }
+
+    function playBounceSound(phaseKey, stage) {
+      if (lastBouncePhase === phaseKey) return;
+      lastBouncePhase = phaseKey;
+      if (stage === "hop") playTone(380, 0.08, "sine", 0.05, 620);
+      else if (stage === "land") playTone(620, 0.07, "triangle", 0.055, 310);
+    }
+
+    function enableSound() {
+      try {
+        if (!audioCtx) {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+        audioOn = true;
+        playBgMusic();
+        playTone(740, 0.08, "triangle", 0.07);
+      } catch (e) {}
+    }
+
+    window.addEventListener("load", function () {
+      playBgMusic();
+    });
+
+    function renderCaptionWords(words) {
+      var capBox = document.getElementById("bottom-caption");
+      if (!capBox) return;
+      var html = "";
+      for (var i = 0; i < words.length; i++) {
+        html += '<span class="cap-word" id="cw-' + i + '">' + words[i] + "</span>";
+      }
+      capBox.innerHTML = html;
+    }
+
+    function syncWordsByTime(sceneObj, sceneElapsed) {
+      var words = sceneObj.words || [];
+      if (!words.length) return;
+      var sceneDur = Math.max(400, sceneObj.end - sceneObj.start);
+      var stepDur = (sceneDur * 0.88) / words.length;
+      var currentIdx = Math.min(words.length - 1, Math.max(0, Math.floor(sceneElapsed / stepDur)));
+      if (currentIdx !== lastWordIdx) {
+        lastWordIdx = currentIdx;
+        for (var i = 0; i < words.length; i++) {
+          var sp = document.getElementById("cw-" + i);
+          if (!sp) continue;
+          sp.className = "cap-word" + (i <= currentIdx ? " shown" : "") + (i === currentIdx ? " active-word" : "");
+        }
+      }
+    }
+
+    function updateBounceTransition(cur, elapsed) {
+      var secEl = document.getElementById(cur.id);
+      if (!secEl) return;
+
+      var halfWin = BOUNCE_WINDOW / 2;
+      var timeToEnd = cur.end - elapsed;
+      var timeFromStart = elapsed - cur.start;
+
+      if (cur.start > 0 && timeFromStart >= 0 && timeFromStart <= halfWin) {
+        var pIn = timeFromStart / halfWin;
+        var bounceIn = Math.abs(Math.sin(pIn * Math.PI * 1.5)) * (1 - pIn);
+        var yIn = -bounceIn * 28;
+        var scaleIn = 0.94 + pIn * 0.06 + bounceIn * 0.04;
+        secEl.style.transform = "translateY(" + yIn.toFixed(1) + "px) scale(" + scaleIn.toFixed(3) + ")";
+        secEl.style.opacity = Math.min(1, 0.35 + pIn * 0.65).toFixed(2);
+        playBounceSound(cur.id + "-in-" + (pIn < 0.5 ? "1" : "2"), pIn < 0.5 ? "hop" : "land");
+      } else if (timeToEnd >= 0 && timeToEnd <= halfWin) {
+        var pOut = 1 - timeToEnd / halfWin;
+        var bounceOut = Math.abs(Math.sin(pOut * Math.PI * 1.5)) * (1 - pOut * 0.5);
+        var yOut = -bounceOut * 22 + pOut * 14;
+        var scaleOut = 1 - pOut * 0.05 + bounceOut * 0.03;
+        secEl.style.transform = "translateY(" + yOut.toFixed(1) + "px) scale(" + scaleOut.toFixed(3) + ")";
+        secEl.style.opacity = Math.max(0.25, 1 - pOut * 0.75).toFixed(2);
+        playBounceSound(cur.id + "-out-" + (pOut < 0.5 ? "1" : "2"), pOut < 0.5 ? "hop" : "land");
+      } else {
+        secEl.style.transform = "translateY(0px) scale(1)";
+        secEl.style.opacity = "1";
+      }
+    }
+
+    function resetSceneStates() {
+      lastScanStep = -1;
+      lastCharIdx = -1;
+      lastWordIdx = -1;
+      copySoundPlayed = false;
+      noteSoundPlayed = false;
+      gammaSoundPlayed = false;
+      popSoundPlayed = false;
+      followSoundPlayed = false;
+
+      var sc3Sub = document.getElementById("sc3Sub");
+      var sc3CopyBtn = document.getElementById("sc3CopyBtn");
+      var sc3NoType = document.getElementById("sc3NoType");
+      if (sc3Sub) sc3Sub.style.opacity = "0";
+      if (sc3CopyBtn) {
+        sc3CopyBtn.className = "copy-action";
+        sc3CopyBtn.textContent = "Copy text";
+      }
+      if (sc3NoType) sc3NoType.style.opacity = "0";
+
+      var sc4Tag = document.getElementById("sc4Tag");
+      var sc4Sent = document.getElementById("sc4SentBubble");
+      var sc4Note = document.getElementById("sc4NoteCard");
+      var sc4Typed = document.getElementById("sc4Typed");
+      var sc4Timer = document.getElementById("sc4Timer");
+      if (sc4Tag) sc4Tag.style.opacity = "0";
+      if (sc4Sent) sc4Sent.style.display = "none";
+      if (sc4Note) sc4Note.style.display = "none";
+      if (sc4Typed) sc4Typed.textContent = "";
+      if (sc4Timer) sc4Timer.style.opacity = "0";
+
+      var sc5Before = document.getElementById("sc5Before");
+      var sc5After = document.getElementById("sc5After");
+      var sc5Cap = document.getElementById("sc5Caption");
+      if (sc5Before) sc5Before.style.display = "block";
+      if (sc5After) sc5After.style.display = "none";
+      if (sc5Cap) sc5Cap.style.opacity = "0";
+
+      var followBtn = document.getElementById("sc7FollowBtn");
+      var followText = document.getElementById("sc7FollowText");
+      if (followBtn) followBtn.className = "outro-follow-btn";
+      if (followText) followText.textContent = "Follow";
+    }
+
+    function tick(now) {
+      var elapsed = (now - startTime) % DURATION_MS;
+      var cur = scenes[scenes.length - 1];
+      for (var i = 0; i < scenes.length; i++) {
+        if (elapsed >= scenes[i].start && elapsed < scenes[i].end) {
+          cur = scenes[i];
+          break;
+        }
+      }
+
+      if (activeScene !== cur.id) {
+        activeScene = cur.id;
+        resetSceneStates();
+        for (var j = 0; j < scenes.length; j++) {
+          var el = document.getElementById(scenes[j].id);
+          if (el) el.classList.toggle("active", scenes[j].id === cur.id);
+        }
+        renderCaptionWords(cur.words);
+      }
+
+      var se = elapsed - cur.start;
+      syncWordsByTime(cur, se);
+      updateBounceTransition(cur, elapsed);
+
+      var prog = document.getElementById("progFill");
+      if (prog) prog.style.width = ((elapsed / DURATION_MS) * 100).toFixed(2) + "%";
+
+      if (cur.id === "sc1") {
+        var ring = document.getElementById("sc1Ring");
+        var arrow = document.getElementById("sc1Arrow");
+        var nCard = document.getElementById("sc1NCard");
+        var p1 = (se % 1200) / 1200;
+        if (ring) {
+          ring.style.transform = "scale(" + (0.75 + p1 * 0.55).toFixed(2) + ")";
+          ring.style.opacity = (1 - p1 * 0.75).toFixed(2);
+        }
+        if (arrow) arrow.style.transform = "translateY(" + (Math.sin(se / 180) * 5).toFixed(1) + "px)";
+        if (nCard) nCard.style.opacity = se > 650 ? "1" : "0.45";
+      } else if (cur.id === "sc2") {
+        var pen = document.getElementById("sc2Pencil");
+        if (pen) {
+          var w = Math.sin(se / 120) * 16;
+          var hop = Math.abs(Math.sin(se / 240)) * 8;
+          pen.style.transform = "translateY(" + (-hop).toFixed(1) + "px) rotate(" + w.toFixed(1) + "deg)";
+        }
+      } else if (cur.id === "sc3") {
+        var beam = document.getElementById("sc3Beam");
+        var sub3 = document.getElementById("sc3Sub");
+        var btn3 = document.getElementById("sc3CopyBtn");
+        var noType = document.getElementById("sc3NoType");
+
+        var scanP = (se % 2200) / 2200;
+        if (beam) beam.style.top = (8 + scanP * 82).toFixed(1) + "%";
+        var step = Math.floor(se / 550);
+        if (step !== lastScanStep) {
+          lastScanStep = step;
+          playTone(680 + (step % 4) * 90, 0.05, "sine", 0.04);
+        }
+        if (sub3 && se > 1400) sub3.style.opacity = "1";
+        if (btn3 && se > 2400) {
+          btn3.className = "copy-action copied";
+          btn3.textContent = "Copied ✓";
+          if (!copySoundPlayed) {
+            copySoundPlayed = true;
+            playTone(880, 0.1, "triangle", 0.06, 1120);
+          }
+        }
+        if (noType && se > 3600) noType.style.opacity = "1";
+      } else if (cur.id === "sc4") {
+        var tag4 = document.getElementById("sc4Tag");
+        var typed4 = document.getElementById("sc4Typed");
+        var sent4 = document.getElementById("sc4SentBubble");
+        var note4 = document.getElementById("sc4NoteCard");
+        var timer4 = document.getElementById("sc4Timer");
+
+        if (tag4 && se > 600) tag4.style.opacity = "1";
+        var chars = Array.from(gptPrompt);
+        var typeEnd = 3600;
+        if (se <= typeEnd) {
+          var cIdx = Math.min(chars.length, Math.floor((se / typeEnd) * chars.length));
+          if (cIdx !== lastCharIdx) {
+            lastCharIdx = cIdx;
+            if (typed4) typed4.textContent = chars.slice(0, cIdx).join("");
+            if (cIdx > 0) playTone(520 + (cIdx % 5) * 45, 0.035, "square", 0.025);
+          }
+        } else {
+          if (typed4) typed4.textContent = "";
+          if (sent4) sent4.style.display = "block";
+          if (note4 && se > 4500) {
+            note4.style.display = "block";
+            if (!noteSoundPlayed) {
+              noteSoundPlayed = true;
+              playTone(580, 0.12, "triangle", 0.06, 860);
+            }
+          }
+          if (timer4 && se > 5200) timer4.style.opacity = "1";
+        }
+      } else if (cur.id === "sc5") {
+        var before5 = document.getElementById("sc5Before");
+        var after5 = document.getElementById("sc5After");
+        var cap5 = document.getElementById("sc5Caption");
+        var genBtn = document.getElementById("sc5GenBtn");
+
+        if (genBtn) {
+          var pulse5 = 1 + Math.sin(se / 180) * 0.04;
+          genBtn.style.transform = "scale(" + pulse5.toFixed(3) + ")";
+        }
+
+        if (se > 2200) {
+          if (before5) before5.style.display = "none";
+          if (after5) after5.style.display = "block";
+          if (!gammaSoundPlayed) {
+            gammaSoundPlayed = true;
+            playTone(640, 0.14, "triangle", 0.065, 980);
+          }
+        }
+        if (cap5 && se > 3000) cap5.style.opacity = "1";
+      } else if (cur.id === "sc6") {
+        var shock = document.getElementById("sc6ShockSign");
+        if (shock) {
+          var sScale = 1 + Math.abs(Math.sin(se / 170)) * 0.18;
+          var sRot = Math.sin(se / 90) * 8;
+          shock.style.transform = "scale(" + sScale.toFixed(3) + ") rotate(" + sRot.toFixed(1) + "deg)";
+        }
+        if (!popSoundPlayed && se > 400) {
+          popSoundPlayed = true;
+          playTone(460, 0.14, "sawtooth", 0.04, 920);
+        }
+      } else if (cur.id === "sc7") {
+        var tapIcon = document.getElementById("sc7TapIcon");
+        var avatar = document.getElementById("sc7Avatar");
+        var ident = document.getElementById("sc7Identity");
+        var followBtn = document.getElementById("sc7FollowBtn");
+        var followText = document.getElementById("sc7FollowText");
+
+        var tapPhase = (se % 1100) / 1100;
+        var tapDip = tapPhase < 0.35 ? (tapPhase / 0.35) * 10 : Math.max(0, (1 - (tapPhase - 0.35) / 0.65) * 10);
+        if (tapIcon) {
+          tapIcon.style.transform = "translateY(" + tapDip.toFixed(1) + "px) scale(" + (1 - tapDip * 0.008).toFixed(3) + ")";
+        }
+        if (avatar) {
+          var aScale = 1 + Math.sin(se / 260) * 0.035;
+          avatar.style.transform = "scale(" + aScale.toFixed(3) + ")";
+        }
+        if (ident) {
+          ident.style.transform = "translateY(" + (Math.sin(se / 320) * 2.5).toFixed(1) + "px)";
+        }
+        if (followBtn && se > 2400) {
+          followBtn.className = "outro-follow-btn done";
+          if (followText) followText.textContent = "Following ✓";
+          if (!followSoundPlayed) {
+            followSoundPlayed = true;
+            playTone(760, 0.12, "triangle", 0.06, 1040);
+          }
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  </script>
 </body>
 </html>
