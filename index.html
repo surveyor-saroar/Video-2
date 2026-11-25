@@ -4,7 +4,160 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gamma AI & Touch Network Animation</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      background-color: #090d16;
+      color: #f8fafc;
+      font-family: "Segoe UI", Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    /* সবসময় উপর-নিচ ও বাম-ডানের মাঝ বরাবর সেন্টারে */
+    .main-stage {
+      width: 100%;
+      min-height: 100vh;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* গামা এআই বক্স: লেখার প্রয়োজন অনুযায়ী মাপ, সেন্টার স্কেলে */
+    .gamma-ai-box {
+      width: fit-content;
+      max-width: min(92vw, 440px);
+      margin: 0 auto;
+      padding: 10px 16px;
+      border-radius: 13px;
+      background-color: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(125, 211, 252, 0.38);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.48);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 5px;
+      will-change: transform, box-shadow;
+    }
+
+    .gamma-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.2px;
+      color: #ffd400;
+    }
+
+    .gamma-desc {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.4;
+      letter-spacing: 0.1px;
+      word-spacing: normal;
+      color: #e2e8f0;
+    }
+
+    /* হ্যান্ড নেটওয়ার্ক বক্স */
+    .hand-network-box {
+      width: fit-content;
+      max-width: min(90vw, 340px);
+      margin: 0 auto;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background-color: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      will-change: box-shadow;
+    }
+
+    .pulse-aura {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2.5px solid #ffd400;
+      pointer-events: none;
+      z-index: 3;
+      will-change: transform, opacity;
+    }
+
+    .touch-network-img {
+      display: block;
+      max-width: 240px;
+      max-height: 140px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    .touch-network-fallback {
+      width: 200px;
+      height: 120px;
+      display: none;
+      position: relative;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    /* নিচের হাইলাইট বাটন ও কিছুটা ডিপ কালারের নিচের বক্স */
+    .highlight-group {
+      width: fit-content;
+      max-width: min(92vw, 400px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .highlight-btn {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 9px;
+      background-color: #ffd400;
+      color: #090d16;
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.2;
+      cursor: pointer;
+      will-change: transform;
+    }
+
+    .highlight-bottom-box {
+      width: fit-content;
+      max-width: 100%;
+      padding: 7px 14px;
+      border-radius: 10px;
+      background-color: #162033;
+      border: 1px solid #2b3b55;
+      color: #f1f5f9;
+      font-size: 12.5px;
+      line-height: 1.35;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <main class="main-stage">
@@ -56,6 +209,109 @@
 
   <audio id="letmegoaudio" preload="auto"></audio>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <script>
+    (function () {
+      function initPage() {
+        var gammaBox = document.querySelector(".gamma-ai-box");
+        var handBox = document.querySelector(".hand-network-box");
+        var touchHandImg = document.getElementById("touchHandImg");
+        var touchHandFallback = document.getElementById("touchHandFallback");
+        var pulseAura = document.querySelector(".pulse-aura");
+        var highlightBtn = document.getElementById("highlightBtn");
+        var statusBox = document.getElementById("statusBox");
+        var letmegoaudio = document.getElementById("letmegoaudio");
+
+        // ১৫০ সেকেন্ডের ক্লিপের শুরু থেকে অ্যানিমেশনের প্রয়োজন অনুযায়ী সময় (মিলিসেকেন্ডে)
+        var neededDurationMs = 20000;
+        var maxAudioSeconds = 150;
+        var audioTimer = null;
+        var isAudioActive = false;
+
+        // touchnetwork ইমেজ লোডিং ও এক্সটেনশন চেক
+        var imgList = [
+          "touchnetwork",
+          "touchnetwork.png",
+          "touchnetwork.jpg",
+          "touchnetwork.jpeg",
+          "touchnetwork.webp"
+        ];
+        var imgIdx = 0;
+
+        if (touchHandImg) {
+          touchHandImg.src = imgList[0];
+          touchHandImg.onerror = function () {
+            imgIdx += 1;
+            if (imgIdx < imgList.length) {
+              touchHandImg.src = imgList[imgIdx];
+            } else {
+              touchHandImg.style.display = "none";
+              if (touchHandFallback) {
+                touchHandFallback.style.display = "block";
+              }
+            }
+          };
+        }
+
+        // letmegoaudio অডিও লোডিং ও এক্সটেনশন চেক
+        var audioList = [
+          "letmegoaudio",
+          "letmegoaudio.mp3",
+          "letmegoaudio.wav",
+          "letmegoaudio.ogg",
+          "letmegoaudio.m4a"
+        ];
+        var audioIdx = 0;
+
+        if (letmegoaudio) {
+          letmegoaudio.src = audioList[0];
+          letmegoaudio.onerror = function () {
+            audioIdx += 1;
+            if (audioIdx < audioList.length) {
+              letmegoaudio.src = audioList[audioIdx];
+            }
+          };
+
+          letmegoaudio.ontimeupdate = function () {
+            if (letmegoaudio.currentTime >= maxAudioSeconds) {
+              letmegoaudio.pause();
+              letmegoaudio.currentTime = 0;
+              isAudioActive = false;
+            }
+          };
+        }
+
+        // সক্রিয় ভিজ্যুয়াল অ্যানিমেশন লুপ
+        var startTime = null;
+
+        function animateFrame(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var t = (timestamp - startTime) / 1000;
+
+          var speed = isAudioActive ? 5.2 : 3.2;
+          var moveY = Math.sin(t * speed) * (isAudioActive ? 10 : 7);
+          var tiltDeg = Math.sin(t * (speed * 0.7)) * (isAudioActive ? 4 : 2.5);
+          var scaleVal = 1 + Math.sin(t * speed) * (isAudioActive ? 0.06 : 0.035);
+
+          var handTransform =
+            "translate3d(0px, " +
+            moveY.toFixed(2) +
+            "px, 0px) rotate(" +
+            tiltDeg.toFixed(2) +
+            "deg) scale(" +
+            scaleVal.toFixed(3) +
+            ")";
+
+          if (touchHandImg && touchHandImg.style.display !== "none") {
+            touchHandImg.style.transform = handTransform;
+          }
+          if (touchHandFallback && touchHandFallback.style.display !== "none") {
+            touchHandFallback.style.transform = handTransform;
+          }
+
+          if (pulseAura) {
+            var ringRate = isAudioActive ? 1.15 : 0.75;
+            var phase = (t * ringRate) % 1;
+            var ringScale = 0.5 + phase * 2.2;
+            var ringOpacity = (1 - phase) * 0.9;
+            pulseAura.style.transform = "scale(" + ringScale.toFixed(2) + ")";
+            pulseAura
