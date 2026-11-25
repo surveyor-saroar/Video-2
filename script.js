@@ -12,8 +12,8 @@
     var neededDurationMs = 20000;
     var maxAudioSeconds = 150;
     var audioTimer = null;
+    var isAudioActive = false;
 
-    // ১. touchnetwork ইমেজ লোডিং
     var imgList = [
       "touchnetwork",
       "touchnetwork.png",
@@ -38,7 +38,6 @@
       };
     }
 
-    // ২. letmegoaudio লোডিং
     var audioList = [
       "letmegoaudio",
       "letmegoaudio.mp3",
@@ -61,59 +60,64 @@
         if (letmegoaudio.currentTime >= maxAudioSeconds) {
           letmegoaudio.pause();
           letmegoaudio.currentTime = 0;
+          isAudioActive = false;
         }
       };
     }
 
-    // ৩. JavaScript রিয়েল-টাইম অ্যানিমেশন লুপ (সব ব্রাউজারে নিশ্চিতভাবে চলবে)
     var startTime = null;
-    var boostMode = false;
 
     function animateFrame(timestamp) {
       if (!startTime) startTime = timestamp;
-      var elapsed = (timestamp - startTime) / 1000;
+      var t = (timestamp - startTime) / 1000;
 
-      // হাতের ছবি ও ফলব্যাক ভেক্টরের ওঠানামা ও হালকা জুম অ্যানিমেশন
-      var speed = boostMode ? 4.2 : 2.6;
-      var floatY = Math.sin(elapsed * speed) * (boostMode ? 9 : 6);
-      var handScale = 1 + Math.sin(elapsed * speed) * 0.04;
+      var speed = isAudioActive ? 5.2 : 3.2;
+      var moveY = Math.sin(t * speed) * (isAudioActive ? 10 : 7);
+      var tiltDeg = Math.sin(t * (speed * 0.7)) * (isAudioActive ? 4 : 2.5);
+      var scaleVal = 1 + Math.sin(t * speed) * (isAudioActive ? 0.06 : 0.035);
+
+      var handTransform =
+        "translate3d(0px, " +
+        moveY.toFixed(2) +
+        "px, 0px) rotate(" +
+        tiltDeg.toFixed(2) +
+        "deg) scale(" +
+        scaleVal.toFixed(3) +
+        ")";
 
       if (touchHandImg && touchHandImg.style.display !== "none") {
-        touchHandImg.style.transform =
-          "translateY(" + floatY.toFixed(2) + "px) scale(" + handScale.toFixed(3) + ")";
+        touchHandImg.style.transform = handTransform;
       }
-      if (touchHandFallback && touchHandFallback.style.display === "block") {
-        touchHandFallback.style.transform =
-          "translateY(" + floatY.toFixed(2) + "px) scale(" + handScale.toFixed(3) + ")";
+      if (touchHandFallback && touchHandFallback.style.display !== "none") {
+        touchHandFallback.style.transform = handTransform;
       }
 
-      // টাচ পালস রিং ছড়িয়ে যাওয়ার অ্যানিমেশন
       if (pulseAura) {
-        var ringProgress = (elapsed * 0.7) % 1;
-        var ringScale = 0.6 + ringProgress * 1.7;
-        var ringOpacity = 1 - ringProgress;
+        var ringRate = isAudioActive ? 1.15 : 0.75;
+        var phase = (t * ringRate) % 1;
+        var ringScale = 0.5 + phase * 2.2;
+        var ringOpacity = (1 - phase) * 0.9;
         pulseAura.style.transform = "scale(" + ringScale.toFixed(2) + ")";
         pulseAura.style.opacity = ringOpacity.toFixed(2);
       }
 
-      // গামা এআই বক্সের হালকা শ্বাস-প্রশ্বাস ও বর্ডার গ্লো অ্যানিমেশন
       if (gammaBox) {
-        var boxScale = 1 + Math.sin(elapsed * 2.0) * 0.015;
-        var glowAlpha = 0.25 + (Math.sin(elapsed * 2.0) + 1) * 0.2;
-        gammaBox.style.transform = "scale(" + boxScale.toFixed(4) + ")";
-        gammaBox.style.borderColor = "rgba(255, 212, 0, " + glowAlpha.toFixed(2) + ")";
+        var gScale = 1 + Math.sin(t * 2.4) * (isAudioActive ? 0.022 : 0.012);
+        var gGlow = isAudioActive ? 0.85 : 0.45;
+        gammaBox.style.transform = "scale(" + gScale.toFixed(4) + ")";
+        gammaBox.style.boxShadow =
+          "0 0 " + (isAudioActive ? 26 : 16) + "px rgba(255, 212, 0, " + (gGlow * 0.35).toFixed(2) + ")";
       }
 
-      // হ্যান্ড নেটওয়ার্ক বক্সের বর্ডার গ্লো
       if (handBox) {
-        var handGlow = 0.25 + (Math.cos(elapsed * 2.2) + 1) * 0.2;
-        handBox.style.borderColor = "rgba(56, 189, 248, " + handGlow.toFixed(2) + ")";
+        var hGlow = 0.25 + (Math.sin(t * 3.0) + 1) * 0.25;
+        handBox.style.boxShadow =
+          "0 0 " + (isAudioActive ? 28 : 16) + "px rgba(56, 189, 248, " + hGlow.toFixed(2) + ")";
       }
 
-      // হাইলাইট বাটনের পালস অ্যানিমেশন
       if (highlightBtn) {
-        var btnScale = 1 + Math.sin(elapsed * 3.0) * 0.035;
-        highlightBtn.style.transform = "scale(" + btnScale.toFixed(3) + ")";
+        var bScale = 1 + Math.sin(t * (isAudioActive ? 4.5 : 2.8)) * 0.04;
+        highlightBtn.style.transform = "scale(" + bScale.toFixed(3) + ")";
       }
 
       requestAnimationFrame(animateFrame);
@@ -121,10 +125,8 @@
 
     requestAnimationFrame(animateFrame);
 
-    // ৪. ক্লিক করলে সাউন্ড + অ্যানিমেশন বুস্ট
     function playLowBackgroundAudio() {
-      boostMode = true;
-
+      isAudioActive = true;
       if (!letmegoaudio) return;
 
       try {
@@ -153,12 +155,13 @@
         audioTimer = setTimeout(function () {
           letmegoaudio.pause();
           letmegoaudio.currentTime = 0;
-          boostMode = false;
+          isAudioActive = false;
           if (statusBox) {
             statusBox.textContent = "অ্যানিমেশন চলছে • আবার শুনতে বাটনে ক্লিক করুন";
           }
         }, playLimit);
       } catch (e) {
+        isAudioActive = false;
         if (statusBox) {
           statusBox.textContent = "অডিও চালু করা যায়নি";
         }
