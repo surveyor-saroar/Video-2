@@ -19,7 +19,7 @@
         window.__audioOn = true;
         var bg = document.getElementById("bgMusic");
         if (bg) {
-          bg.volume = 0.06;
+          bg.volume = 0.05;
           if (bg.paused) {
             var p = bg.play();
             if (p && typeof p.catch === "function") p.catch(function () {});
@@ -308,7 +308,7 @@
     }
     .underhand-wave-circle {
       position: absolute;
-      top: 12px;
+      top: 26px;
       left: 50%;
       width: 34px;
       height: 34px;
@@ -393,7 +393,7 @@
       line-height: 1.25;
     }
     .outro-title {
-      font-size: 14px;
+      font-size: 13px;
       color: #2563eb;
       font-weight: 700;
       line-height: 1.25;
@@ -658,7 +658,7 @@
 
         <div class="outro-identity" id="sc7Identity">
           <div class="outro-name">মোঃ সরওয়ার আলম সবুজ</div>
-          <div class="outro-title">সার্ভেয়ার • Facebook পেজ</div>
+          <div class="outro-title">গ্রাফিক্স ডিজাইনার, ল্যান্ড সার্ভেয়ার • সার্ভেয়ার • Facebook পেজ</div>
         </div>
       </div>
 
@@ -682,7 +682,7 @@
     (function () {
       var DURATION_MS = 40000;
       var BOUNCE_WINDOW = 440;
-      var BG_MUSIC_VOLUME = 0.06;
+      var BG_MUSIC_VOLUME = 0.05;
       var gptPrompt = "এটাকে সহজ বাংলায় পয়েন্ট আকারে নোট বানিয়ে দাও।";
       var scenes = [
         { id: "sc1", start: 0,     end: 3600,  words: ["প্রশ্নের", "ছবি", "তুললেই", "পুরো", "নোট", "রেডি!"] },
