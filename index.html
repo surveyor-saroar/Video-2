@@ -106,25 +106,43 @@
       position: relative; text-align: left;
     }
 
-    @keyframes fadeLineIn {
-      0% { opacity: 0.25; }
-      100% { opacity: 1; }
+    @keyframes trimRightAnim {
+      0% {
+        transform: scaleX(1) translateX(0);
+        opacity: 1;
+      }
+      55% {
+        transform: scaleX(0.35) translateX(22px);
+        opacity: 0.65;
+      }
+      100% {
+        transform: scaleX(1) translateX(0);
+        opacity: 1;
+      }
     }
+
     .skel {
       height: 9px; border-radius: 99px; background: #e2e8f0; margin-bottom: 7px;
-      will-change: opacity;
+      transform-origin: right center;
+      will-change: transform, opacity;
     }
     .scene.active .skel:not(.sc3-line) {
-      animation: fadeLineIn 0.65s ease-out both;
+      animation: trimRightAnim 1.8s ease-in-out infinite both;
     }
-    .scene.active .skel:not(.sc3-line):nth-of-type(2) { animation-delay: 0.1s; }
-    .scene.active .skel:not(.sc3-line):nth-of-type(3) { animation-delay: 0.2s; }
-    .scene.active .skel:not(.sc3-line):nth-of-type(4) { animation-delay: 0.3s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(2) { animation-delay: 0.22s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(3) { animation-delay: 0.44s; }
+    .scene.active .skel:not(.sc3-line):nth-of-type(4) { animation-delay: 0.66s; }
 
     .sc3-line {
-      animation: none !important;
-      opacity: 1 !important;
+      transform-origin: right center;
     }
+    .scene.active #sc3 .sc3-line {
+      animation: trimRightAnim 1.7s ease-in-out infinite both;
+    }
+    .scene.active #sc3 .sc3-line:nth-of-type(2) { animation-delay: 0.16s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(3) { animation-delay: 0.32s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(4) { animation-delay: 0.48s; }
+    .scene.active #sc3 .sc3-line:nth-of-type(5) { animation-delay: 0.64s; }
 
     .ring-pulse {
       position: absolute; right: 10px; bottom: 6px; width: 88px; height: 88px;
@@ -234,26 +252,30 @@
     .hl-yellow { background: linear-gradient(transparent 55%, #fde68a 55%); padding: 0 5px; }
 
     .outro-header {
-      display: flex; align-items: center; justify-content: flex-start; gap: 14px;
-      width: 96%; background: #ffffff; border-radius: 22px; padding: 12px 16px;
-      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08); border: 1.5px solid #cbd5e1;
-      text-align: left;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; background: transparent; border: none; box-shadow: none; padding: 2px 0;
     }
-    .outro-header-badge {
-      width: 72px; height: 72px; border-radius: 18px;
-      background: #fef9c3; border: 2px solid #fde047; color: #b45309;
-      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.18);
+    .outro-top-pill {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      background: #ffffff; color: #b45309;
+      border: 1.5px solid #fde047; border-radius: 999px;
+      padding: 5px 14px; font-size: 14px; font-weight: 800; line-height: 1.2;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
     }
-    .outro-header-badge svg { width: 34px; height: 34px; display: block; }
-    .outro-lines { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
-    .outro-line-top {
-      font-size: 23px; font-weight: 800; line-height: 1.18;
-      color: #ca8a04;
-      background: linear-gradient(transparent 58%, #fef08a 58%);
-      padding: 0 4px;
+    .outro-top-pill svg { width: 15px; height: 15px; display: block; flex-shrink: 0; }
+    .outro-single-line {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; line-height: 1.3;
+      color: #0f172a; white-space: nowrap;
     }
-    .outro-line-sub { font-size: 17px; font-weight: 700; line-height: 1.25; color: #2563eb; }
+    .outro-yellow-half {
+      display: inline-block;
+      background: #facc15;
+      color: #0f172a;
+      padding: 1px 7px;
+      border-radius: 7px;
+      margin-right: 4px;
+    }
 
     .outro-showcase {
       width: 100%;
@@ -605,15 +627,15 @@
     <!-- Scene 7 (Last Scene) -->
     <section class="scene" id="sc7">
       <div class="outro-header">
-        <span class="outro-header-badge">
+        <span class="outro-top-pill">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
           </svg>
+          <span>সব আপডেট পেতে</span>
         </span>
-        <div class="outro-lines">
-          <span class="outro-line-top">সব আপডেট পেতে</span>
-          <span class="outro-line-sub">পেইজটি ফলো দিয়ে যুক্ত থাকুন</span>
+        <div class="outro-single-line">
+          <span class="outro-yellow-half">পেইজটি ফলো</span><span>দিয়ে যুক্ত থাকুন</span>
         </div>
       </div>
 
