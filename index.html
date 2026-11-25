@@ -289,7 +289,7 @@
       background: rgba(255, 255, 255, 0.78); color: #0f172a;
       font-size: 16.5px; font-weight: 700; line-height: 1.45; padding: 7px 11px;
       border-radius: 14px; text-align: center; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-      border: 1px solid rgba(226, 232, 240, 0.85); display: flex; flex-wrap: wrap;
+      border: 1px solid rgba(226, 232, 40, 0.85); display: flex; flex-wrap: wrap;
       align-items: center; justify-content: center; gap: 3px;
     }
     .cap-word {
@@ -596,7 +596,6 @@
         var box = document.getElementById("reelCanvas");
         if (!box) return;
         var s = Math.min((window.innerWidth * 0.96) / 405, (window.innerHeight * 0.96) / 720, 1.25);
-        if (!isFinite(s) || s <= 0) s = 1;
         box.style.transform = "scale(" + s.toFixed(4) + ")";
       }
       applyCanvasScale();
@@ -758,4 +757,139 @@
         if (local < typeEnd) {
           var idx = Math.min(gptChars.length, Math.floor((Math.max(0, local) / typeEnd) * gptChars.length));
           if (typedEl) typedEl.textContent = gptChars.slice(0, idx).join("");
-          if (idx !==
+          if (idx !== lastCharIdx && idx > 0) {
+            lastCharIdx = idx;
+            playTone(540 + (idx % 6) * 45, 0.035, "sine", 0.14);
+          }
+          if (sentBubble) sentBubble.style.display = "none";
+          if (noteCard) noteCard.style.display = "none";
+          if (tag) tag.style.opacity = "0";
+          if (timer) timer.style.opacity = "0";
+          noteSoundPlayed = false;
+        } else {
+          if (typedEl) typedEl.textContent = "";
+          if (sentBubble) sentBubble.style.display = "block";
+          var showNote = local > tMs(2650);
+          if (noteCard) noteCard.style.display = showNote ? "block" : "none";
+          if (showNote && !noteSoundPlayed) {
+            noteSoundPlayed = true;
+            playTone(620, 0.11, "triangle", 0.25, 960);
+          }
+          if (tag) tag.style.opacity = local > tMs(3050) ? "1" : "0";
+          if (timer) timer.style.opacity = local > tMs(3450) ? "1" : "0";
+        }
+      }
+
+      function updateSc5(t) {
+        var local = t - tMs(14200);
+        var before = document.getElementById("sc5Before");
+        var after = document.getElementById("sc5After");
+        var genBtn = document.getElementById("sc5GenBtn");
+        var cap = document.getElementById("sc5Caption");
+        var isAfter = local > tMs(1550);
+        if (before) before.style.display = isAfter ? "none" : "block";
+        if (after) after.style.display = isAfter ? "block" : "none";
+        if (genBtn && !isAfter) {
+          var pulse = 1 + 0.05 * Math.sin((local / tMs(260)) * Math.PI);
+          genBtn.style.transform = "scale(" + pulse.toFixed(3) + ")";
+        }
+        if (isAfter && !gammaSoundPlayed) {
+          gammaSoundPlayed = true;
+          playTone(580, 0.12, "sine", 0.26, 1080);
+        }
+        if (cap) cap.style.opacity = local > tMs(2050) ? "1" : "0";
+      }
+
+      function updateSc6(t) {
+        var card = document.getElementById("sc6Card");
+        var shockSign = document.getElementById("sc6ShockSign");
+        var local = Math.max(0, t - tMs(18200));
+        var p = Math.min(1, local / tMs(450));
+        var popScale = 0.82 + 0.24 * Math.sin(p * Math.PI * 0.75);
+        if (card) card.style.transform = "scale(" + popScale.toFixed(3) + ")";
+        if (shockSign) {
+          var jolt = Math.sin(local * 0.032) * 9;
+          var sPulse = 1 + 0.1 * Math.abs(Math.sin(local * 0.016));
+          shockSign.style.transform = "rotate(" + jolt.toFixed(1) + "deg) scale(" + sPulse.toFixed(3) + ")";
+        }
+        if (!popSoundPlayed) {
+          popSoundPlayed = true;
+          playTone(520, 0.13, "triangle", 0.28, 980);
+        }
+      }
+
+      function updateSc7(t) {
+        var tapIcon = document.getElementById("sc7TapIcon");
+        var waveInner = document.getElementById("sc7WaveInner");
+        var waveMid = document.getElementById("sc7WaveMid");
+        var waveOuter = document.getElementById("sc7WaveOuter");
+        var followBtn = document.getElementById("sc7FollowBtn");
+        var followText = document.getElementById("sc7FollowText");
+        var local = Math.max(0, t - tMs(20600));
+        var cycle = tMs(1250);
+        var p = (local % cycle) / cycle;
+
+        if (tapIcon) {
+          var press = p < 0.24 ? Math.sin((p / 0.24) * Math.PI) : 0;
+          var ty = -4 * press;
+          var ts = 1 - 0.1 * press;
+          var tr = -4 * press;
+          tapIcon.style.transform = "translateY(" + ty.toFixed(1) + "px) rotate(" + tr.toFixed(1) + "deg) scale(" + ts.toFixed(3) + ")";
+        }
+
+        function applyWave(el, delayRatio, maxScale) {
+          if (!el) return;
+          var wp = (p - delayRatio + 1) % 1;
+          var active = wp < 0.72;
+          var k = active ? (wp / 0.72) : 0;
+          var sc = active ? (0.45 + k * maxScale) : 0.45;
+          var op = active ? ((1 - k) * 0.78) : 0;
+          el.style.transform = "scale(" + sc.toFixed(3) + ")";
+          el.style.opacity = op.toFixed(2);
+        }
+
+        applyWave(waveInner, 0.06, 1.35);
+        applyWave(waveMid, 0.16, 1.85);
+        applyWave(waveOuter, 0.26, 2.35);
+
+        var followed = local > tMs(1600);
+        if (followBtn) {
+          if (followed) followBtn.classList.add("done");
+          else followBtn.classList.remove("done");
+        }
+        if (followText) followText.textContent = followed ? "Following ✓" : "Follow";
+        if (followed && !followSoundPlayed) {
+          followSoundPlayed = true;
+          playTone(680, 0.1, "sine", 0.25, 1020);
+        }
+      }
+
+      window.__reelTimer = setInterval(function () {
+        var bg = document.getElementById("bgMusic");
+        if (bg && window.__audioOn && Math.abs(bg.volume - BG_MUSIC_VOLUME) > 0.001) {
+          bg.volume = BG_MUSIC_VOLUME;
+        }
+        var elapsed = (Date.now() - startTime) % DURATION_MS;
+        var fill = document.getElementById("progFill");
+        if (fill) fill.style.width = ((elapsed / DURATION_MS) * 100).toFixed(2) + "%";
+
+        var cur = scenes[scenes.length - 1];
+        for (var i = 0; i < scenes.length; i++) {
+          if (elapsed >= scenes[i].start && elapsed < scenes[i].end) {
+            cur = scenes[i];
+            break;
+          }
+        }
+        setScene(cur, elapsed);
+        if (cur.id === "sc1") updateSc1(elapsed);
+        else if (cur.id === "sc2") updateSc2(elapsed);
+        else if (cur.id === "sc3") updateSc3(elapsed);
+        else if (cur.id === "sc4") updateSc4(elapsed);
+        else if (cur.id === "sc5") updateSc5(elapsed);
+        else if (cur.id === "sc6") updateSc6(elapsed);
+        else if (cur.id === "sc7") updateSc7(elapsed);
+      }, 33);
+    })();
+  </script>
+</body>
+</html>
