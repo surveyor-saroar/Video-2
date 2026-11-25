@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:," />
   <title>Smart Study Hack - 9:16 Reels Animation</title>
   <script>
     window.__audioCtx = null;
@@ -45,6 +46,7 @@
       position: relative; z-index: 1;
       width: 405px; height: 720px; flex-shrink: 0;
       background: transparent; overflow: hidden; cursor: pointer;
+      transform-origin: center center;
     }
 
     .scene {
@@ -53,7 +55,6 @@
       display: none; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; z-index: 2;
       transform-origin: center center;
-      will-change: transform, opacity;
     }
     .scene.active { display: flex; }
 
@@ -107,24 +108,14 @@
     }
 
     @keyframes trimRightAnim {
-      0% {
-        transform: scaleX(1) translateX(0);
-        opacity: 1;
-      }
-      55% {
-        transform: scaleX(0.35) translateX(22px);
-        opacity: 0.65;
-      }
-      100% {
-        transform: scaleX(1) translateX(0);
-        opacity: 1;
-      }
+      0% { transform: scaleX(1) translateX(0); opacity: 1; }
+      55% { transform: scaleX(0.35) translateX(22px); opacity: 0.65; }
+      100% { transform: scaleX(1) translateX(0); opacity: 1; }
     }
 
     .skel {
       height: 9px; border-radius: 99px; background: #e2e8f0; margin-bottom: 7px;
       transform-origin: right center;
-      will-change: transform, opacity;
     }
     .scene.active .skel:not(.sc3-line) {
       animation: trimRightAnim 1.8s ease-in-out infinite both;
@@ -133,9 +124,7 @@
     .scene.active .skel:not(.sc3-line):nth-of-type(3) { animation-delay: 0.44s; }
     .scene.active .skel:not(.sc3-line):nth-of-type(4) { animation-delay: 0.66s; }
 
-    .sc3-line {
-      transform-origin: right center;
-    }
+    .sc3-line { transform-origin: right center; }
     .scene.active #sc3 .sc3-line {
       animation: trimRightAnim 1.7s ease-in-out infinite both;
     }
@@ -210,29 +199,13 @@
     .slides-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
     .card-blue { background: #2563eb; border-radius: 12px; padding: 10px; height: 88px; display: flex; flex-direction: column; justify-content: space-between; }
     .card-light { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 10px; height: 88px; }
-    #sc5GenBtn {
-      font-size: 16px;
-      padding: 9px 24px;
-      border-radius: 12px;
-    }
-    #sc5After .slide-label {
-      font-size: 15px;
-      font-weight: 800;
-    }
+    #sc5GenBtn { font-size: 16px; padding: 9px 24px; border-radius: 12px; }
+    #sc5After .slide-label { font-size: 15px; font-weight: 800; }
     .gamma-pdf-corner {
-      position: absolute;
-      top: -13px;
-      right: -11px;
-      background: #facc15;
-      color: #0f172a;
-      font-weight: 900;
-      font-size: 22px;
-      line-height: 1.05;
-      padding: 7px 14px;
-      border-radius: 13px;
-      border: 2.5px solid #eab308;
-      box-shadow: 0 10px 24px rgba(234, 179, 8, 0.35);
-      z-index: 4;
+      position: absolute; top: -13px; right: -11px;
+      background: #facc15; color: #0f172a; font-weight: 900; font-size: 22px;
+      line-height: 1.05; padding: 7px 14px; border-radius: 13px;
+      border: 2.5px solid #eab308; box-shadow: 0 10px 24px rgba(234, 179, 8, 0.35); z-index: 4;
     }
     #sc5Caption .h2-sub { font-size: 23px; font-weight: 800; line-height: 1.24; }
     #sc5Caption .svg-badge { width: 44px; height: 44px; }
@@ -257,179 +230,78 @@
     }
     .outro-top-pill {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      background: #ffffff; color: #b45309;
-      border: 1.5px solid #fde047; border-radius: 999px;
+      background: #ffffff; color: #b45309; border: 1.5px solid #fde047; border-radius: 999px;
       padding: 5px 14px; font-size: 14px; font-weight: 800; line-height: 1.2;
       box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
     }
     .outro-top-pill svg { width: 15px; height: 15px; display: block; flex-shrink: 0; }
     .outro-single-line {
       display: inline-flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 800; line-height: 1.3;
-      color: #0f172a; white-space: nowrap;
+      font-size: 18px; font-weight: 800; line-height: 1.3; color: #0f172a; white-space: nowrap;
     }
     .outro-yellow-half {
-      display: inline-block;
-      background: #facc15;
-      color: #0f172a;
-      padding: 1px 7px;
-      border-radius: 7px;
-      margin-right: 4px;
+      display: inline-block; background: #facc15; color: #0f172a;
+      padding: 1px 7px; border-radius: 7px; margin-right: 4px;
     }
 
     .outro-showcase {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 4px 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
+      width: 100%; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 10px; padding: 4px 0;
     }
     .video-motion-row {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      min-height: 106px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 106px;
     }
 
     .tap-network-wrap {
-      position: relative;
-      width: 96px;
-      height: 104px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      position: relative; width: 96px; height: 104px;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .underhand-wave-circle {
-      position: absolute;
-      top: 26px;
-      left: 50%;
-      width: 34px;
-      height: 34px;
-      margin-left: -17px;
-      margin-top: -17px;
-      border-radius: 50%;
-      border: 2.5px solid #2563eb;
-      background: rgba(37, 99, 235, 0.08);
-      pointer-events: none;
-      z-index: 1;
-      transform-origin: center center;
-      will-change: transform, opacity;
+      position: absolute; top: 26px; left: 50%; width: 34px; height: 34px;
+      margin-left: -17px; margin-top: -17px; border-radius: 50%;
+      border: 2.5px solid #2563eb; background: rgba(37, 99, 235, 0.08);
+      pointer-events: none; z-index: 1; transform-origin: center center;
     }
-    .underhand-wave-circle.mid {
-      border-color: #0ea5e9;
-      background: rgba(14, 165, 233, 0.06);
-    }
-    .underhand-wave-circle.outer {
-      border-color: #f59e0b;
-      background: rgba(245, 158, 11, 0.06);
-    }
+    .underhand-wave-circle.mid { border-color: #0ea5e9; background: rgba(14, 165, 233, 0.06); }
+    .underhand-wave-circle.outer { border-color: #f59e0b; background: rgba(245, 158, 11, 0.06); }
     .tap-network-icon {
-      position: relative;
-      z-index: 4;
-      width: 78px;
-      height: 78px;
-      margin-bottom: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transform-origin: center center;
-      will-change: transform, opacity;
-      filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.24));
+      position: relative; z-index: 4; width: 78px; height: 78px; margin-bottom: 12px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transform-origin: center center; filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.24));
     }
-    .tap-network-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
+    .tap-network-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
     .outro-avatar-circle {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      border: 3px solid #2563eb;
-      background: #e2e8f0;
-      color: #0f172a;
-      font-weight: 800;
-      font-size: 22px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
-      will-change: transform, opacity;
+      width: 84px; height: 84px; border-radius: 50%; border: 3px solid #2563eb;
+      background: #e2e8f0; color: #0f172a; font-weight: 800; font-size: 22px;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+      overflow: hidden; position: relative; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
     }
-    .outro-avatar-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      display: block;
-    }
+    .outro-avatar-circle img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
     .outro-avatar-circle .avatar-fallback { display: none; }
     .outro-avatar-circle.broken .avatar-fallback { display: inline-flex; }
 
-    .outro-identity {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 3px;
-      will-change: transform, opacity;
-    }
-    .outro-name {
-      font-weight: 800;
-      font-size: 20px;
-      color: #0f172a;
-      line-height: 1.25;
-    }
-    .outro-title-roles {
-      font-size: 13px;
-      color: #2563eb;
-      font-weight: 700;
-      line-height: 1.3;
-      white-space: nowrap;
-    }
-    .outro-title-page {
-      font-size: 13px;
-      color: #475569;
-      font-weight: 700;
-      line-height: 1.25;
-    }
+    .outro-identity { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; }
+    .outro-name { font-weight: 800; font-size: 20px; color: #0f172a; line-height: 1.25; }
+    .outro-title-roles { font-size: 13px; color: #2563eb; font-weight: 700; line-height: 1.3; white-space: nowrap; }
+    .outro-title-page { font-size: 13px; color: #475569; font-weight: 700; line-height: 1.25; }
 
     .outro-follow-btn {
-      width: auto; max-width: 50%; min-width: 156px;
-      margin: 0 auto;
-      padding: 10px 20px; border-radius: 999px;
-      background: #2563eb; color: #ffffff; font-weight: 800; font-size: 15px;
-      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
-      transition: transform 0.15s ease, background 0.2s ease;
+      width: auto; max-width: 50%; min-width: 156px; margin: 0 auto;
+      padding: 10px 20px; border-radius: 999px; background: #2563eb; color: #ffffff;
+      font-weight: 800; font-size: 15px; display: inline-flex; align-items: center;
+      justify-content: center; gap: 7px; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
     }
-    .outro-follow-btn.done {
-      background: #16a34a;
-      box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
-    }
+    .outro-follow-btn.done { background: #16a34a; box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25); }
 
     #bottom-caption {
       position: absolute; bottom: 118px; left: 0; right: 0; z-index: 6;
-      width: fit-content; max-width: calc(100% - 48px);
-      margin: 0 auto;
+      width: fit-content; max-width: calc(100% - 48px); margin: 0 auto;
       background: rgba(255, 255, 255, 0.78); color: #0f172a;
-      font-size: 16.5px; font-weight: 700; line-height: 1.45;
-      padding: 7px 11px;
-      border-radius: 14px; text-align: center;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); border: 1px solid rgba(226, 232, 240, 0.85);
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 3px;
+      font-size: 16.5px; font-weight: 700; line-height: 1.45; padding: 7px 11px;
+      border-radius: 14px; text-align: center; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(226, 232, 240, 0.85); display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: center; gap: 3px;
     }
     .cap-word {
       display: inline-block; padding: 1px 3px; border-radius: 6px;
@@ -451,7 +323,6 @@
   <audio id="bgMusic" src="letmegoaudio.mp3" preload="auto" loop></audio>
 
   <div id="reelCanvas">
-    <!-- Scene 1 -->
     <section class="scene active" id="sc1">
       <div class="header-row">
         <span class="svg-badge">
@@ -479,7 +350,6 @@
       </div>
     </section>
 
-    <!-- Scene 2 -->
     <section class="scene" id="sc2">
       <div class="pencil-anim" id="sc2Pencil">✏️</div>
       <div class="header-row">
@@ -493,7 +363,6 @@
       </div>
     </section>
 
-    <!-- Scene 3 -->
     <section class="scene" id="sc3">
       <div>
         <div class="brand-pill"><span class="brand-logo">G</span> Google Lens</div>
@@ -535,7 +404,6 @@
       </div>
     </section>
 
-    <!-- Scene 4 -->
     <section class="scene" id="sc4">
       <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
         <div class="brand-pill"><span class="brand-logo" style="background:#0f172a;">AI</span> ChatGPT</div>
@@ -570,7 +438,6 @@
       <div class="time-chip" id="sc4Timer" style="opacity:0;">⏱ ২ সেকেন্ড</div>
     </section>
 
-    <!-- Scene 5 -->
     <section class="scene" id="sc5">
       <div class="brand-pill"><span class="brand-logo">G</span> Gamma AI</div>
       <div class="gamma-box" id="sc5Before">
@@ -610,7 +477,6 @@
       </div>
     </section>
 
-    <!-- Scene 6 -->
     <section class="scene" id="sc6">
       <div class="teacher-box" id="sc6Card">
         <div class="shock-row">
@@ -631,7 +497,6 @@
       </div>
     </section>
 
-    <!-- Scene 7 (Last Scene) -->
     <section class="scene" id="sc7">
       <div class="outro-header">
         <span class="outro-top-pill">
@@ -706,10 +571,6 @@
         clearInterval(window.__reelTimer);
         window.__reelTimer = null;
       }
-      if (window.__reelRafId) {
-        cancelAnimationFrame(window.__reelRafId);
-        window.__reelRafId = null;
-      }
 
       var startTime = Date.now();
       var activeScene = "";
@@ -723,14 +584,14 @@
       var popSoundPlayed = false;
       var followSoundPlayed = false;
 
-      function scaleReelFrame() {
+      function applyCanvasScale() {
         var box = document.getElementById("reelCanvas");
         if (!box) return;
-        var scale = Math.min((window.innerWidth * 0.96) / 405, (window.innerHeight * 0.96) / 720, 1.25);
-        box.style.transform = "scale(" + scale.toFixed(4) + ")";
+        var s = Math.min((window.innerWidth * 0.96) / 405, (window.innerHeight * 0.96) / 720, 1.25);
+        box.style.transform = "scale(" + s.toFixed(4) + ")";
       }
-      scaleReelFrame();
-      window.addEventListener("resize", scaleReelFrame);
+      applyCanvasScale();
+      window.addEventListener("resize", applyCanvasScale);
 
       function playTone(freq, dur, type, vol, endFreq) {
         var audioCtx = window.__audioCtx;
@@ -835,77 +696,4 @@
         }
         if (sc3NoType) sc3NoType.style.opacity = "0";
 
-        var sc4Tag = document.getElementById("sc4Tag");
-        var sc4Sent = document.getElementById("sc4SentBubble");
-        var sc4Note = document.getElementById("sc4NoteCard");
-        var sc4Typed = document.getElementById("sc4Typed");
-        var sc4Timer = document.getElementById("sc4Timer");
-        if (sc4Tag) sc4Tag.style.opacity = "0";
-        if (sc4Sent) sc4Sent.style.display = "none";
-        if (sc4Note) sc4Note.style.display = "none";
-        if (sc4Typed) sc4Typed.textContent = "";
-        if (sc4Timer) sc4Timer.style.opacity = "0";
-
-        var sc5Before = document.getElementById("sc5Before");
-        var sc5After = document.getElementById("sc5After");
-        var sc5Cap = document.getElementById("sc5Caption");
-        if (sc5Before) sc5Before.style.display = "block";
-        if (sc5After) sc5After.style.display = "none";
-        if (sc5Cap) sc5Cap.style.opacity = "0";
-
-        var followBtn = document.getElementById("sc7FollowBtn");
-        var followText = document.getElementById("sc7FollowText");
-        if (followBtn) followBtn.className = "outro-follow-btn";
-        if (followText) followText.textContent = "Follow";
-      }
-
-      function runFrame() {
-        var bg = document.getElementById("bgMusic");
-        if (bg && Math.abs(bg.volume - BG_MUSIC_VOLUME) > 0.001) {
-          bg.volume = BG_MUSIC_VOLUME;
-        }
-
-        var elapsed = (Date.now() - startTime) % DURATION_MS;
-        if (elapsed < 0) elapsed += DURATION_MS;
-
-        var cur = scenes[scenes.length - 1];
-        for (var i = 0; i < scenes.length; i++) {
-          if (elapsed >= scenes[i].start && elapsed < scenes[i].end) {
-            cur = scenes[i];
-            break;
-          }
-        }
-
-        if (activeScene !== cur.id) {
-          activeScene = cur.id;
-          for (var j = 0; j < scenes.length; j++) {
-            var el = document.getElementById(scenes[j].id);
-            if (!el) continue;
-            var isCurrent = scenes[j].id === cur.id;
-            el.classList.toggle("active", isCurrent);
-            if (!isCurrent) {
-              el.style.transform = "";
-              el.style.opacity = "";
-            }
-          }
-          resetSceneStates();
-          renderCaptionWords(cur.words);
-        }
-
-        var se = elapsed - cur.start;
-        syncWordsByTime(cur, se);
-        updateBounceTransition(cur, elapsed);
-
-        var prog = document.getElementById("progFill");
-        if (prog) prog.style.width = ((elapsed / DURATION_MS) * 100).toFixed(2) + "%";
-
-        if (cur.id === "sc1") {
-          var ring = document.getElementById("sc1Ring");
-          var arrow = document.getElementById("sc1Arrow");
-          var nCard = document.getElementById("sc1NCard");
-          var p1 = (se % 1200) / 1200;
-          if (ring) {
-            ring.style.transform = "scale(" + (0.75 + p1 * 0.55).toFixed(2) + ")";
-            ring.style.opacity = (1 - p1 * 0.75).toFixed(2);
-          }
-          if (arrow) arrow.style.transform = "translateY(" + (Math.sin(se /
+        var sc4Tag = document.
