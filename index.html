@@ -696,4 +696,236 @@
         }
         if (sc3NoType) sc3NoType.style.opacity = "0";
 
-        var sc4Tag = document.
+        var sc4Tag = document.getElementById("sc4Tag");
+        var sc4Sent = document.getElementById("sc4SentBubble");
+        var sc4Note = document.getElementById("sc4NoteCard");
+        var sc4Typed = document.getElementById("sc4Typed");
+        var sc4Timer = document.getElementById("sc4Timer");
+        if (sc4Tag) sc4Tag.style.opacity = "0";
+        if (sc4Sent) sc4Sent.style.display = "none";
+        if (sc4Note) sc4Note.style.display = "none";
+        if (sc4Typed) sc4Typed.textContent = "";
+        if (sc4Timer) sc4Timer.style.opacity = "0";
+
+        var sc5Before = document.getElementById("sc5Before");
+        var sc5After = document.getElementById("sc5After");
+        var sc5Cap = document.getElementById("sc5Caption");
+        if (sc5Before) sc5Before.style.display = "block";
+        if (sc5After) sc5After.style.display = "none";
+        if (sc5Cap) sc5Cap.style.opacity = "0";
+
+        var followBtn = document.getElementById("sc7FollowBtn");
+        var followText = document.getElementById("sc7FollowText");
+        if (followBtn) followBtn.className = "outro-follow-btn";
+        if (followText) followText.textContent = "Follow";
+      }
+
+      function runFrame() {
+        var bg = document.getElementById("bgMusic");
+        if (bg && Math.abs(bg.volume - BG_MUSIC_VOLUME) > 0.001) {
+          bg.volume = BG_MUSIC_VOLUME;
+        }
+
+        var elapsed = (Date.now() - startTime) % DURATION_MS;
+        if (elapsed < 0) elapsed += DURATION_MS;
+
+        var cur = scenes[scenes.length - 1];
+        for (var i = 0; i < scenes.length; i++) {
+          if (elapsed >= scenes[i].start && elapsed < scenes[i].end) {
+            cur = scenes[i];
+            break;
+          }
+        }
+
+        if (activeScene !== cur.id) {
+          activeScene = cur.id;
+          for (var j = 0; j < scenes.length; j++) {
+            var el = document.getElementById(scenes[j].id);
+            if (!el) continue;
+            var isCurrent = scenes[j].id === cur.id;
+            el.classList.toggle("active", isCurrent);
+            if (!isCurrent) {
+              el.style.transform = "";
+              el.style.opacity = "";
+            }
+          }
+          resetSceneStates();
+          renderCaptionWords(cur.words);
+        }
+
+        var se = elapsed - cur.start;
+        syncWordsByTime(cur, se);
+        updateBounceTransition(cur, elapsed);
+
+        var prog = document.getElementById("progFill");
+        if (prog) prog.style.width = ((elapsed / DURATION_MS) * 100).toFixed(2) + "%";
+
+        if (cur.id === "sc1") {
+          var ring = document.getElementById("sc1Ring");
+          var arrow = document.getElementById("sc1Arrow");
+          var nCard = document.getElementById("sc1NCard");
+          var p1 = (se % 1200) / 1200;
+          if (ring) {
+            ring.style.transform = "scale(" + (0.75 + p1 * 0.55).toFixed(2) + ")";
+            ring.style.opacity = (1 - p1 * 0.75).toFixed(2);
+          }
+          if (arrow) arrow.style.transform = "translateY(" + (Math.sin(se / 180) * 5).toFixed(1) + "px)";
+          if (nCard) nCard.style.opacity = se > 650 ? "1" : "0.45";
+        } else if (cur.id === "sc2") {
+          var pen = document.getElementById("sc2Pencil");
+          if (pen) {
+            var w = Math.sin(se / 120) * 16;
+            var hop = Math.abs(Math.sin(se / 240)) * 8;
+            pen.style.transform = "translateY(" + (-hop).toFixed(1) + "px) rotate(" + w.toFixed(1) + "deg)";
+          }
+        } else if (cur.id === "sc3") {
+          var beam = document.getElementById("sc3Beam");
+          var sub3 = document.getElementById("sc3Sub");
+          var btn3 = document.getElementById("sc3CopyBtn");
+          var noType = document.getElementById("sc3NoType");
+
+          var scanP = (se % 2200) / 2200;
+          if (beam) beam.style.top = (8 + scanP * 82).toFixed(1) + "%";
+          var step = Math.floor(se / 550);
+          if (step !== lastScanStep) {
+            lastScanStep = step;
+            playTone(740 + (step % 4) * 110, 0.07, "sine", 0.24);
+          }
+          if (sub3 && se > 1400) sub3.style.opacity = "1";
+          if (btn3 && se > 2400) {
+            btn3.className = "copy-action copied";
+            btn3.textContent = "Copied ✓";
+            if (!copySoundPlayed) {
+              copySoundPlayed = true;
+              playTone(950, 0.14, "triangle", 0.36, 1320);
+            }
+          }
+          if (noType && se > 3600) noType.style.opacity = "1";
+        } else if (cur.id === "sc4") {
+          var tag4 = document.getElementById("sc4Tag");
+          var typed4 = document.getElementById("sc4Typed");
+          var sent4 = document.getElementById("sc4SentBubble");
+          var note4 = document.getElementById("sc4NoteCard");
+          var timer4 = document.getElementById("sc4Timer");
+
+          if (tag4 && se > 600) tag4.style.opacity = "1";
+          var chars = Array.from(gptPrompt);
+          var typeEnd = 3600;
+          if (se <= typeEnd) {
+            var cIdx = Math.min(chars.length, Math.floor((se / typeEnd) * chars.length));
+            if (cIdx !== lastCharIdx) {
+              lastCharIdx = cIdx;
+              if (typed4) typed4.textContent = chars.slice(0, cIdx).join("");
+              if (cIdx > 0) playTone(600 + (cIdx % 5) * 65, 0.055, "triangle", 0.22);
+            }
+          } else {
+            if (typed4) typed4.textContent = "";
+            if (sent4) sent4.style.display = "block";
+            if (note4 && se > 4500) {
+              note4.style.display = "block";
+              if (!noteSoundPlayed) {
+                noteSoundPlayed = true;
+                playTone(660, 0.16, "triangle", 0.36, 1020);
+              }
+            }
+            if (timer4 && se > 5200) timer4.style.opacity = "1";
+          }
+        } else if (cur.id === "sc5") {
+          var before5 = document.getElementById("sc5Before");
+          var after5 = document.getElementById("sc5After");
+          var cap5 = document.getElementById("sc5Caption");
+          var genBtn = document.getElementById("sc5GenBtn");
+
+          if (genBtn) {
+            var pulse5 = 1 + Math.sin(se / 180) * 0.04;
+            genBtn.style.transform = "scale(" + pulse5.toFixed(3) + ")";
+          }
+
+          if (se > 2200) {
+            if (before5) before5.style.display = "none";
+            if (after5) after5.style.display = "block";
+            if (!gammaSoundPlayed) {
+              gammaSoundPlayed = true;
+              playTone(700, 0.17, "triangle", 0.38, 1120);
+            }
+          }
+          if (cap5 && se > 3000) cap5.style.opacity = "1";
+        } else if (cur.id === "sc6") {
+          var shock = document.getElementById("sc6ShockSign");
+          if (shock) {
+            var sScale = 1 + Math.abs(Math.sin(se / 170)) * 0.18;
+            var sRot = Math.sin(se / 90) * 8;
+            shock.style.transform = "scale(" + sScale.toFixed(3) + ") rotate(" + sRot.toFixed(1) + "deg)";
+          }
+          if (!popSoundPlayed && se > 400) {
+            popSoundPlayed = true;
+            playTone(520, 0.18, "sawtooth", 0.28, 1060);
+          }
+        } else if (cur.id === "sc7") {
+          var tapIcon = document.getElementById("sc7TapIcon");
+          var waveInner = document.getElementById("sc7WaveInner");
+          var waveMid = document.getElementById("sc7WaveMid");
+          var waveOuter = document.getElementById("sc7WaveOuter");
+          var avatar = document.getElementById("sc7Avatar");
+          var ident = document.getElementById("sc7Identity");
+          var followBtn = document.getElementById("sc7FollowBtn");
+          var followText = document.getElementById("sc7FollowText");
+
+          var tapPhase = (se % 1200) / 1200;
+          var tapDip = tapPhase < 0.35 ? (tapPhase / 0.35) * 6 : Math.max(0, (1 - (tapPhase - 0.35) / 0.65) * 6);
+          if (tapIcon) {
+            tapIcon.style.transform = "translateY(" + tapDip.toFixed(1) + "px) scale(" + (1 - tapDip * 0.008).toFixed(3) + ")";
+          }
+
+          if (waveInner) {
+            var wScIn = 0.55 + tapPhase * 1.45;
+            var wOpIn = Math.max(0.08, 1 - tapPhase * 0.9);
+            waveInner.style.transform = "scale(" + wScIn.toFixed(2) + ")";
+            waveInner.style.opacity = wOpIn.toFixed(2);
+          }
+          if (waveMid) {
+            var pMid = (tapPhase + 0.33) % 1;
+            var wScMid = 0.55 + pMid * 1.5;
+            var wOpMid = Math.max(0.06, 1 - pMid * 0.92);
+            waveMid.style.transform = "scale(" + wScMid.toFixed(2) + ")";
+            waveMid.style.opacity = wOpMid.toFixed(2);
+          }
+          if (waveOuter) {
+            var pOut = (tapPhase + 0.66) % 1;
+            var wScOut = 0.55 + pOut * 1.55;
+            var wOpOut = Math.max(0.05, 1 - pOut * 0.94);
+            waveOuter.style.transform = "scale(" + wScOut.toFixed(2) + ")";
+            waveOuter.style.opacity = wOpOut.toFixed(2);
+          }
+
+          if (avatar) {
+            var aScale = 1 + Math.sin(se / 260) * 0.035;
+            avatar.style.transform = "scale(" + aScale.toFixed(3) + ")";
+          }
+          if (ident) {
+            ident.style.transform = "translateY(" + (Math.sin(se / 320) * 2.5).toFixed(1) + "px)";
+          }
+          if (followBtn && se > 2400) {
+            followBtn.className = "outro-follow-btn done";
+            if (followText) followText.textContent = "Following ✓";
+            if (!followSoundPlayed) {
+              followSoundPlayed = true;
+              playTone(840, 0.16, "triangle", 0.38, 1220);
+            }
+          }
+        }
+      }
+
+      renderCaptionWords(scenes[0].words);
+      syncWordsByTime(scenes[0], 0);
+      runFrame();
+
+      window.__reelTimer = setInterval(function () {
+        try {
+          runFrame();
+        } catch (err) {}
+      }, 33);
+    })();
+  </script>
+</body>
+</html>
